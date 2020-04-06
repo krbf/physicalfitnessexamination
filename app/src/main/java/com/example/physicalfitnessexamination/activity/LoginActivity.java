@@ -135,10 +135,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public boolean checkLogin() {
         if (Tool.isEmpty(et_user_name.getText().toString())) {
-            toast(this, "请填写用户名");
+            toast(this, "请填写用户名!");
             return false;
         } else if (Tool.isEmpty(et_password.getText().toString())) {
-            toast(this, "请填写密码");
+            toast(this, "请填写密码!");
             return false;
         }
         return true;
