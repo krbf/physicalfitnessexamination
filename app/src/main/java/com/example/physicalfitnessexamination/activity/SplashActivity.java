@@ -31,8 +31,14 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 lottieAnimationView.cancelAnimation();
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
+                if (UserManager.getInstance().getUserInfo(SplashActivity.this).isLogin()){
+                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }
+
             }
 
             @Override

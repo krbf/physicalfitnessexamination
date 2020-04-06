@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.app.Constants;
+import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.MD5;
@@ -103,7 +104,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
     public void login() {
-        String url = Constants.IP + Api.LOGIN;
         Map<String, String> map = new HashMap<>();
         map.put("pwd", et_password.getText().toString());
         map.put("pwd_md5", MD5.md5Decode(et_password.getText().toString()));
@@ -111,7 +111,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         map.put("imei", mDeviceId);
         Map<String, String> heaherMap = new HashMap<>();
         heaherMap.put("content-type", "application/json");
-        OkhttpUtil.okHttpGet(url, map, heaherMap, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpGet(Api.LOGIN, map, heaherMap, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -120,9 +120,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
-                if (success){
+                if (success) {
+                    UserInfo userInfo=JSON.parseObject(response,UserInfo.class);
+                    UserManager.getInstance().saveUserInfo(LoginActivity.this,userInfo);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
+                } else {
+                    String msg = JSON.parseObject(response).getString("msg");
+                    toast(LoginActivity.this, msg);
                 }
             }
         });
