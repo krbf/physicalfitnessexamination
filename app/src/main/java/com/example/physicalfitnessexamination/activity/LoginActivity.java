@@ -121,7 +121,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
-                    UserInfo userInfo=JSON.parseObject(response,UserInfo.class);
+                    String result=JSON.parseObject(response).getString("userinfo");
+                    UserInfo userInfo=JSON.parseObject(result,UserInfo.class);
                     UserManager.getInstance().saveUserInfo(LoginActivity.this,userInfo);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
