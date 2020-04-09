@@ -78,7 +78,7 @@ public class MyToolBar extends Toolbar {
         }
     }
 
-    public void setRightVislble(boolean b) {
+    public void setRightImgVislble(boolean b) {
         if (b) {
             imgRight.setVisibility(VISIBLE);
         } else {

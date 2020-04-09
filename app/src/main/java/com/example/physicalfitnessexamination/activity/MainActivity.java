@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
         setActivityContentView(R.layout.activity_main);
         getToolBar().setTitle("体能考核");
         getToolBar().setLeftVisible(false);
-        getToolBar().setRightVislble(false);
+        getToolBar().setRightImgVislble(false);
     }
 
     @Override

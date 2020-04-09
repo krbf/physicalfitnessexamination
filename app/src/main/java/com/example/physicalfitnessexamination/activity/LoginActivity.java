@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         setActivityContentView(R.layout.activity_login);
         getToolBar().setTitle("登录页面");
         getToolBar().setLeftVisible(false);
-        getToolBar().setRightVislble(false);
+        getToolBar().setRightImgVislble(false);
     }
 
     @Override
