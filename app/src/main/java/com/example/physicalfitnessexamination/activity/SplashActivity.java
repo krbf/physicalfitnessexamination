@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.page.Main2Activity;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
@@ -32,7 +33,8 @@ public class SplashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 lottieAnimationView.cancelAnimation();
                 if (UserManager.getInstance().getUserInfo(SplashActivity.this).isLogin()){
-                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+//                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    Main2Activity.startInstant(SplashActivity.this);
                     finish();
                 }else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));

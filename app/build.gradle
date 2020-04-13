@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-noarg'
+apply plugin: 'kotlin-allopen'
 
 android {
     compileSdkVersion 28
@@ -27,15 +31,41 @@ android {
     }
 }
 
+noArg {
+    annotation("com.example.physicalfitnessexamination.common.annotation.AllOpenAndNoArgAnnotation")
+}
+allOpen {
+    annotation("com.example.physicalfitnessexamination.common.annotation.AllOpenAndNoArgAnnotation")
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
-    implementation 'com.alibaba:fastjson:1.2.55'
-    implementation 'com.airbnb.android:lottie:2.7.0'
     implementation 'com.android.support:design:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //okhttp网络请求框架
+    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
+    //网络请求框架
+    implementation 'com.lzy.net:okgo:3.0.4'
+    //基于RxJava2的扩展项目
+    implementation 'com.lzy.net:okrx2:2.0.2'
+
+    //Facebook debug工具
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    //日志库
+    implementation 'com.orhanobut:logger:2.2.0'
+    //json格式化工具
+    implementation 'com.alibaba:fastjson:1.2.55'
+    //jackson json序列化工具
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
+    //Airbnb动画框架
+    implementation 'com.airbnb.android:lottie:2.7.0'
 }

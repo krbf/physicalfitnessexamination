@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="excel_height">35dp</dimen>
+    <dimen name="excel_dividerSize">0.5dp</dimen>
+    <dimen name="excel_textSize">16sp</dimen>
+</resources>

@@ -2,7 +2,6 @@ package com.example.physicalfitnessexamination.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,19 +12,17 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
-import com.example.physicalfitnessexamination.app.Constants;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.page.Main2Activity;
 import com.example.physicalfitnessexamination.util.MD5;
 import com.example.physicalfitnessexamination.util.Tool;
 
@@ -90,18 +87,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-
-    public void setHint(String name, EditText editText) {
-        // 新建一个可以添加属性的文本对象
-        SpannableString ss = new SpannableString(name);
-        // 新建一个属性对象,设置文字的大小
-        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12, true);
-        // 附加属性到文本
-        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        // 设置hint
-        editText.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
+    public boolean checkLogin() {
+        if (Tool.isEmpty(et_user_name.getText().toString())) {
+            toast(this, "请填写用户名!");
+            return false;
+        } else if (Tool.isEmpty(et_password.getText().toString())) {
+            toast(this, "请填写密码!");
+            return false;
+        }
+        return true;
     }
-
 
     public void login() {
         Map<String, String> map = new HashMap<>();
@@ -121,10 +116,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
-                    String result=JSON.parseObject(response).getString("userinfo");
-                    UserInfo userInfo=JSON.parseObject(result,UserInfo.class);
-                    UserManager.getInstance().saveUserInfo(LoginActivity.this,userInfo);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    String result = JSON.parseObject(response).getString("userinfo");
+                    UserInfo userInfo = JSON.parseObject(result, UserInfo.class);
+                    UserManager.getInstance().saveUserInfo(LoginActivity.this, userInfo);
+//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    Main2Activity.startInstant(LoginActivity.this);
                     finish();
                 } else {
                     String msg = JSON.parseObject(response).getString("msg");
@@ -134,15 +130,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
     }
 
-    public boolean checkLogin() {
-        if (Tool.isEmpty(et_user_name.getText().toString())) {
-            toast(this, "请填写用户名!");
-            return false;
-        } else if (Tool.isEmpty(et_password.getText().toString())) {
-            toast(this, "请填写密码!");
-            return false;
-        }
-        return true;
+    public void setHint(String name, EditText editText) {
+        // 新建一个可以添加属性的文本对象
+        SpannableString ss = new SpannableString(name);
+        // 新建一个属性对象,设置文字的大小
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12, true);
+        // 附加属性到文本
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // 设置hint
+        editText.setHint(new SpannedString(ss)); // 一定要进行转换,否则属性会消失
     }
 
     @Override

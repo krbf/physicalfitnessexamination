@@ -9,25 +9,31 @@
     </style>
 
     <style name="Theme.SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:clipToPadding">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
 
-    <item name="android:windowBackground">@color/white</item>
-    <item name="android:windowFullscreen">true</item>
-    <item name="android:fitsSystemWindows">true</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:clipToPadding">true</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:windowTranslucentNavigation">true</item>
-    <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!--<style name="Theme.SplashActivity" parent="Theme.AppCompat.NoActionBar.FullScreen">-->
+        <!--<item name="android:windowBackground">@color/white</item>-->
+        <!--</style>-->
 
-    <!--<style name="Theme.SplashActivity" parent="Theme.AppCompat.NoActionBar.FullScreen">-->
-    <!--<item name="android:windowBackground">@color/white</item>-->
-    <!--</style>-->
+        <!--<style name="Theme.AppCompat.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.NoActionBar">-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--</style>-->
+    </style>
 
-    <!--<style name="Theme.AppCompat.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.NoActionBar">-->
-    <!--<item name="windowNoTitle">true</item>-->
-    <!--<item name="windowActionBar">false</item>-->
-    <!--<item name="android:windowFullscreen">true</item>-->
-    <!--<item name="android:windowContentOverlay">@null</item>-->
-    <!--</style>-->
+    <style name="WarpLinearLayoutDefault">
+        <item name="grivate">left</item>
+        <item name="horizontal_Space">20dp</item>
+        <item name="vertical_Space">20dp</item>
+        <item name="isFull">false</item>
     </style>
 </resources>

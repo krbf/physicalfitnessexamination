@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--参考单位-->
+    <string-array name="joinEvaOrg">
+        <item>支队机关</item>
+        <item>大队机关</item>
+        <item>应急消防站</item>
+    </string-array>
+
+    <!--考核方式-->
+    <string-array name="evaMode">
+        <item>业务竞赛</item>
+        <item>集中考核</item>
+        <item>到站考核</item>
+        <item>日常考核（机关、消防站）</item>
+    </string-array>
+
+    <!--人员选取-->
+    <string-array name="perSelect">
+        <item>普考</item>
+        <item>随机抽取</item>
+        <item>单位报名</item>
+    </string-array>
+
+    <!--成绩记取-->
+    <string-array name="resultsRemember">
+        <item>名次积分</item>
+        <item>年龄积分</item>
+        <item>对抗淘汰</item>
+    </string-array>
+</resources>

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">体能考核</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="mainPageTitle">湘潭消防训练考核</string>
+
+    <string name="mainBtnStr1">创建考核</string>
+    <string name="mainBtnStr2">我的考核</string>
+    <string name="mainBtnStr3">统计分析</string>
+    <string name="mainBtnStr4">英雄榜</string>
+    <string name="mainBtnStr5">训练文件</string>
+
+    <string name="kbi_scheme">考核方案</string>
 </resources>

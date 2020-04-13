@@ -43,21 +43,26 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         setContentView(R.layout.activity_base);
-        myToolBar=findViewById(R.id.toolbar_base);
-        linearLayout=findViewById(R.id.lin_content);
+        myToolBar = findViewById(R.id.toolbar_base);
+        linearLayout = findViewById(R.id.lin_content);
     }
 
+    private void steepStatusBar() {
+        // 设置状态栏黑色字体
+        StatusBarHelper.translucent(this);
+        StatusBarHelper.setStatusBarLightMode(this);
+        //大于5.0，全面屏虚拟按钮背景色设置白色
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(Color.WHITE);
+        }
+//        首先，要修改状态栏android版本至少要在4.4以上，并且在4.4是不能让状态栏透明的，只能达到一种半透明的阴影背景，
+//        而在5.x的版本中，是可以修改背景颜色但无法修改字体颜色的，只有在6.0以上是可以随意修改的。
+//        但是在魅族和小米第三方ROM在4.4版本以上的手机都提供了修改的接口。
+    }
 
     public void setActivityContentView(@LayoutRes int layoutResID) {
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
-        linearLayout.addView(LayoutInflater.from(this).inflate(layoutResID,null),params);
-        initView();
-        initBind();
-        initData();
-    }
-
-    public void setActivityContentView(View view) {
-        linearLayout.addView(view);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        linearLayout.addView(LayoutInflater.from(this).inflate(layoutResID, null), params);
         initView();
         initBind();
         initData();
@@ -69,8 +74,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public abstract void initData();
 
+    public void setActivityContentView(View view) {
+        linearLayout.addView(view);
+        initView();
+        initBind();
+        initData();
+    }
 
-    public MyToolBar getToolBar(){
+    public MyToolBar getToolBar() {
         return myToolBar;
     }
 
@@ -92,7 +103,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-
     /**
      * 显示软键盘
      */
@@ -101,19 +111,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imm.showSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
         }
-    }
-
-    private void steepStatusBar() {
-        // 设置状态栏黑色字体
-        StatusBarHelper.translucent(this);
-        StatusBarHelper.setStatusBarLightMode(this);
-        //大于5.0，全面屏虚拟按钮背景色设置白色
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(Color.WHITE);
-        }
-//        首先，要修改状态栏android版本至少要在4.4以上，并且在4.4是不能让状态栏透明的，只能达到一种半透明的阴影背景，
-//        而在5.x的版本中，是可以修改背景颜色但无法修改字体颜色的，只有在6.0以上是可以随意修改的。
-//        但是在魅族和小米第三方ROM在4.4版本以上的手机都提供了修改的接口。
     }
 
     /**
@@ -129,6 +126,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         this.isAllowScreenRotate = isAllowScreenRotate;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (fastClick())
+            widgetClick(v);
+    }
+
     private boolean fastClick() {
         long lastClick = 0;
         if (System.currentTimeMillis() - lastClick <= 1000) {
@@ -142,10 +145,4 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
      * View点击
      **/
     public abstract void widgetClick(View v);
-
-    @Override
-    public void onClick(View v) {
-        if (fastClick())
-            widgetClick(v);
-    }
 }

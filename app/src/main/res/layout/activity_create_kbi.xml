@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.kbi.CreateKBIActivity">
+
+    <include layout="@layout/v_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_pageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/excel_height"
+        android:layout_marginTop="@dimen/excel_dividerSize"
+        android:background="@color/_B7CFF3"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:text="@string/kbi_scheme"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/excel_dividerSize"
+        android:layout_marginBottom="@dimen/excel_dividerSize"
+        app:layout_constraintBottom_toTopOf="@id/v_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pageTitle">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gLine_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gLine_v1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="150dp" />
+
+            <Space
+                android:id="@+id/space1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/excel_height"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:text="考核名称："
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/space1" />
+
+            <EditText
+                android:id="@+id/edit_kbiName"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/excel_height"
+                android:background="@null"
+                android:hint="请输入考核名称"
+                app:layout_constraintEnd_toStartOf="@id/gLine_middle"
+                app:layout_constraintStart_toStartOf="@id/gLine_v1"
+                app:layout_constraintTop_toBottomOf="@+id/space1" />
+
+            <TextView
+                android:id="@+id/tv_orgUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/excel_height"
+                android:background="@color/_B7CFF3"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:text="组织单位："
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintStart_toStartOf="@id/gLine_middle"
+                app:layout_constraintTop_toBottomOf="@id/space1" />
+
+            <TextView
+                android:id="@+id/tv_orgUnitStr"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/excel_height"
+                android:layout_marginStart="@dimen/excel_dividerSize"
+                android:background="@color/_B7CFF3"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_orgUnit"
+                app:layout_constraintTop_toBottomOf="@id/space1"
+                tools:text="XXXXXX" />
+
+            <Space
+                android:id="@+id/space2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toBottomOf="@+id/edit_kbiName" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_evaOrg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_height"
+                app:layout_constraintTop_toBottomOf="@+id/space2" />
+
+            <Space
+                android:id="@+id/space3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toBottomOf="@+id/spv_evaOrg" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_evaWay"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_height"
+                app:layout_constraintTop_toBottomOf="@+id/space3" />
+
+            <Space
+                android:id="@+id/space4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toBottomOf="@+id/spv_evaWay" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_perSelect"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_height"
+                app:layout_constraintTop_toBottomOf="@+id/space4" />
+
+            <Space
+                android:id="@+id/space5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toBottomOf="@+id/spv_perSelect" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_scoreRecord"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_height"
+                app:layout_constraintTop_toBottomOf="@+id/space5" />
+
+            <Space
+                android:id="@+id/space6"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                app:layout_constraintTop_toBottomOf="@+id/spv_scoreRecord" />
+
+            <!--男-->
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_pj1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/excel_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/gLine_v1"
+                app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+            <!--女-->
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_pj2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/excel_dividerSize"
+                android:minHeight="@dimen/excel_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/gLine_v1"
+                app:layout_constraintTop_toBottomOf="@+id/spv_pj1" />
+
+            <TextView
+                android:id="@+id/tv_project"
+                android:layout_width="50dp"
+                android:layout_height="0dp"
+                android:background="@color/_B7CFF3"
+                android:gravity="center"
+                android:text="项\n目"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintBottom_toBottomOf="@+id/spv_pj2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+            <TextView
+                android:id="@+id/tv_projectType"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/excel_dividerSize"
+                android:layout_marginEnd="@dimen/excel_dividerSize"
+                android:background="@color/_B7CFF3"
+                android:ems="1"
+                android:padding="5dp"
+                android:text="机关"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_project"
+                app:layout_constraintEnd_toStartOf="@+id/spv_pj1"
+                app:layout_constraintStart_toEndOf="@+id/tv_project"
+                app:layout_constraintTop_toTopOf="@+id/tv_project" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+    <View
+        android:id="@+id/v_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/excel_height"
+        android:background="@color/_B7CFF3"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/_EF7D65"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="下一步 考核组织 "
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/v_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_bottom" />
+
+
+</android.support.constraint.ConstraintLayout>

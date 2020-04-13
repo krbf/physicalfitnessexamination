@@ -11,13 +11,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.RosterActivity;
 
 public class CreateExamineFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String[] title=new String[]{"新建考核","已建考核","考核实施"};
+    private Button btnAdd;
+    private String[] title = new String[]{"新建考核", "已建考核", "考核实施"};
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +31,13 @@ public class CreateExamineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_examine, null);
-        tabLayout=view.findViewById(R.id.tab_order);
-        viewPager=view.findViewById(R.id.viewpage_order);
+        tabLayout = view.findViewById(R.id.tab_order);
+        viewPager = view.findViewById(R.id.viewpage_order);
+        btnAdd = view.findViewById(R.id.btn_add);
+
+        btnAdd.setOnClickListener(v -> {
+            RosterActivity.startActivity(getContext());
+        });
         return view;
     }
 
@@ -47,7 +56,7 @@ public class CreateExamineFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            switch (i){
+            switch (i) {
                 case 0:
                     return new AddExamineFragment();
                 case 1:
