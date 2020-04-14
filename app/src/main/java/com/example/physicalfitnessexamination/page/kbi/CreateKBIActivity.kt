@@ -42,7 +42,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
     override fun initLayout(): Int = R.layout.activity_create_kbi
 
     override fun initView() {
-        tv_title.text = "新建考核"
+        tv_title.text = "新建考核 — 考核方案"
 
         iv_right.setOnClickListener(this)
         tv_next.setOnClickListener(this)

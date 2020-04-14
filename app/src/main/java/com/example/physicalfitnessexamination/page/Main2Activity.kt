@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.View
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.base.MyBaseActivity
-import com.example.physicalfitnessexamination.page.kbi.CreateKBIActivity
+import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
 import com.example.physicalfitnessexamination.util.toast
 import kotlinx.android.synthetic.main.activity_main2.*
 
@@ -57,7 +57,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
             }
             R.id.btn_main1 -> {
                 //创建考核
-                CreateKBIActivity.startInstant(this)
+                KbiShuntActivity.startInstant(this)
             }
             R.id.btn_main2 -> {
             }
