@@ -54,7 +54,7 @@ public class KbiShuntActivity extends MyBaseActivity implements View.OnClickList
                 CreateKBIActivity.startInstant(this);
                 break;
             case R.id.btn_built:
-                // TODO: 2020/4/14 跳转已建考核
+                BuiltKBIActivity.startInstant(this);
                 break;
             case R.id.btn_kbiWork:
                 break;

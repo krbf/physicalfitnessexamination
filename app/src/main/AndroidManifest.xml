@@ -28,6 +28,30 @@
             android:name=".page.kbi.CreateKBIActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.kbi.BuiltKBIActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.BuiltKBIDetailActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBIAppendixActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBIPlanActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBIOrganizationActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBITimeArrangementActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBIRosterActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KBIAchievementActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.Main2Activity"
             android:screenOrientation="sensorLandscape" />
         <activity

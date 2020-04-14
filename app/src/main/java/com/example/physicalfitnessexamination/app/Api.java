@@ -4,4 +4,5 @@ import com.example.physicalfitnessexamination.Constants;
 
 public class Api {
     public static final String LOGIN = Constants.IP + "android/user/loginForSY";
+    public static final String BUILTKBILIST = Constants.IP + "assessment/getAssessmentsList";
 }
