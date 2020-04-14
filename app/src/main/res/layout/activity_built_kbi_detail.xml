@@ -5,4 +5,81 @@
     android:orientation="vertical">
 
     <include layout="@layout/v_toolbar" />
+
+    <WebView
+        android:id="@+id/wv_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/_E6ECFA"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="修改"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_append"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="考核附件"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="考核方案"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_organization"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="考核组织"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="时间安排"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_roster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="考核花名册"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_achievement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="考核成绩表"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>
