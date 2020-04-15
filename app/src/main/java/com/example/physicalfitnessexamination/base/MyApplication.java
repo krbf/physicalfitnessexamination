@@ -3,6 +3,7 @@ package com.example.physicalfitnessexamination.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -32,6 +33,8 @@ public class MyApplication extends Application {
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         initOkGo();
+
+        Stetho.initializeWithDefaults(this);
     }
 
     /**

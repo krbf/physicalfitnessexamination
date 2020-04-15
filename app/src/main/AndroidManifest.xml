@@ -25,7 +25,12 @@
             android:name=".page.kbi.KbiShuntActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.kbi.KbiOrgActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.kbi.CreateKBIActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.BuiltKBIActivity"
@@ -52,14 +57,8 @@
             android:name=".page.kbi.KBIAchievementActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.kbi.KBIRosterEnrollActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".page.Main2Activity"
             android:screenOrientation="sensorLandscape" />
-        <activity
-            android:name=".activity.RosterActivity"
-            android:screenOrientation="landscape" />
         <activity
             android:name=".activity.SplashActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

@@ -71,7 +71,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
             public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
 
             }
-        }, true);
+        }, true,new Integer[0]);
         listRoster.add("");
         listRoster.add("");
         listRoster.add("");

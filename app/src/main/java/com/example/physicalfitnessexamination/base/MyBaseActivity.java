@@ -2,7 +2,6 @@ package com.example.physicalfitnessexamination.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -13,22 +12,22 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
+
 /**
  * BaseActivity
  * Created by chenzhiyuan On 2020/4/11
  */
 public abstract class MyBaseActivity extends AppCompatActivity {
+    //封装Toast对象
+    private static Toast toast;
     //获取TAG的activity名称
     protected final String TAG = this.getClass().getSimpleName();
+    public Context context;
     //是否显示标题栏
     private boolean isShowTitle = true;
     //是否显示状态栏
     private boolean isShowStatusBar = true;
-//    //是否允许旋转屏幕
-//    private boolean isAllowScreenRoate = true;
-    //封装Toast对象
-    private static Toast toast;
-    public Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,12 +46,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
 
         //设置布局
         setContentView(initLayout());
-//        //设置屏幕是否可旋转
-//        if (!isAllowScreenRoate) {
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-//        } else {
-//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        }
         //初始化控件
         initView();
         //设置数据
@@ -76,6 +69,14 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      */
     protected abstract void initData();
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelTag(context);
+        //activity管理
+        ActivityCollector.removeActivity(this);
+    }
+
     /**
      * 设置是否显示标题栏
      *
@@ -92,47 +93,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      */
     public void setShowStatusBar(boolean showStatusBar) {
         isShowStatusBar = showStatusBar;
-    }
-
-//    /**
-//     * 是否允许屏幕旋转
-//     *
-//     * @param allowScreenRoate true or false
-//     */
-//    public void setAllowScreenRoate(boolean allowScreenRoate) {
-//        isAllowScreenRoate = allowScreenRoate;
-//    }
-
-    /**
-     * 保证同一按钮在1秒内只会响应一次点击事件
-     */
-    public abstract class OnSingleClickListener implements View.OnClickListener {
-        //两次点击按钮之间的间隔，目前为1000ms
-        private static final int MIN_CLICK_DELAY_TIME = 1000;
-        private long lastClickTime;
-
-        public abstract void onSingleClick(View view);
-
-        @Override
-        public void onClick(View view) {
-            long curClickTime = System.currentTimeMillis();
-            if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
-                lastClickTime = curClickTime;
-                onSingleClick(view);
-            }
-        }
-    }
-
-    /**
-     * 同一按钮在短时间内可重复响应点击事件
-     */
-    public abstract class OnMultiClickListener implements View.OnClickListener {
-        public abstract void onMultiClick(View view);
-
-        @Override
-        public void onClick(View v) {
-            onMultiClick(v);
-        }
     }
 
     /**
@@ -163,7 +123,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * 隐藏软键盘
      */
@@ -184,11 +143,36 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //activity管理
-        ActivityCollector.removeActivity(this);
+    /**
+     * 保证同一按钮在1秒内只会响应一次点击事件
+     */
+    public abstract class OnSingleClickListener implements View.OnClickListener {
+        //两次点击按钮之间的间隔，目前为1000ms
+        private static final int MIN_CLICK_DELAY_TIME = 1000;
+        private long lastClickTime;
+
+        @Override
+        public void onClick(View view) {
+            long curClickTime = System.currentTimeMillis();
+            if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+                lastClickTime = curClickTime;
+                onSingleClick(view);
+            }
+        }
+
+        public abstract void onSingleClick(View view);
+    }
+
+    /**
+     * 同一按钮在短时间内可重复响应点击事件
+     */
+    public abstract class OnMultiClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            onMultiClick(v);
+        }
+
+        public abstract void onMultiClick(View view);
     }
 }
 

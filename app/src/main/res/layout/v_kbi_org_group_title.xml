@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/divider_ver"
+    android:minHeight="@dimen/excel_height"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <Space
+        android:id="@+id/iv_remove"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_weight="0.4"/>
+
+    <TextView
+        android:id="@+id/tv_group"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="组别："
+        android:textColor="@color/white"
+        android:textSize="@dimen/excel_textSize" />
+
+    <TextView
+        android:id="@+id/tv_gLeader"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="组长："
+        android:textColor="@color/white"
+        android:textSize="@dimen/excel_textSize" />
+
+    <TextView
+        android:id="@+id/tv_groupMember"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_weight="4"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="成员："
+        android:textColor="@color/white"
+        android:textSize="@dimen/excel_textSize" />
+</LinearLayout>

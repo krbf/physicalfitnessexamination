@@ -7,7 +7,7 @@ public class Constants {
     public static final String IP = HOST + PROJECT_NAME + "/";
 
 
-    public class RoleIDStr {
+    public static class RoleIDStr {
         /**
          * 指挥中心（支队）
          * [机关]

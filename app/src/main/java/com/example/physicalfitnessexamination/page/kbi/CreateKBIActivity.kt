@@ -13,7 +13,6 @@ import com.example.physicalfitnessexamination.api.response.ApiResponse
 import com.example.physicalfitnessexamination.api.response.TestProjectRes
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.util.snack
-import com.example.physicalfitnessexamination.util.toast
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView
 import com.lzy.okgo.model.Response
 import kotlinx.android.synthetic.main.activity_create_kbi.*
@@ -49,6 +48,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
     }
 
     override fun initData() {
+        CreateKbiDataManager.createNewKbi()
 
         val orgName = UserManager.getInstance().getUserInfo(context).org_name
 //        val orgName = Constants.RoleIDStr.COMM
@@ -193,10 +193,15 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
             iv_right -> finish()
             tv_next -> {
                 if (checkParameter()) {
-                    toast("下一步")
+                    KbiOrgActivity.startInstant(context)
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        CreateKbiDataManager.clearKbi()
+        super.onDestroy()
     }
 
     /**
@@ -205,34 +210,59 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
      */
     private fun checkParameter(): Boolean {
         //考核名称
-        if (edit_kbiName.text.trim().isEmpty()) {
-            edit_kbiName.snack("请输入考核名称")
-            return false
+        edit_kbiName.text.trim().let { editStr ->
+            if (editStr.isEmpty()) {
+                edit_kbiName.snack("请输入考核名称")
+                return false
+            } else {
+                CreateKbiDataManager.kbiBean?.name = editStr.toString()
+            }
         }
 
         //参考单位
-        if (spv_evaOrg.getSelectList().isEmpty()) {
-            edit_kbiName.snack("请选择参考单位")
-            return false
+        spv_evaOrg.getSelectList().let { sl ->
+            if (sl.isEmpty()) {
+                edit_kbiName.snack("请选择参考单位")
+                return false
+            } else {
+                CreateKbiDataManager.kbiBean?.orgType = sl as List<String>
+            }
         }
 
         //考核方式
-        if (spv_evaWay.getSelectList().isEmpty()) {
-            edit_kbiName.snack("请选择考核方式")
-            return false
+        spv_evaWay.getSelectList().let { sl ->
+            if (sl.isEmpty()) {
+                edit_kbiName.snack("请选择考核方式")
+                return false
+            } else {
+                CreateKbiDataManager.kbiBean?.type = sl.first() as String
+            }
         }
 
         //人员选取
-        if (spv_perSelect.getSelectList().isEmpty()) {
-            edit_kbiName.snack("请选择人员选取")
-            return false
+        spv_perSelect.getSelectList().let { sl ->
+            if (sl.isEmpty()) {
+                edit_kbiName.snack("请选择人员选取")
+                return false
+            } else {
+                CreateKbiDataManager.kbiBean?.personType = sl.first() as String
+            }
         }
 
+
         //成绩记取
-        if (spv_scoreRecord.getSelectList().isEmpty()) {
-            edit_kbiName.snack("请选择成绩记取")
-            return false
+        spv_scoreRecord.getSelectList().let { sl ->
+            if (sl.isEmpty()) {
+                edit_kbiName.snack("请选择成绩记取")
+                return false
+            } else {
+                CreateKbiDataManager.kbiBean?.achievenmentType = sl.first() as String
+            }
         }
+
+        //考核项目
+        CreateKbiDataManager.kbiBean?.objPart1 = spv_pj1.getSelectList() as List<TestProjectRes>
+        CreateKbiDataManager.kbiBean?.objPart2 = spv_pj2.getSelectList() as List<TestProjectRes>
 
         return true
     }

@@ -36,4 +36,10 @@
         <item name="vertical_Space">20dp</item>
         <item name="isFull">false</item>
     </style>
+
+    <!--从右至左滑出动画-->
+    <style name="R2LdialogAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_push_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_push_out</item>
+    </style>
 </resources>

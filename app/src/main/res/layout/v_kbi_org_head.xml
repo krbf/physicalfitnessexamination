@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_groupLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/excel_height"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:text="组长："
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_groupLeaderStr"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintEnd_toStartOf="@+id/gLine_middle"
+        app:layout_constraintStart_toEndOf="@+id/tv_groupLeader"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="陈某某" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gLine_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_duGroupLeader"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/excel_height"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:text="副组长："
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintStart_toStartOf="@+id/gLine_middle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_duGroupLeaderStr"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_duGroupLeader"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="陈某某|陈某某|陈某某" />
+
+    <View
+        android:id="@+id/v_dividerLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/excel_dividerSize"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_groupLeader" />
+
+    <TextView
+        android:id="@+id/tv_member"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/excel_height"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:text="成员："
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_dividerLine" />
+
+    <TextView
+        android:id="@+id/tv_memberStr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/excel_height"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_member"
+        app:layout_constraintTop_toTopOf="@+id/tv_member"
+        tools:text="陈某某" />
+
+    <View
+        android:id="@+id/v_dividerLine2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/excel_dividerSize"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_memberStr" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/v_kbi_org_group_title"
+        app:layout_constraintTop_toBottomOf="@+id/v_dividerLine2" />
+</android.support.constraint.ConstraintLayout>
