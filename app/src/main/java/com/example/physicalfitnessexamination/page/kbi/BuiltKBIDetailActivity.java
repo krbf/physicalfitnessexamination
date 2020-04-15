@@ -96,7 +96,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
 
         wvKbiDetail.setBackgroundColor(Color.WHITE);
         //加载网络URL
-        wvKbiDetail.loadUrl("https://pvp.qq.com/web201605/herodetail/123.shtml");
+        wvKbiDetail.loadUrl("http://pic.sc.chinaz.com/files/pic/pic9/201910/zzpic20432.jpg");
         //设置在当前WebView继续加载网页
         wvKbiDetail.setWebViewClient(new MyWebViewClient());
     }
@@ -138,6 +138,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 finish();
                 break;
             case R.id.tv_modify:
+                showToast("AAA");
                 break;
             case R.id.tv_append:
                 KBIAppendixActivity.startInstant(this);

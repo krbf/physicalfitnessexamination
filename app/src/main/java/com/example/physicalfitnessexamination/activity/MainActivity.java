@@ -12,11 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.physicalfitnessexamination.R;
-import com.example.physicalfitnessexamination.fragment.CensusExamineFragment;
-import com.example.physicalfitnessexamination.fragment.CreateExamineFragment;
-import com.example.physicalfitnessexamination.fragment.DocumentFragment;
-import com.example.physicalfitnessexamination.fragment.HeroFragment;
-import com.example.physicalfitnessexamination.fragment.PlanExamineFragment;
 import com.example.physicalfitnessexamination.view.NoScrollViewPager;
 
 public class MainActivity extends BaseActivity {
@@ -72,15 +67,15 @@ public class MainActivity extends BaseActivity {
 
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new CreateExamineFragment();
+                return new Fragment();
             } else if (position == 1) {
-                return new PlanExamineFragment();
+                return new Fragment();
             } else if (position == 2) {
-                return new CensusExamineFragment();
+                return new Fragment();
             } else if (position == 3) {
-                return new HeroFragment();
+                return new Fragment();
             } else if (position == 4) {
-                return new DocumentFragment();
+                return new Fragment();
             }
             return null;
         }

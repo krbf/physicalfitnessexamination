@@ -52,6 +52,9 @@
             android:name=".page.kbi.KBIAchievementActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.kbi.KBIRosterEnrollActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.Main2Activity"
             android:screenOrientation="sensorLandscape" />
         <activity
