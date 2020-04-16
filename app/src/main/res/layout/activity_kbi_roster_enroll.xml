@@ -36,10 +36,29 @@
         android:background="@color/white" />
 
 
-    <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-        android:id="@+id/spv_unit"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/excel_height" />
+        android:layout_height="wrap_content"
+        android:background="@color/_B7CFF3"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单位："
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -95,13 +114,13 @@
             android:background="@color/white" />
 
         <GridView
-            android:verticalSpacing="1dp"
-            android:horizontalSpacing="1dp"
             android:id="@+id/gv_random"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:horizontalSpacing="1dp"
             android:numColumns="auto_fit"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:verticalSpacing="1dp" />
     </LinearLayout>
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
@@ -41,6 +44,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
+    private AssessmentInfoBean assessmentInfoBean;
 
     /**
      * 跳转方法
@@ -78,13 +82,18 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_roster, listRoster) {
             @Override
             public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
+                if ("0".equals(s.getSTATUS())) {
+                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#E6ECFA"));
+                } else {
+                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#EF7D65"));
+                }
                 viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
-                viewHolder.setText(R.id.tv_name,s.getUSERNAME());
-                viewHolder.setText(R.id.tv_sex,s.getSEX());
-                viewHolder.setText(R.id.tv_age,s.getAGE());
-                viewHolder.setText(R.id.tv_type,s.getTYPE());
-                viewHolder.setText(R.id.tv_post,s.getGW());
-                viewHolder.setText(R.id.tv_unit,s.getORG_NAME());
+                viewHolder.setText(R.id.tv_name, s.getUSERNAME());
+                viewHolder.setText(R.id.tv_sex, s.getSEX());
+                viewHolder.setText(R.id.tv_age, s.getAGE());
+                viewHolder.setText(R.id.tv_type, s.getTYPE());
+                viewHolder.setText(R.id.tv_post, s.getGW());
+                viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
             }
         };
         lvLookRoster.setAdapter(commonAdapter);
@@ -118,6 +127,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
+                    for (int i=0;i<listPI.size();i++){
+                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIRosterActivity.this).getOrg_id())){
+                            tvEnroll.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    getAssessmentInfo();
                     spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
                         @NotNull
                         @Override
@@ -131,7 +146,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                             getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
                         }
                     }, true, new Integer[]{0});
-                   // (ParticipatingInstitutionsBean)(spvOrganization.getSelectList().get(0)).
+                    getPersonList(((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID());
                 }
             }
         });
@@ -154,6 +169,28 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     listRoster.clear();
                     listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
                     commonAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    public void getAssessmentInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        OkhttpUtil.okHttpGet(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
+                    if ("0".equals(assessmentInfoBean.getPERSON_TYPE())) {
+                        tvEnroll.setVisibility(View.GONE);
+                    }
                 }
             }
         });

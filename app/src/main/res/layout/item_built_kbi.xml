@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="湘潭支队春季体能竞赛"
-        android:textColor="@color/_D9D9D9"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:textColor="@color/_D9D9D9"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
@@ -40,6 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2020-04-05"
-        android:textColor="@color/_D9D9D9"
+        android:textColor="@color/black"
         android:textStyle="bold" />
 </LinearLayout>

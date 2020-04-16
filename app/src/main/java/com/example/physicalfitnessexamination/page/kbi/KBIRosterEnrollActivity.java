@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
@@ -23,7 +24,7 @@ import java.util.List;
 public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
-    private SpinnerParentView spvUnit;//单位选择
+    private TextView tvUnit;
     private SpinnerParentView spvPost;//岗位选择
     private SpinnerParentView spvRandom;//抽取人数选择
     private GridView gvPost, gvRandom;
@@ -52,7 +53,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
-        spvUnit = findViewById(R.id.spv_unit);
+        tvUnit = findViewById(R.id.tv_unit);
         spvPost = findViewById(R.id.spv_post);
         spvRandom = findViewById(R.id.spv_random);
         gvPost = findViewById(R.id.gv_post);
@@ -62,7 +63,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
     @Override
     protected void initData() {
         tvTitle.setText("考核花名册 - 报名");
-        spvUnit.setName("单位");
+        tvUnit.setText(UserManager.getInstance().getUserInfo(this).getOrg_name());
         spvPost.setName("岗位");
         spvPost.setBackgroundColor(ContextCompat.getColor(this, R.color._E6ECFA));
         spvRandom.setName("抽取人数");
@@ -98,7 +99,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         listPost.add("");
         listPost.add("");
         listPost.add("");
-        commonAdapterPost=new CommonAdapter<String>(this,R.layout.item_kbi_roster_enroll_post,listPost) {
+        commonAdapterPost = new CommonAdapter<String>(this, R.layout.item_kbi_roster_enroll_post, listPost) {
             @Override
             public void convert(ViewHolder viewHolder, String s) {
 
@@ -107,7 +108,6 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         gvPost.setAdapter(commonAdapterPost);
 
 
-
         listRandom.add("");
         listRandom.add("");
         listRandom.add("");
@@ -144,7 +144,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         listRandom.add("");
         listRandom.add("");
         listRandom.add("");
-        commonAdapterRandom=new CommonAdapter<String>(this,R.layout.item_kbi_roster_enroll_random,listRandom) {
+        commonAdapterRandom = new CommonAdapter<String>(this, R.layout.item_kbi_roster_enroll_random, listRandom) {
             @Override
             public void convert(ViewHolder viewHolder, String s) {
 
