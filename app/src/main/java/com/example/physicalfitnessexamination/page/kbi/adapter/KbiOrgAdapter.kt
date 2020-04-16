@@ -122,21 +122,19 @@ class KbiOrgAdapter(private val isToPlaceKbi: Boolean) : RecyclerView.Adapter<Re
                 }
             }
             is GroupViewHolder -> {
-                p0.spinner.setData(smallGroups[p1 - 1])
-//                p0.iv_remove.let {
-//                    it.visibility = View.VISIBLE
-//                    it.isEnabled = true
-//                    it.setOnClickListener {
-//                        try {
-//                            val bean = smallGroups[p1 - 1]
-//                            smallGroups.remove(bean)
-//                            notifyItemRemoved(p1)
-//                            notifyItemRangeChanged(p1, itemCount - p1)
-//                        } catch (e: Exception) {
-//                            Logger.e(e, "hah")
-//                        }
-//                    }
-//                }
+                val listener = object : KbiOrgSmallGroupView.OnSmallGroupListener {
+                    override fun onRemoveClick(bean: KbiOrgGroupBean) {
+                        smallGroups.remove(bean)
+                        notifyItemRemoved(p1)
+                        notifyItemRangeChanged(p1, itemCount - p1)
+                    }
+                }
+                smallGroups[p1 - 1].let { s ->
+                    when (s) {
+                        is KbiOrgGroupTypeBean -> p0.spinner.setData(s, assessments, listener)
+                        is KbiOrgGroupIndexBean -> p0.spinner.setData(s, p1, listener)
+                    }
+                }
             }
         }
     }
