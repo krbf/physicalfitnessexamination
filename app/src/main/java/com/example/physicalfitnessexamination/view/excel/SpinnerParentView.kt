@@ -220,6 +220,7 @@ class SpinnerParentView<X> : LinearLayout {
             dataStrList.add(listener.getStr(t as T))
         }
         prepareChoiceView(dataStrList)
+        resetSelectView()
     }
 
     /**
