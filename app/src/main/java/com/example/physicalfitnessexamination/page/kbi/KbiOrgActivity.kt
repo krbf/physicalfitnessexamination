@@ -17,6 +17,7 @@ import com.example.physicalfitnessexamination.api.response.ApiResponse
 import com.example.physicalfitnessexamination.api.response.AssessmentGroupRes
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupBean
+import com.example.physicalfitnessexamination.bean.KbiOrgGroupTypeBean
 import com.example.physicalfitnessexamination.bean.PersonBean
 import com.example.physicalfitnessexamination.page.kbi.adapter.KbiOrgAdapter
 import com.example.physicalfitnessexamination.util.dp2px
@@ -60,7 +61,7 @@ class KbiOrgActivity : MyBaseActivity(), View.OnClickListener {
      */
     private val adapter: KbiOrgAdapter by lazy {
         KbiOrgAdapter(CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[2]).apply {
-            setDataList(groLeader,depGroLeader,member,smallGroups)
+            setDataList(groLeader, depGroLeader, member, smallGroups)
         }
     }
     private val itemDecoration by lazy {
@@ -93,6 +94,7 @@ class KbiOrgActivity : MyBaseActivity(), View.OnClickListener {
     override fun initView() {
         tv_title.text = "新建考核 — 考核组织"
         iv_right.setOnClickListener(this)
+        tv_next.setOnClickListener(this)
 
         rcv_content.let {
             it.layoutManager = LinearLayoutManager(context)
@@ -124,6 +126,72 @@ class KbiOrgActivity : MyBaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v) {
             iv_right -> finish()
+            tv_next -> {
+                if (checkParameter()) {
+                    showToast("ok 没问题")
+                }
+            }
         }
+    }
+
+    /**
+     * 验证当前页面数据合法性
+     */
+    private fun checkParameter(): Boolean {
+        //组长
+        if (groLeader.isEmpty()) {
+            tv_next.snack("请确认总组长人选")
+            return false
+        } else {
+            CreateKbiDataManager.kbiBean?.groupLeader = groLeader
+        }
+
+        //副组长
+        if (depGroLeader.isEmpty()) {
+            tv_next.snack("请确认副总组长人选")
+            return false
+        } else {
+            CreateKbiDataManager.kbiBean?.deputyGroupLeader = depGroLeader
+        }
+
+        //成员
+        if (member.isEmpty()) {
+            tv_next.snack("请确认总组成员人选")
+            return false
+        } else {
+            CreateKbiDataManager.kbiBean?.teamMember = member
+        }
+
+        //小组
+        val map = HashMap<String, Int>()
+        for (bean in smallGroups) {
+            if (bean.leaderList.isEmpty()) {
+                tv_next.snack("考核小组组长不可为空")
+                return false
+            }
+
+            if (bean.memberList.isEmpty()) {
+                tv_next.snack("考核小组成员不可为空")
+                return false
+            }
+
+            //检查是否有相同类型的考核组
+            if (bean is KbiOrgGroupTypeBean) {
+                if (bean.groupType == null) {
+                    tv_next.snack("考核小组类型不可为空")
+                    return false
+                }
+
+                if (map[bean.groupType.ID] == null) {
+                    map[bean.groupType.ID ?: ""] = 1
+                } else {
+                    tv_next.snack("不可存在多个相同类型的考核小组")
+                    return false
+                }
+            }
+        }
+        CreateKbiDataManager.kbiBean?.examiners = smallGroups
+
+        return true
     }
 }

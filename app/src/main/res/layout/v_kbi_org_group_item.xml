@@ -24,6 +24,19 @@
         android:layout_weight="1" />
 
     <TextView
+        android:id="@+id/tv_gIndex"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        tools:text="组次" />
+
+    <TextView
         android:id="@+id/tv_gLeader"
         android:layout_width="0dp"
         android:layout_height="@dimen/excel_height"

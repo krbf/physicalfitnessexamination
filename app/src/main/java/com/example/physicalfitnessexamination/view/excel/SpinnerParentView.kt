@@ -170,9 +170,9 @@ class SpinnerParentView<X> : LinearLayout {
                         }
                         , RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT)
                 )
-                if (selectSet.isNotEmpty() && selectSet.size == 1) {
-                    spinnerRadioGroup.check(spinnerRadioGroup.getChildAt(selectSet.first()).id)
-                }
+            }
+            if (selectSet.isNotEmpty() && selectSet.size == 1) {
+                spinnerRadioGroup.check(spinnerRadioGroup.getChildAt(selectSet.first()).id)
             }
         } else {
             spinnerAdapter.setListData(dataStrList, selectSet)
@@ -202,7 +202,7 @@ class SpinnerParentView<X> : LinearLayout {
                        },
                        onCheckListener: OnCheckListener<T>? = null,
                        isRadio: Boolean = false,
-                       defaultIndex: Array<Int> = arrayOf()) where T : Any {
+                       defaultIndex: Array<Int> = emptyArray()) where T : Any {
         clear()
         this.data = data as Array<X>
         this.isRadio = isRadio
