@@ -33,6 +33,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     private TextView tvTime;//时间安排
     private TextView tvRoster;//考核花名册
     private TextView tvAchievement;//考核成绩表
+    private String id;//考核id
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +45,9 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context) {
+    public static void startInstant(Context context, String id) {
         Intent intent = new Intent(context, BuiltKBIDetailActivity.class);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
@@ -56,6 +58,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
 
     @Override
     protected void initView() {
+        id = getIntent().getStringExtra("id");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -153,7 +156,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBITimeArrangementActivity.startInstant(this);
                 break;
             case R.id.tv_roster:
-                KBIRosterActivity.startInstant(this);
+                KBIRosterActivity.startInstant(this,id);
                 break;
             case R.id.tv_achievement:
                 KBIAchievementActivity.startInstant(this);

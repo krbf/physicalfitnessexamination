@@ -7,16 +7,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
+import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
+import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
+import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
+import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * 考核花名册
@@ -29,14 +40,17 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private ListView lvLookRoster;
     private CommonAdapter<String> commonAdapter;
     private List<String> listRoster = new ArrayList<>();
+    private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
+    private String id;//考核id
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context) {
+    public static void startInstant(Context context, String id) {
         Intent intent = new Intent(context, KBIRosterActivity.class);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
@@ -47,6 +61,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initView() {
+        id = getIntent().getStringExtra("id");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -60,28 +75,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     protected void initData() {
         tvTitle.setText("考核花名册 - 查看");
         spvOrganization.setName("单位");
-        spvOrganization.setSpinner(getResources().getStringArray(R.array.perSelect), new SpinnerParentView.OnGetStrListener() {
-            @NotNull
-            @Override
-            public String getStr(Object bean) {
-                return bean.toString();
-            }
-        }, new SpinnerParentView.OnCheckListener() {
-            @Override
-            public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-
-            }
-        }, true);
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
-        listRoster.add("");
+        getData();
         commonAdapter = new CommonAdapter<String>(this, R.layout.item_kbi_roster, listRoster) {
             @Override
             public void convert(ViewHolder viewHolder, String s) {
@@ -103,5 +97,38 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    public void getData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        OkhttpUtil.okHttpGet(Api.GETCREATAORG, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
+                    spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
+                        @NotNull
+                        @Override
+                        public String getStr(Object bean) {
+                            ParticipatingInstitutionsBean participatingInstitutionsBean= (ParticipatingInstitutionsBean) bean;
+                            return participatingInstitutionsBean.getORG_NAME();
+                        }
+                    }, new SpinnerParentView.OnCheckListener() {
+                        @Override
+                        public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
+
+                        }
+                    }, true);
+                    spvOrganization.getSelectList();
+                }
+            }
+        });
     }
 }
