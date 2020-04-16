@@ -1,7 +1,10 @@
 package com.example.physicalfitnessexamination.api;
 
 import com.example.physicalfitnessexamination.api.request.FTRequest;
+import com.example.physicalfitnessexamination.api.request.GetAssessmentGroupReq;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentObjectReq;
+import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq;
+import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.request.base.Request;
@@ -66,23 +69,6 @@ public class RequestManager {
         return fields;
     }
 
-
-//    /**
-//     * 获取首页信息
-//     */
-//    public static void toHome(Object tag, ToHomeFTRequest request, Callback callback) {
-//        setRequestAndCallBack(OkGo.get(HOST + "/toHome").tag(tag)
-//                , request, callback);
-//    }
-//
-//    /**
-//     * 获取菜品详细信息
-//     */
-//    public static void dishInfo(Object tag, DishInfoFTRequest request, Callback callback) {
-//        setRequestAndCallBack(OkGo.get(HOST + "/dishInfo").tag(tag)
-//                , request, callback);
-//    }
-
     /**
      * 获取考核项目列表
      *
@@ -92,6 +78,42 @@ public class RequestManager {
      */
     public static void getAssessmentObject(Object tag, GetAssessmentObjectReq request, Callback callback) {
         setRequestAndCallBack(OkGo.post(HOST + "/getAssessmentObject").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 获取考核组名称
+     *
+     * @param tag      tag
+     * @param request  请求体
+     * @param callback 回调
+     */
+    public static void getAssessmentGroup(Object tag, GetAssessmentGroupReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getAssessmentGroup").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 获取人员列表
+     *
+     * @param tag      tag
+     * @param request  请求体
+     * @param callback 回调
+     */
+    public static void getOrgCommander(Object tag, GetOrgCommanderReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getOrgCommander").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 新增考核计划
+     *
+     * @param tag      tag
+     * @param request  请求体
+     * @param callback 回调
+     */
+    public static void saveAssessment(Object tag, SaveAssessmentReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/saveAssessment").tag(tag)
                 , request, callback);
     }
 }

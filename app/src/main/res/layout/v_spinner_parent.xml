@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:tools="http://schemas.android.com/tools"-->
-<!--        android:id="@+id/ll_spinnerContent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/_B7CFF3"-->
-<!--        android:minHeight="@dimen/excel_height"-->
-<!--        android:orientation="horizontal">-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_spinnerContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/_B7CFF3"
+        android:minHeight="@dimen/excel_height"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_name"
@@ -23,6 +23,7 @@
             tools:text="测试标题" />
 
         <ImageView
+            android:id="@+id/iv_downArrow"
             android:layout_width="20dp"
             android:layout_height="@dimen/excel_height"
             android:layout_marginStart="10dp"
@@ -38,5 +39,5 @@
             app:horizontal_Space="0dp"
             app:isFull="false"
             app:vertical_Space="0dp" />
-<!--    </LinearLayout>-->
+    </LinearLayout>
 </merge>

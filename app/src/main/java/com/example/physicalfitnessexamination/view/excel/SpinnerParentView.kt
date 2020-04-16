@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.physicalfitnessexamination.R
@@ -97,10 +98,6 @@ class SpinnerParentView<X> : LinearLayout {
     }
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
-//        // Load attributes
-//        val a = context.obtainStyledAttributes(
-//                attrs, R.styleable.TestView, defStyle, 0)
-//        a.recycle()
         orientation = HORIZONTAL
         minimumHeight = resources.getDimensionPixelSize(R.dimen.excel_height)
         setBackgroundColor(ContextCompat.getColor(context, R.color._B7CFF3))
@@ -141,7 +138,6 @@ class SpinnerParentView<X> : LinearLayout {
 
     private fun resetSelectView() {
         try {
-//            removeViews(2, childCount - 2)
             warpLinearLayout.removeAllViews()
             selectSet.forEach { index ->
                 warpLinearLayout.addView(TextView(context).apply {
@@ -194,7 +190,9 @@ class SpinnerParentView<X> : LinearLayout {
      * 设置选项
      * @param data 选项集合
      * @param listener 获取String监听方法
+     * @param onCheckListener 点击【确定】时触发的回调
      * @param isRadio 是否是单选
+     * @param defaultIndex 默认选中的下标集合
      */
     fun <T> setSpinner(data: Array<T>,
                        listener: OnGetStrListener<T> = object : OnGetStrListener<T> {
@@ -203,10 +201,19 @@ class SpinnerParentView<X> : LinearLayout {
                            }
                        },
                        onCheckListener: OnCheckListener<T>? = null,
-                       isRadio: Boolean = false) where T : Any {
+                       isRadio: Boolean = false,
+                       defaultIndex: Array<Int> = arrayOf()) where T : Any {
         clear()
         this.data = data as Array<X>
         this.isRadio = isRadio
+
+        selectSet.clear()
+        if (isRadio && defaultIndex.isNotEmpty()) {
+            selectSet.add(defaultIndex.first())
+        } else {
+            selectSet.addAll(defaultIndex)
+        }
+
         this.onCheckListener = if (onCheckListener != null) onCheckListener as OnCheckListener<X> else null
         val dataStrList = ArrayList<String>()
         data.forEach { t ->
@@ -215,25 +222,19 @@ class SpinnerParentView<X> : LinearLayout {
         prepareChoiceView(dataStrList)
     }
 
-//    /**
-//     * 设置选项
-//     * @param data 选项集合
-//     * @param isRadio 是否是单选
-//     */
-//    fun <T> setSpinner(data: Array<String>, onCheckListener: OnCheckListener<T>? = null, isRadio: Boolean = false)
-//            where T : X {
-//        try {
-//            this.isRadio = isRadio
-//            this.onCheckListener = onCheckListener as OnCheckListener<X>
-//            val dataStrList = ArrayList<String>()
-//            data.forEach { t ->
-//                dataStrList.add(t)
-//            }
-//            prepareChoiceView(dataStrList)
-//        } catch (e: Exception) {
-//            Logger.e(e, "ss")
-//        }
-//    }
+    /**
+     * 是否设置为简洁UI模式
+     * @param isSimpleUiMode 简洁UI模式（什么都不显示）
+     */
+    fun setSimpleUiMode(isSimpleUiMode: Boolean) {
+        if (isSimpleUiMode) {
+            tv_name.visibility = View.GONE
+            iv_downArrow.visibility = View.GONE
+        } else {
+            tv_name.visibility = View.VISIBLE
+            iv_downArrow.visibility = View.VISIBLE
+        }
+    }
 
     /**
      * 设置控件是否可选择

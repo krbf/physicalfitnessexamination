@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:divider="@drawable/divider_ver"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:showDividers="middle"-->
+<!--        tools:background="@color/_B7CFF3">-->
+
+        <TextView
+            android:id="@+id/tv_index"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="序号" />
+
+        <TextView
+            android:id="@+id/tv_perName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="姓名" />
+
+        <TextView
+            android:id="@+id/tv_perSex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="性别" />
+
+        <TextView
+            android:id="@+id/tv_perAge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="年龄" />
+
+        <TextView
+            android:id="@+id/tv_perJob"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="职务" />
+
+        <TextView
+            android:id="@+id/tv_perOrg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            tools:text="单位" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_checkAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@color/_EF7D65"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="全选"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/cb_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center" />
+        </FrameLayout>
+
+<!--    </LinearLayout>-->
+</merge>

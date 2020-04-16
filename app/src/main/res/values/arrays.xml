@@ -28,4 +28,11 @@
         <item>年龄积分</item>
         <item>对抗淘汰</item>
     </string-array>
+
+    <!--组别类型-->
+    <string-array name="kbiOrgGroup">
+        <item>裁判组</item>
+        <item>计时组</item>
+        <item>场地组</item>
+    </string-array>
 </resources>

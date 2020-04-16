@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id="@+id/tv_addGroup"
+        android:layout_width="200dp"
+        android:layout_height="@dimen/excel_height"
+        android:layout_gravity="center"
+        android:background="@drawable/bk_add_group"
+        android:gravity="center"
+        android:text="+  添加小组"
+        android:textColor="@color/_F4D224"
+        android:textSize="@dimen/excel_textSize"
+        android:textStyle="bold" />
+</FrameLayout>
