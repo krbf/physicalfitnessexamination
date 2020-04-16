@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
-import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
+import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
@@ -38,8 +37,8 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private TextView tvEnroll;//报名
     private SpinnerParentView spvOrganization;
     private ListView lvLookRoster;
-    private CommonAdapter<String> commonAdapter;
-    private List<String> listRoster = new ArrayList<>();
+    private CommonAdapter<ReferencePersonnelBean> commonAdapter;
+    private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
 
@@ -76,10 +75,16 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         tvTitle.setText("考核花名册 - 查看");
         spvOrganization.setName("单位");
         getData();
-        commonAdapter = new CommonAdapter<String>(this, R.layout.item_kbi_roster, listRoster) {
+        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_roster, listRoster) {
             @Override
-            public void convert(ViewHolder viewHolder, String s) {
-
+            public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
+                viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
+                viewHolder.setText(R.id.tv_name,s.getUSERNAME());
+                viewHolder.setText(R.id.tv_sex,s.getSEX());
+                viewHolder.setText(R.id.tv_age,s.getAGE());
+                viewHolder.setText(R.id.tv_type,s.getTYPE());
+                viewHolder.setText(R.id.tv_post,s.getGW());
+                viewHolder.setText(R.id.tv_unit,s.getORG_NAME());
             }
         };
         lvLookRoster.setAdapter(commonAdapter);
@@ -117,16 +122,38 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                         @NotNull
                         @Override
                         public String getStr(Object bean) {
-                            ParticipatingInstitutionsBean participatingInstitutionsBean= (ParticipatingInstitutionsBean) bean;
+                            ParticipatingInstitutionsBean participatingInstitutionsBean = (ParticipatingInstitutionsBean) bean;
                             return participatingInstitutionsBean.getORG_NAME();
                         }
                     }, new SpinnerParentView.OnCheckListener() {
                         @Override
                         public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-
+                            getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
                         }
-                    }, true);
-                    spvOrganization.getSelectList();
+                    }, true, new Integer[]{0});
+                   // (ParticipatingInstitutionsBean)(spvOrganization.getSelectList().get(0)).
+                }
+            }
+        });
+    }
+
+    public void getPersonList(String org_id) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("org_id", org_id);
+        OkhttpUtil.okHttpGet(Api.GETASSESSMENTPERSONLIST, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    listRoster.clear();
+                    listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
+                    commonAdapter.notifyDataSetChanged();
                 }
             }
         });

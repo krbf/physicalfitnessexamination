@@ -7,16 +7,16 @@
     <include layout="@layout/v_toolbar" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/_B7CFF3"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <TextView
-            android:layout_marginRight="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:text="考核花名册"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -24,12 +24,12 @@
 
         <TextView
             android:id="@+id/tv_enroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-> 报名"
             android:textColor="@color/_FFB14B"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="-> 报名"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View
@@ -55,9 +55,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:padding="10dp"
             android:text="序号"
@@ -69,9 +69,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:padding="10dp"
             android:text="姓名"
@@ -83,9 +83,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:padding="10dp"
             android:text="性別"
@@ -97,9 +97,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:padding="10dp"
             android:text="年龄"
@@ -111,9 +111,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:padding="10dp"
             android:text="类型"
@@ -125,9 +125,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center"
             android:padding="10dp"
             android:text="岗位"
@@ -139,9 +139,9 @@
             android:background="@color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:gravity="center"
             android:padding="10dp"
             android:text="单位"
