@@ -106,7 +106,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_enroll:
-                KBIRosterEnrollActivity.startInstant(this,assessmentInfoBean.getREQUIREMENT_PERSON(),assessmentInfoBean.getPERSON_TYPE(),id);
+                KBIRosterEnrollActivity.startInstant(this, assessmentInfoBean.getREQUIREMENT_PERSON(), assessmentInfoBean.getPERSON_TYPE(), id);
                 break;
             default:
                 break;
@@ -127,8 +127,8 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
-                    for (int i=0;i<listPI.size();i++){
-                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIRosterActivity.this).getOrg_id())){
+                    for (int i = 0; i < listPI.size(); i++) {
+                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIRosterActivity.this).getOrg_id())) {
                             tvEnroll.setVisibility(View.VISIBLE);
                         }
                     }
@@ -189,7 +189,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 if (success) {
                     assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
                     if ("0".equals(assessmentInfoBean.getPERSON_TYPE())) {
-//                        tvEnroll.setVisibility(View.GONE);
+                        tvEnroll.setVisibility(View.GONE);
                     }
                 }
             }

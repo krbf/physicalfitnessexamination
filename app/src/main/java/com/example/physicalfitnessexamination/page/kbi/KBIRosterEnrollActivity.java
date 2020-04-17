@@ -37,6 +37,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 
@@ -93,7 +95,6 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         requirements = getIntent().getStringExtra("requirements");
         personType = getIntent().getStringExtra("personType");
         id = getIntent().getStringExtra("id");
-        personType = "1";
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -376,7 +377,8 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         }
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        map.put("persons", JSON.toJSONString(listCommit));
+        map.put("org_id", userInfo.getOrg_id());
+        map.put("persons", transformLowerCase(JSON.toJSONString(listCommit)));
         OkhttpUtil.okHttpGet(Api.SETPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -391,5 +393,23 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 }
             }
         });
+    }
+    /**
+     * json的Key值转化为小写
+     * @param json
+     * @return
+     */
+    public static String transformLowerCase(String json){
+        String regex = "[\\\"' ]*[^:\\\"' ]*[\\\"' ]*:";// (\{|\,)[a-zA-Z0-9_]+:
+
+        Pattern pattern = Pattern.compile(regex);
+        StringBuffer sb = new StringBuffer();
+        // 方法二：正则替换
+        Matcher m = pattern.matcher(json);
+        while (m.find()) {
+            m.appendReplacement(sb, m.group().toLowerCase());
+        }
+        m.appendTail(sb);
+        return sb.toString();
     }
 }
