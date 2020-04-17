@@ -16,16 +16,17 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:layout_marginRight="10dp"
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:text="武则天"
         android:textColor="@color/black" />
 
     <ImageView
-        android:padding="5dp"
-        android:src="@mipmap/delete"
+        android:id="@+id/img_delete"
         android:layout_width="25dp"
-        android:layout_height="25dp" />
+        android:layout_height="25dp"
+        android:padding="5dp"
+        android:src="@mipmap/delete" />
 </LinearLayout>

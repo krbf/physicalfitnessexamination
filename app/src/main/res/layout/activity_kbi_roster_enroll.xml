@@ -22,6 +22,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_requirements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="战士5名，参谋站2名"
@@ -52,11 +53,23 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_weight="1"
             android:id="@+id/tv_unit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/_EF7D65"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="提交"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -81,11 +94,46 @@
             android:layout_height="match_parent"
             android:background="@color/white" />
 
-        <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-            android:id="@+id/spv_random"
+        <LinearLayout
+            android:id="@+id/lin_content"
             android:layout_width="0dp"
-            android:layout_height="@dimen/excel_height"
-            android:layout_weight="1" />
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:background="@color/_E6ECFA"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_extract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="抽取人数"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_number"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:inputType="number"
+                android:textColor="@color/_FFB14B"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_ok_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@color/_EF7D65"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <View
