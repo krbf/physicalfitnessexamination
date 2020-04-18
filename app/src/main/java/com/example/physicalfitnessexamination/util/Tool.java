@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tool {
     static final String DEFAULT_ENCODING = "utf-8";
@@ -250,5 +252,24 @@ public class Tool {
         } else {
             return str;
         }
+    }
+
+    /**
+     * json的Key值转化为小写
+     * @param json
+     * @return
+     */
+    public static String transformLowerCase(String json){
+        String regex = "[\\\"' ]*[^:\\\"' ]*[\\\"' ]*:";// (\{|\,)[a-zA-Z0-9_]+:
+
+        Pattern pattern = Pattern.compile(regex);
+        StringBuffer sb = new StringBuffer();
+        // 方法二：正则替换
+        Matcher m = pattern.matcher(json);
+        while (m.find()) {
+            m.appendReplacement(sb, m.group().toLowerCase());
+        }
+        m.appendTail(sb);
+        return sb.toString();
     }
 }

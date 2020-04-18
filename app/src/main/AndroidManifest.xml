@@ -42,15 +42,6 @@
             android:name=".page.kbi.KBIAppendixActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.kbi.KBIPlanActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
-            android:name=".page.kbi.KBIOrganizationActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
-            android:name=".page.kbi.KBITimeArrangementActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".page.kbi.KBIRosterActivity"
             android:screenOrientation="sensorLandscape" />
         <activity

@@ -3,13 +3,10 @@ package com.example.physicalfitnessexamination.page.kbi;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -20,14 +17,13 @@ import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AllPersonBean;
 import com.example.physicalfitnessexamination.bean.PostBean;
-import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.util.Tool;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
-import com.orhanobut.logger.Logger;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,8 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import okhttp3.Call;
 
@@ -379,7 +373,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("org_id", userInfo.getOrg_id());
-        map.put("persons", transformLowerCase(JSON.toJSONString(listCommit)));
+        map.put("persons", Tool.transformLowerCase(JSON.toJSONString(listCommit)));
         OkhttpUtil.okHttpGet(Api.SETPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -394,23 +388,5 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 }
             }
         });
-    }
-    /**
-     * json的Key值转化为小写
-     * @param json
-     * @return
-     */
-    public static String transformLowerCase(String json){
-        String regex = "[\\\"' ]*[^:\\\"' ]*[\\\"' ]*:";// (\{|\,)[a-zA-Z0-9_]+:
-
-        Pattern pattern = Pattern.compile(regex);
-        StringBuffer sb = new StringBuffer();
-        // 方法二：正则替换
-        Matcher m = pattern.matcher(json);
-        while (m.find()) {
-            m.appendReplacement(sb, m.group().toLowerCase());
-        }
-        m.appendTail(sb);
-        return sb.toString();
     }
 }

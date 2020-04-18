@@ -93,6 +93,7 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("org_id", UserManager.getInstance().getUserInfo(this).getOrg_id());
+        map.put("status","1");//0 已建考核  1 考核实施
         OkhttpUtil.okHttpGet(Api.BUILTKBILIST, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {

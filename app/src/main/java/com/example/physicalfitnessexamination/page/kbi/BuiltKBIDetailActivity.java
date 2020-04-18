@@ -33,6 +33,8 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     private TextView tvTime;//时间安排
     private TextView tvRoster;//考核花名册
     private TextView tvAchievement;//考核成绩表
+    private TextView tvName;//页面第一行名称显示
+    private TextView tvWork;//考核实施
     private String id;//考核id
 
     @Override
@@ -62,6 +64,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
+        tvName = findViewById(R.id.tv_name);
         wvKbiDetail = findViewById(R.id.wv_view);
         tvModify = findViewById(R.id.tv_modify);
         tvModify.setOnClickListener(this::onClick);
@@ -77,11 +80,14 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
         tvRoster.setOnClickListener(this::onClick);
         tvAchievement = findViewById(R.id.tv_achievement);
         tvAchievement.setOnClickListener(this::onClick);
+        tvWork=findViewById(R.id.tv_work);
+        tvWork.setOnClickListener(this::onClick);
     }
 
     @Override
     protected void initData() {
         tvTitle.setText("已建考核");
+        tvName.setText("考核方案");
         //加载本地html文件
         // mWVmhtml.loadUrl("file:///android_asset/hello.html");
 
@@ -144,22 +150,28 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 showToast("AAA");
                 break;
             case R.id.tv_append:
-                KBIAppendixActivity.startInstant(this,id);
+                KBIAppendixActivity.startInstant(this, id);
                 break;
             case R.id.tv_plan:
-                KBIPlanActivity.startInstant(this);
+                tvName.setText("考核方案");
+                tvWork.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_organization:
-                KBIOrganizationActivity.startInstant(this);
+                tvName.setText("考核组织");
+                tvWork.setVisibility(View.GONE);
                 break;
             case R.id.tv_time:
-                KBITimeArrangementActivity.startInstant(this);
+                tvName.setText("时间安排");
+                tvWork.setVisibility(View.GONE);
                 break;
             case R.id.tv_roster:
-                KBIRosterActivity.startInstant(this,id);
+                KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
                 KBIAchievementActivity.startInstant(this);
+                break;
+            case R.id.tv_work:
+                showToast("考核实施");
                 break;
             default:
                 break;
