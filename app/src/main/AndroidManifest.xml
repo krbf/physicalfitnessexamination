@@ -55,7 +55,7 @@
             android:name=".page.kbi.KBIPersonnelReportShowActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.kbi.KBIPersonReportActivity"
+            android:name=".page.kbi.KBIPersonnelReportActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.PutIntoEffectKBIActivity"

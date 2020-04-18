@@ -57,7 +57,7 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
 
     @Override
     protected int initLayout() {
-        return R.layout.activity_kbi_personnel_report;
+        return R.layout.activity_kbi_personnel_report_show;
     }
 
     @Override
