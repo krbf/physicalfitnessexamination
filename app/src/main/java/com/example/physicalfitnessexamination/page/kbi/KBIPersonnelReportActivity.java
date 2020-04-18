@@ -78,7 +78,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         tvTitle.setText("人员报送");
         spvOrganization.setName("单位");
         getData();
-        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_roster, listRoster) {
+        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report, listRoster) {
             @Override
             public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
                 if ("0".equals(s.getSTATUS())) {
@@ -151,7 +151,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("org_id", org_id);
-        OkhttpUtil.okHttpGet(Api.GETASSESSMENTPERSONLIST, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpGet(Api.GETLEAVEPERSONFORASSESSSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
