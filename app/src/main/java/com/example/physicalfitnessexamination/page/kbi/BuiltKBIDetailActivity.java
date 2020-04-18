@@ -14,10 +14,26 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
+import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
+import com.example.physicalfitnessexamination.bean.UserInfo;
+import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
+import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * 已建考核详情页
@@ -36,6 +52,10 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     private TextView tvName;//页面第一行名称显示
     private TextView tvWork;//考核实施
     private String id;//考核id
+    private String flag;//"0"已建考核进入 "1"考核实施进入
+    private AssessmentInfoBean assessmentInfoBean;
+    private UserInfo userInfo;
+    private boolean KBIPower = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,9 +67,10 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id) {
+    public static void startInstant(Context context, String id, String flag) {
         Intent intent = new Intent(context, BuiltKBIDetailActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("flag", flag);
         context.startActivity(intent);
     }
 
@@ -61,6 +82,8 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
+        flag = getIntent().getStringExtra("flag");
+        userInfo = UserManager.getInstance().getUserInfo(this);
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -80,14 +103,25 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
         tvRoster.setOnClickListener(this::onClick);
         tvAchievement = findViewById(R.id.tv_achievement);
         tvAchievement.setOnClickListener(this::onClick);
-        tvWork=findViewById(R.id.tv_work);
+        tvWork = findViewById(R.id.tv_work);
         tvWork.setOnClickListener(this::onClick);
     }
 
     @Override
     protected void initData() {
-        tvTitle.setText("已建考核");
+        getAssessmentInfo();//获取考核基本信息
+        switch (flag) {
+            case "1":
+                tvTitle.setText("已建考核");
+                break;
+            case "2":
+                tvTitle.setText("考核实施");
+                break;
+            default:
+                break;
+        }
         tvName.setText("考核方案");
+
         //加载本地html文件
         // mWVmhtml.loadUrl("file:///android_asset/hello.html");
 
@@ -105,7 +139,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
 
         wvKbiDetail.setBackgroundColor(Color.WHITE);
         //加载网络URL
-        wvKbiDetail.loadUrl("http://pic.sc.chinaz.com/files/pic/pic9/201910/zzpic20432.jpg");
+        wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentInfoH5?id=" + id);
         //设置在当前WebView继续加载网页
         wvKbiDetail.setWebViewClient(new MyWebViewClient());
     }
@@ -155,14 +189,17 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
             case R.id.tv_plan:
                 tvName.setText("考核方案");
                 tvWork.setVisibility(View.VISIBLE);
+                wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentInfoH5?id=" + id);
                 break;
             case R.id.tv_organization:
                 tvName.setText("考核组织");
                 tvWork.setVisibility(View.GONE);
+                wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentExaminerH5?id=" + id);
                 break;
             case R.id.tv_time:
                 tvName.setText("时间安排");
                 tvWork.setVisibility(View.GONE);
+                wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentTimeH5?id=" + id);
                 break;
             case R.id.tv_roster:
                 KBIRosterActivity.startInstant(this, id);
@@ -171,10 +208,47 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBIAchievementActivity.startInstant(this);
                 break;
             case R.id.tv_work:
-                showToast("考核实施");
+                if (KBIPower) {
+                    showToast("考核实施");
+                } else {
+                    showToast("权限不够");
+                }
+
                 break;
             default:
                 break;
         }
     }
+
+    public void getAssessmentInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        OkhttpUtil.okHttpGet(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
+                    if ("0".equals(assessmentInfoBean.getTYPE())) {
+                        tvOrganization.setVisibility(View.GONE);
+                    }
+                    if (userInfo.getOrg_id().equals(assessmentInfoBean.getORG_ID())) {
+                        String GROUP_LEADER = assessmentInfoBean.getGroup_leader();
+                        List<String> listGL = Arrays.asList(GROUP_LEADER.split(","));
+                        for (int i = 0; i < listGL.size(); i++) {
+                            if (userInfo.getUsername().equals(listGL.get(i))) {
+                                KBIPower = true;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 }

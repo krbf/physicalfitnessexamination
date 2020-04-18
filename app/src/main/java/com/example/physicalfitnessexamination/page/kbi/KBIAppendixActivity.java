@@ -57,7 +57,7 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.lin_report:
-                KBIPersonnelReportActivity.startInstant(this, id);
+                KBIPersonnelReportShowActivity.startInstant(this, id);
                 break;
             default:
                 break;

@@ -77,7 +77,7 @@ public class BuiltKBIActivity extends MyBaseActivity implements View.OnClickList
                 viewHolder.getConvertView().setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        BuiltKBIDetailActivity.startInstant(BuiltKBIActivity.this,s.getID());
+                        BuiltKBIDetailActivity.startInstant(BuiltKBIActivity.this,s.getID(),"1");
                     }
                 });
             }

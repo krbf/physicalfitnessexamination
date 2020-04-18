@@ -44,6 +44,7 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
         Intent intent = new Intent(context, PutIntoEffectKBIActivity.class);
         context.startActivity(intent);
     }
+
     @Override
     protected int initLayout() {
         return R.layout.activity_built_kbi;
@@ -70,7 +71,7 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
                 viewHolder.getConvertView().setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        BuiltKBIDetailActivity.startInstant(PutIntoEffectKBIActivity.this,s.getID());
+                        BuiltKBIDetailActivity.startInstant(PutIntoEffectKBIActivity.this, s.getID(), "2");
                     }
                 });
             }
@@ -93,7 +94,7 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("org_id", UserManager.getInstance().getUserInfo(this).getOrg_id());
-        map.put("status","1");//0 已建考核  1 考核实施
+        map.put("status", "1");//0 已建考核  1 考核实施
         OkhttpUtil.okHttpGet(Api.BUILTKBILIST, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {

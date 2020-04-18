@@ -37,6 +37,7 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.BuiltKBIDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.KBIAppendixActivity"
@@ -51,7 +52,7 @@
             android:name=".page.kbi.KBIRosterEnrollActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.kbi.KBIPersonnelReportActivity"
+            android:name=".page.kbi.KBIPersonnelReportShowActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.PutIntoEffectKBIActivity"

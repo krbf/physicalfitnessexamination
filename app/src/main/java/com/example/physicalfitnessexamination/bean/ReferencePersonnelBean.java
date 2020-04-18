@@ -1,6 +1,6 @@
 package com.example.physicalfitnessexamination.bean;
 /**
- * 参考人员实体类
+ * 参考人员实体类 +请假人员实体类 （STATUS无）
  */
 public class ReferencePersonnelBean {
     private String USERID;

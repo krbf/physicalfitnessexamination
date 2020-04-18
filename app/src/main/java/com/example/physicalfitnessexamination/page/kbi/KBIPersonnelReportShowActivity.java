@@ -13,7 +13,6 @@ import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
@@ -34,14 +33,14 @@ import okhttp3.Call;
 /**
  * 考核附件-人员报送
  */
-public class KBIPersonnelReportActivity extends MyBaseActivity implements View.OnClickListener {
+public class KBIPersonnelReportShowActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
     private TextView tvEnroll;//人员报送
     private SpinnerParentView spvOrganization;
-    private ListView lvLookRoster;
+    private ListView lvLookLeave;
     private CommonAdapter<ReferencePersonnelBean> commonAdapter;
-    private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
+    private List<ReferencePersonnelBean> listLeave = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
 
@@ -51,7 +50,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
      * @param context 上下文
      */
     public static void startInstant(Context context,String id) {
-        Intent intent = new Intent(context, KBIPersonnelReportActivity.class);
+        Intent intent = new Intent(context, KBIPersonnelReportShowActivity.class);
         intent.putExtra("id",id);
         context.startActivity(intent);
     }
@@ -68,7 +67,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
         spvOrganization = findViewById(R.id.spv_organization);
-        lvLookRoster = findViewById(R.id.lv_look_roster);
+        lvLookLeave = findViewById(R.id.lv_look_leave);
         tvEnroll = findViewById(R.id.tv_enroll);
         tvEnroll.setOnClickListener(this::onClick);
     }
@@ -78,7 +77,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         tvTitle.setText("人员报送");
         spvOrganization.setName("单位");
         getData();
-        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report, listRoster) {
+        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report, listLeave) {
             @Override
             public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
                 if ("0".equals(s.getSTATUS())) {
@@ -95,7 +94,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
                 viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
             }
         };
-        lvLookRoster.setAdapter(commonAdapter);
+        lvLookLeave.setAdapter(commonAdapter);
     }
 
     @Override
@@ -103,6 +102,9 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         switch (v.getId()) {
             case R.id.iv_right:
                 finish();
+                break;
+            case R.id.tv_enroll:
+                showToast("AAA");
                 break;
             default:
                 break;
@@ -124,7 +126,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
                 if (success) {
                     listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
                     for (int i = 0; i < listPI.size(); i++) {
-                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIPersonnelReportActivity.this).getOrg_id())) {
+                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIPersonnelReportShowActivity.this).getOrg_id())) {
                             tvEnroll.setVisibility(View.VISIBLE);
                         }
                     }
@@ -151,7 +153,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("org_id", org_id);
-        OkhttpUtil.okHttpGet(Api.GETLEAVEPERSONFORASSESSSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpGet(Api.GETLEAVEPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -161,8 +163,8 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
-                    listRoster.clear();
-                    listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
+                    listLeave.clear();
+                    listLeave.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
                     commonAdapter.notifyDataSetChanged();
                 }
             }
