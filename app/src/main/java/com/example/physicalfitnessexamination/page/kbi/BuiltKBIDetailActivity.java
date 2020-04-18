@@ -144,7 +144,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 showToast("AAA");
                 break;
             case R.id.tv_append:
-                KBIAppendixActivity.startInstant(this);
+                KBIAppendixActivity.startInstant(this,id);
                 break;
             case R.id.tv_plan:
                 KBIPlanActivity.startInstant(this);

@@ -32,34 +32,33 @@ import java.util.Map;
 import okhttp3.Call;
 
 /**
- * 考核花名册
+ * 考核附件-人员报送
  */
-public class KBIRosterActivity extends MyBaseActivity implements View.OnClickListener {
+public class KBIPersonnelReportActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
-    private TextView tvEnroll;//报名 普考不显示,考核单位没本单位也不显示
+    private TextView tvEnroll;//人员报送
     private SpinnerParentView spvOrganization;
     private ListView lvLookRoster;
     private CommonAdapter<ReferencePersonnelBean> commonAdapter;
     private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
-    private AssessmentInfoBean assessmentInfoBean;
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id) {
-        Intent intent = new Intent(context, KBIRosterActivity.class);
-        intent.putExtra("id", id);
+    public static void startInstant(Context context,String id) {
+        Intent intent = new Intent(context, KBIPersonnelReportActivity.class);
+        intent.putExtra("id",id);
         context.startActivity(intent);
     }
 
     @Override
     protected int initLayout() {
-        return R.layout.activity_kbi_roster;
+        return R.layout.activity_kbi_personnel_report;
     }
 
     @Override
@@ -76,7 +75,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        tvTitle.setText("考核花名册 - 查看");
+        tvTitle.setText("人员报送");
         spvOrganization.setName("单位");
         getData();
         commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_roster, listRoster) {
@@ -105,9 +104,6 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
             case R.id.iv_right:
                 finish();
                 break;
-            case R.id.tv_enroll:
-                KBIRosterEnrollActivity.startInstant(this, assessmentInfoBean.getREQUIREMENT_PERSON(), assessmentInfoBean.getPERSON_TYPE(), id);
-                break;
             default:
                 break;
         }
@@ -128,11 +124,10 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 if (success) {
                     listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
                     for (int i = 0; i < listPI.size(); i++) {
-                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIRosterActivity.this).getOrg_id())) {
+                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIPersonnelReportActivity.this).getOrg_id())) {
                             tvEnroll.setVisibility(View.VISIBLE);
                         }
                     }
-                    getAssessmentInfo();
                     spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
                         @NotNull
                         @Override
@@ -169,28 +164,6 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     listRoster.clear();
                     listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
                     commonAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }
-
-    public void getAssessmentInfo() {
-        Map<String, String> map = new HashMap<>();
-        map.put("id", id);
-        OkhttpUtil.okHttpGet(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                boolean success = JSON.parseObject(response).getBoolean("success");
-                if (success) {
-                    assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
-                    if ("0".equals(assessmentInfoBean.getPERSON_TYPE())) {
-                        tvEnroll.setVisibility(View.GONE);
-                    }
                 }
             }
         });

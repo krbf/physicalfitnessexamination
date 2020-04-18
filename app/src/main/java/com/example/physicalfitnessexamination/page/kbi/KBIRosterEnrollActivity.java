@@ -340,6 +340,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
     public void getPersonList(String type) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
+        map.put("aid",id);
         map.put("org_id", userInfo.getOrg_id());
         OkhttpUtil.okHttpGet(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
             @Override
