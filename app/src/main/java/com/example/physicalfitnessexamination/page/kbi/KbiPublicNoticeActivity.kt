@@ -124,12 +124,14 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
             }
         }
 
-        edt_PerRequest.text.trim().toString().let { str ->
-            if (str.isEmpty()) {
-                tv_createFinish.snack("请输入 人员要求 内容")
-                return false
-            } else {
-                CreateKbiDataManager.kbiBean?.requirementPerson = str
+        if (!isCommonTest) {
+            edt_PerRequest.text.trim().toString().let { str ->
+                if (str.isEmpty()) {
+                    tv_createFinish.snack("请输入 人员要求 内容")
+                    return false
+                } else {
+                    CreateKbiDataManager.kbiBean?.requirementPerson = str
+                }
             }
         }
 
