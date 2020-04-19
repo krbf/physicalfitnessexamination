@@ -164,7 +164,7 @@ class KbiTimeConfig1ItemView : LinearLayout {
 
     private fun getTimePick(isStartTime: Boolean): TimePickerDialog {
         val calendar = Calendar.getInstance()
-        val dialog = TimePickerDialog(context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert,
+        val dialog = TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT,
                 TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                     if (isStartTime) {
                         bean?.startTime = Calendar.getInstance().apply {
@@ -181,7 +181,7 @@ class KbiTimeConfig1ItemView : LinearLayout {
                     }
                 },
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
-        dialog.setTitle(if (isStartTime) "开始时间" else "结束时间")
+        dialog.setMessage(if (isStartTime) "开始时间" else "结束时间")
         return dialog
     }
 
