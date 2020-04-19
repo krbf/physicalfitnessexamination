@@ -22,14 +22,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".page.kbi.KbiPublicNoticeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.KbiTimeConfigActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.kbi.KbiShuntActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.KbiOrgActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.CreateKBIActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape" />
         <activity

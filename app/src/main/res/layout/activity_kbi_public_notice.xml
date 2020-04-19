@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_B7CFF3"
+    android:orientation="vertical"
+    tools:context=".page.kbi.KbiPublicNoticeActivity">
+
+    <include layout="@layout/v_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_personPickType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:text="人员选取方式："
+                android:textColor="@color/black" />
+
+            <View
+                android:id="@+id/v_dividerLine1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:text="公告发布："
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/edt_publicNotice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="18dp"
+                android:background="@color/white"
+                android:gravity="top|start"
+                android:hint="某体能测试将于X月中旬进行……"
+                android:minHeight="70dp"
+                android:padding="5dp"
+                android:textSize="@dimen/excel_textSize" />
+
+            <View
+                android:id="@+id/v_dividerLine2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/excel_dividerSize"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_PerRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="10dp"
+                android:text="人员要求："
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/edt_PerRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="18dp"
+                android:background="@color/white"
+                android:gravity="top|start"
+                android:hint="大队领导...人 参谋...人 中队指挥员...人"
+                android:minHeight="70dp"
+                android:padding="5dp"
+                android:textSize="@dimen/excel_textSize" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_createFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/_EF7D65"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="新建完成"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:tools="http://schemas.android.com/tools"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:divider="@drawable/divider_hor"-->
+<!--        android:orientation="vertical"-->
+<!--        android:showDividers="middle|beginning|end">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/excel_height"
+            android:divider="@drawable/divider_ver"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="日期"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                tools:text="5月5日" />
+
+            <ImageView
+                android:id="@+id/iv_removeDate"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_remove" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/excel_height"
+            android:divider="@drawable/divider_ver"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:id="@+id/tv_addTimeQuantum"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@color/_EF7D65"
+                android:gravity="center"
+                android:text="新增\n时间"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1"
+                android:gravity="center"
+                android:text="时间"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center"
+                android:text="内容"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="岗位"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="召集人"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center"
+                android:text="发令员"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:gravity="center"
+                android:text="计时员"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+        </LinearLayout>
+<!--    </LinearLayout>-->
+</merge>

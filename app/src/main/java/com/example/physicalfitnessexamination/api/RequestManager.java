@@ -4,7 +4,9 @@ import com.example.physicalfitnessexamination.api.request.FTRequest;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentGroupReq;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentObjectReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq;
+import com.example.physicalfitnessexamination.api.request.GetOrgForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
+import com.example.physicalfitnessexamination.view.RosterDialogFragment;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.request.base.Request;
@@ -102,6 +104,14 @@ public class RequestManager {
      */
     public static void getOrgCommander(Object tag, GetOrgCommanderReq request, Callback callback) {
         setRequestAndCallBack(OkGo.post(HOST + "/getOrgCommander").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 获取本级机构及下级机构列表
+     */
+    public static void getOrgForAssessment(Object tag, GetOrgForAssessmentReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getOrgForAssessment").tag(tag)
                 , request, callback);
     }
 

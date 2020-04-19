@@ -202,7 +202,7 @@ class SpinnerParentView<X> : LinearLayout {
                        },
                        onCheckListener: OnCheckListener<T>? = null,
                        isRadio: Boolean = false,
-                       defaultIndex: Array<Int> = emptyArray()) where T : Any {
+                       defaultIndex: Set<Int> = mutableSetOf()) where T : Any {
         clear()
         this.data = data as Array<X>
         this.isRadio = isRadio

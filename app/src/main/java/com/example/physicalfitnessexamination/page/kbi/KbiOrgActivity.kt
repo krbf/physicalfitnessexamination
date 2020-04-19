@@ -128,7 +128,7 @@ class KbiOrgActivity : MyBaseActivity(), View.OnClickListener {
             iv_right -> finish()
             tv_next -> {
                 if (checkParameter()) {
-                    showToast("ok 没问题")
+                    KbiTimeConfigActivity.startInstant(context)
                 }
             }
         }

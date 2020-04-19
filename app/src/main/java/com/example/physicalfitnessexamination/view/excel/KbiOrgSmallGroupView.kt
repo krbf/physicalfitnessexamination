@@ -123,7 +123,7 @@ class KbiOrgSmallGroupView : LinearLayout {
                                             bean.groupType = selectBeanList.first()
                                         }
                                     }
-                                }, isRadio = true, defaultIndex = if (defaultIndex == null) emptyArray() else arrayOf(defaultIndex))
+                                }, isRadio = true, defaultIndex = if (defaultIndex == null) mutableSetOf() else mutableSetOf(defaultIndex))
                     }
 
                 }

@@ -30,6 +30,8 @@ class RosterDialogFragment : DialogFragment() {
         /**
          * 实例化方法
          * @param type 类型 null-全部 1-干部 2-战士
+         * @param selectList 默认选中的人员实体类
+         * @param listener 点击回调
          */
         @JvmStatic
         fun newInstance(type: Int?, selectList: ArrayList<PersonBean> = ArrayList(), listener: OnCheckListener) =

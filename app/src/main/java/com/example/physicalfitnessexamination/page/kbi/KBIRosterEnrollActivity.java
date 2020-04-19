@@ -140,6 +140,9 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 break;
         }
 
+        HashSet<Integer> defSet = new HashSet();
+        defSet.add(0);
+
         spvPost.setSpinner(listType.toArray(), new SpinnerParentView.OnGetStrListener() {
             @NotNull
             @Override
@@ -173,7 +176,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                         break;
                 }
             }
-        }, true, new Integer[]{0});
+        }, true, defSet);
         getPersonList("1");
         getPersonList("2");
 
