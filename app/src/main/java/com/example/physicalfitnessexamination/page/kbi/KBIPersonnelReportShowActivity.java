@@ -13,11 +13,14 @@ import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.AllPersonBean;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
+import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.view.RosterDialogFragment;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
@@ -43,15 +46,16 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
     private List<ReferencePersonnelBean> listLeave = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
+    private ArrayList<PersonBean> listPerson = new ArrayList<>();
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context,String id) {
+    public static void startInstant(Context context, String id) {
         Intent intent = new Intent(context, KBIPersonnelReportShowActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
@@ -77,21 +81,23 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
         tvTitle.setText("人员报送");
         spvOrganization.setName("单位");
         getData();
-        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report, listLeave) {
+        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report_show, listLeave) {
             @Override
             public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
-                if ("0".equals(s.getSTATUS())) {
-                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#E6ECFA"));
-                } else {
-                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#EF7D65"));
-                }
                 viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
                 viewHolder.setText(R.id.tv_name, s.getUSERNAME());
                 viewHolder.setText(R.id.tv_sex, s.getSEX());
                 viewHolder.setText(R.id.tv_age, s.getAGE());
                 viewHolder.setText(R.id.tv_type, s.getTYPE());
                 viewHolder.setText(R.id.tv_post, s.getGW());
+                viewHolder.setText(R.id.tv_job, s.getZW());
                 viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
+                viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        KBIPersonnelReportDetailActivity.startInstant(KBIPersonnelReportShowActivity.this, id, s.getUSERID());
+                    }
+                });
             }
         };
         lvLookLeave.setAdapter(commonAdapter);
@@ -104,7 +110,12 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                 finish();
                 break;
             case R.id.tv_enroll:
-                showToast("AAA");
+                RosterDialogFragment.newInstance(null, listPerson, new RosterDialogFragment.OnCheckListener() {
+                    @Override
+                    public void checkOver(@NotNull ArrayList<PersonBean> list) {
+                        KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0));
+                    }
+                }).show(getSupportFragmentManager(), "");
                 break;
             default:
                 break;
@@ -165,6 +176,9 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                 if (success) {
                     listLeave.clear();
                     listLeave.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
+                    commonAdapter.notifyDataSetChanged();
+                } else {
+                    listLeave.clear();
                     commonAdapter.notifyDataSetChanged();
                 }
             }

@@ -170,6 +170,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     listRoster.clear();
                     listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
                     commonAdapter.notifyDataSetChanged();
+                }else {
+                    listRoster.clear();
+                    commonAdapter.notifyDataSetChanged();
                 }
             }
         });
