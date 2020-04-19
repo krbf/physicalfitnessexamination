@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.physicalfitnessexamination.R
@@ -48,7 +49,7 @@ class LinearRosterItemView : LinearLayout {
         }
         cb_check.setOnCheckedChangeListener { buttonView, isChecked ->
             bean?.let {
-                listener?.onCheckedChangeListener(isChecked, it)
+                listener?.onCheckedChangeListener(buttonView, isChecked, it)
             }
         }
 
@@ -114,6 +115,6 @@ class LinearRosterItemView : LinearLayout {
         /**
          * 当点击状态发生变化的回调
          */
-        fun onCheckedChangeListener(isChecked: Boolean, entity: PersonBean) {}
+        fun onCheckedChangeListener(buttonView: CompoundButton, isChecked: Boolean, entity: PersonBean) {}
     }
 }

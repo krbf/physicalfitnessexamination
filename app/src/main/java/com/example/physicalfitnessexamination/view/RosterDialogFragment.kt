@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.CompoundButton
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.RequestManager
@@ -13,6 +14,7 @@ import com.example.physicalfitnessexamination.api.callback.JsonCallback
 import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq
 import com.example.physicalfitnessexamination.api.response.ApiResponse
 import com.example.physicalfitnessexamination.bean.PersonBean
+import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.view.excel.LinearRosterItemView
 import com.lzy.okgo.model.Response
 import kotlinx.android.synthetic.main.fragment_roster.*
@@ -25,25 +27,30 @@ class RosterDialogFragment : DialogFragment() {
 
     companion object {
         const val TYPE_KEY = "type_key"
+        const val AID_KEY = "aid_key"
+        const val MAX_SELECT_KEY = "max_select_key"
         const val ARRAY_SELECT_KEY = "array_select"
 
         /**
          * 实例化方法
          * @param type 类型 null-全部 1-干部 2-战士
+         * @param aid 参考计划id，若传这个字段。则会剔除此次计划以请假人员
          * @param selectList 默认选中的人员实体类
          * @param listener 点击回调
          */
         @JvmStatic
-        fun newInstance(type: Int?, selectList: ArrayList<PersonBean> = ArrayList(), listener: OnCheckListener) =
+        fun newInstance(type: Int?, selectList: ArrayList<PersonBean> = ArrayList(),
+                        listener: OnCheckListener, aid: String? = null, maxCount: Int? = null) =
                 RosterDialogFragment().apply {
                     arguments = Bundle().apply {
                         type?.let { putInt(TYPE_KEY, it) }
+                        aid?.let { putString(AID_KEY, it) }
+                        maxCount?.let { putInt(MAX_SELECT_KEY, it) }
                         putParcelableArrayList(ARRAY_SELECT_KEY, selectList)
                     }
                     setCheckListener(listener)
                 }
     }
-
 
     /**
      * 机构id
@@ -56,6 +63,16 @@ class RosterDialogFragment : DialogFragment() {
      * 类型 null-全部 1-干部 2-战士
      */
     private var type: Int? = null
+
+    /**
+     * 参考计划id，若传这个字段。则会剔除此次计划以请假人员
+     */
+    private var aid: String? = null
+
+    /**
+     * 最大可选数
+     */
+    private var maxCount: Int? = null
 
     /**
      * 已选中的人选
@@ -71,8 +88,14 @@ class RosterDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            type = it.getInt(TYPE_KEY)
-            selectList.addAll(it.getParcelableArrayList<PersonBean>(ARRAY_SELECT_KEY))
+            it.getInt(TYPE_KEY, -1).let { value ->
+                type = if (value == -1) null else value
+            }
+            aid = it.getString(AID_KEY)
+            it.getInt(MAX_SELECT_KEY, -1).let { value ->
+                maxCount = if (value == -1) null else value
+            }
+            selectList.addAll(it.getParcelableArrayList(ARRAY_SELECT_KEY))
         }
     }
 
@@ -138,11 +161,11 @@ class RosterDialogFragment : DialogFragment() {
      */
     private fun getOrgCommander() {
         RequestManager.getOrgCommander(context,
-                GetOrgCommanderReq(orgId, type),
+                GetOrgCommanderReq(orgId, type, aid),
                 object : JsonCallback<ApiResponse<List<PersonBean>>, List<PersonBean>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<PersonBean>>>?) {
                         response?.body()?.data?.let { personBeanList ->
-                            adapter.setData(personBeanList, selectList)
+                            adapter.setData(personBeanList, selectList, maxCount)
                         }
                     }
                 })
@@ -158,7 +181,7 @@ class RosterDialogFragment : DialogFragment() {
 
     class RosterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val list = ArrayList<PersonBean>()
-
+        private var maxCount: Int? = null
         private var selectList: ArrayList<PersonBean>? = null
 
         override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
@@ -179,9 +202,14 @@ class RosterDialogFragment : DialogFragment() {
                                     if (p1 % 2 == 0) R.color._B7CFF3 else R.color._CBD7F4)
                     )
                     rosterView.setListener(object : LinearRosterItemView.OnRosterItemListener {
-                        override fun onCheckedChangeListener(isChecked: Boolean, entity: PersonBean) {
-                            super.onCheckedChangeListener(isChecked, entity)
+                        override fun onCheckedChangeListener(buttonView: CompoundButton, isChecked: Boolean, entity: PersonBean) {
+                            super.onCheckedChangeListener(buttonView, isChecked, entity)
                             if (isChecked) {
+                                if (selectList?.size ?: 0 >= maxCount ?: Int.MAX_VALUE) {
+                                    buttonView.toggle()
+                                    rosterView.snack("最大只能选择${maxCount}人")
+                                    return
+                                }
                                 if (selectList?.find { f ->
                                             f.ID == entity.ID
                                         } == null) {
@@ -199,9 +227,10 @@ class RosterDialogFragment : DialogFragment() {
             }
         }
 
-        fun setData(list: List<PersonBean>, selectList: ArrayList<PersonBean>?) {
+        fun setData(list: List<PersonBean>, selectList: ArrayList<PersonBean>?, maxCount: Int?) {
             this.list.addAll(list)
             this.selectList = selectList
+            this.maxCount = maxCount
             notifyDataSetChanged()
         }
 
