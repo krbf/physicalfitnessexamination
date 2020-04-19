@@ -115,7 +115,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         map.put("pwd", et_password.getText().toString());
         map.put("pwd_md5", MD5.md5Decode(et_password.getText().toString()));
         map.put("userid", et_user_name.getText().toString());
-        map.put("imei", mDeviceId);
+        if (mDeviceId==null){
+            map.put("imei", "");
+        }else {
+            map.put("imei", mDeviceId);
+        }
         Map<String, String> heaherMap = new HashMap<>();
         heaherMap.put("content-type", "application/json");
         OkhttpUtil.okHttpPost(Api.LOGIN, map, heaherMap, new CallBackUtil.CallBackString() {

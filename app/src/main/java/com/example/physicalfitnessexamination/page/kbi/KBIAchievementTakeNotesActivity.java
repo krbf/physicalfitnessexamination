@@ -64,10 +64,10 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         list.add("");
         list.add("");
         list.add("");
-        commonAdapter = new CommonAdapter<String>(this,R.layout.item_kbi_achievement_takes_notes,list) {
+        commonAdapter = new CommonAdapter<String>(this, R.layout.item_kbi_achievement_takes_notes, list) {
             @Override
             public void convert(ViewHolder viewHolder, String s) {
-
+                viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
             }
         };
         lvAchievementTakeNotes.setAdapter(commonAdapter);
