@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
 import com.example.physicalfitnessexamination.util.toast
@@ -39,6 +40,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
         btn_main3.setOnClickListener(this)
         btn_main4.setOnClickListener(this)
         btn_main5.setOnClickListener(this)
+        iv_LoginOut.setOnClickListener(this)
     }
 
     override fun initData() {
@@ -66,6 +68,10 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
             R.id.btn_main4 -> {
             }
             R.id.btn_main5 -> {
+            }
+            R.id.iv_LoginOut -> {
+                UserManager.getInstance().loginOut(context);
+                finish();
             }
         }
     }
