@@ -147,6 +147,7 @@ class RosterDialogFragment : DialogFragment() {
                 adapter.notifyDataSetChanged()
             }
         })
+        ll_title.checkAllBtnVisible(maxCount == null)
 
         rv_roster.let {
             it.layoutManager = LinearLayoutManager(context)
@@ -205,7 +206,8 @@ class RosterDialogFragment : DialogFragment() {
                         override fun onCheckedChangeListener(buttonView: CompoundButton, isChecked: Boolean, entity: PersonBean) {
                             super.onCheckedChangeListener(buttonView, isChecked, entity)
                             if (isChecked) {
-                                if (selectList?.size ?: 0 >= maxCount ?: Int.MAX_VALUE) {
+                                if (!selectList?.contains(entity)!!
+                                        && selectList?.size ?: 0 >= maxCount ?: Int.MAX_VALUE) {
                                     buttonView.toggle()
                                     rosterView.snack("最大只能选择${maxCount}人")
                                     return

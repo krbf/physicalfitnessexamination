@@ -102,6 +102,10 @@ class LinearRosterItemView : LinearLayout {
         tv_perOrg.text = bean.J_TYPE
     }
 
+    fun checkAllBtnVisible(boolean: Boolean) {
+        tv_checkAll.visibility = if (boolean) View.VISIBLE else View.GONE
+    }
+
     fun setListener(listener: OnRosterItemListener) {
         this.listener = listener
     }
