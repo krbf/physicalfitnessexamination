@@ -2,101 +2,93 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
-import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
-import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
-import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
-import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
+import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
-import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
-import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+import com.example.physicalfitnessexamination.util.Tool;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
 
 /**
- * 考核附件-人员报送
+ * 考核附件-人员报送-报送人员具体信息填写
  */
 public class KBIPersonnelReportActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
-    private TextView tvEnroll;//人员报送
-    private SpinnerParentView spvOrganization;
-    private ListView lvLookRoster;
-    private CommonAdapter<ReferencePersonnelBean> commonAdapter;
-    private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
-    private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
+    private PersonBean personBean;
+    private TextView tvName;//姓名
+    private TextView tvSex;//性别
+    private TextView tvAge;//年龄
+    private TextView tvJob;//职务
+    private TextView tvType;//类型
+    private TextView tv_unit;//单位
+    private TextView tvPost;//岗位
+    private EditText edtMatter;//事项
+    private EditText edtExplain;//说明
+    private EditText edtRemarks;//备注
+    private TextView tvCommit;//提交
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context,String id) {
+    public static void startInstant(Context context, String id, PersonBean personBean) {
         Intent intent = new Intent(context, KBIPersonnelReportActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
+        intent.putExtra("person", personBean);
         context.startActivity(intent);
     }
 
     @Override
     protected int initLayout() {
-        return R.layout.activity_kbi_personnel_report;
+        return R.layout.activity_personnel_report;
     }
 
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
+        personBean = getIntent().getParcelableExtra("person");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
-        spvOrganization = findViewById(R.id.spv_organization);
-        lvLookRoster = findViewById(R.id.lv_look_roster);
-        tvEnroll = findViewById(R.id.tv_enroll);
-        tvEnroll.setOnClickListener(this::onClick);
+        tvName = findViewById(R.id.tv_name);
+        tvSex = findViewById(R.id.tv_sex);
+        tvAge = findViewById(R.id.tv_age);
+        tvJob = findViewById(R.id.tv_job);
+        tvType = findViewById(R.id.tv_type);
+        tv_unit = findViewById(R.id.tv_unit);
+        tvPost = findViewById(R.id.tv_post);
+        edtMatter = findViewById(R.id.edt_matter);
+        edtExplain = findViewById(R.id.edt_explain);
+        edtRemarks = findViewById(R.id.edt_remarks);
+        tvCommit = findViewById(R.id.tv_commit);
+        tvCommit.setOnClickListener(this::onClick);
     }
 
     @Override
     protected void initData() {
         tvTitle.setText("人员报送");
-        spvOrganization.setName("单位");
-        getData();
-        commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_person_report, listRoster) {
-            @Override
-            public void convert(ViewHolder viewHolder, ReferencePersonnelBean s) {
-                if ("0".equals(s.getSTATUS())) {
-                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#E6ECFA"));
-                } else {
-                    viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#EF7D65"));
-                }
-                viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
-                viewHolder.setText(R.id.tv_name, s.getUSERNAME());
-                viewHolder.setText(R.id.tv_sex, s.getSEX());
-                viewHolder.setText(R.id.tv_age, s.getAGE());
-                viewHolder.setText(R.id.tv_type, s.getTYPE());
-                viewHolder.setText(R.id.tv_post, s.getGW());
-                viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
-            }
-        };
-        lvLookRoster.setAdapter(commonAdapter);
+        tvName.setText(personBean.getNAME());
+        tvSex.setText(personBean.getSEX());
+        tvAge.setText(personBean.getAGE() + "");
+        tvJob.setText(personBean.getZW());
+        tvType.setText(personBean.getTYPE());
+        tv_unit.setText(personBean.getORG_NAME());
+        tvPost.setText(personBean.getJ_TYPE());
     }
 
     @Override
@@ -105,15 +97,33 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
             case R.id.iv_right:
                 finish();
                 break;
+            case R.id.tv_commit:
+                if (check()) {
+                    ReferTo();
+                }
+                break;
             default:
                 break;
         }
     }
 
-    public void getData() {
+    public void ReferTo() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        OkhttpUtil.okHttpGet(Api.GETCREATAORG, map, new CallBackUtil.CallBackString() {
+        map.put("userid", personBean.getID());
+        map.put("username", personBean.getNAME());
+        map.put("age", personBean.getAGE() + "");
+        map.put("sex", personBean.getSEX());
+        map.put("zw", personBean.getZW());
+        map.put("org_id", personBean.getORG_ID());
+        map.put("bz", edtRemarks.getText().toString());//备注
+        map.put("type", personBean.getTYPE());//类型
+        map.put("org_name", personBean.getORG_NAME());
+        map.put("j_type", personBean.getJ_TYPE());//岗位
+        map.put("remark", edtExplain.getText().toString());//说明
+        map.put("matter", edtMatter.getText().toString());//事项
+        map.put("photo", "");
+        OkhttpUtil.okHttpGet(Api.SETLEAVEPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -123,53 +133,24 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
-                    listPI.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ParticipatingInstitutionsBean.class));
-                    for (int i = 0; i < listPI.size(); i++) {
-                        if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIPersonnelReportActivity.this).getOrg_id())) {
-                            tvEnroll.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    HashSet<Integer> defSet = new HashSet();
-                    defSet.add(0);
-
-                    spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
-                        @NotNull
-                        @Override
-                        public String getStr(Object bean) {
-                            ParticipatingInstitutionsBean participatingInstitutionsBean = (ParticipatingInstitutionsBean) bean;
-                            return participatingInstitutionsBean.getORG_NAME();
-                        }
-                    }, new SpinnerParentView.OnCheckListener() {
-                        @Override
-                        public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-                            getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
-                        }
-                    }, true, defSet);
-                    getPersonList(((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID());
+                    showToast("提交成功");
+                    finish();
                 }
             }
         });
     }
 
-    public void getPersonList(String org_id) {
-        Map<String, String> map = new HashMap<>();
-        map.put("id", id);
-        map.put("org_id", org_id);
-        OkhttpUtil.okHttpGet(Api.GETLEAVEPERSONFORASSESSSMENT, map, new CallBackUtil.CallBackString() {
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                boolean success = JSON.parseObject(response).getBoolean("success");
-                if (success) {
-                    listRoster.clear();
-                    listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
-                    commonAdapter.notifyDataSetChanged();
-                }
-            }
-        });
+    public boolean check() {
+        if (Tool.isEmpty(edtMatter.getText().toString())) {
+            showToast("请填写事项");
+            return false;
+        } else if (Tool.isEmpty(edtExplain.getText().toString())) {
+            showToast("请填写说明");
+            return false;
+        } else if (Tool.isEmpty(edtRemarks.getText().toString())) {
+            showToast("请填写备注");
+            return false;
+        }
+        return true;
     }
 }

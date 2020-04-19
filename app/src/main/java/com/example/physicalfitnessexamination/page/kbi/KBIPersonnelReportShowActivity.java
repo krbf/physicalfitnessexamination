@@ -2,7 +2,6 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,7 +12,6 @@ import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.AllPersonBean;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
@@ -28,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -103,25 +102,6 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
         lvLookLeave.setAdapter(commonAdapter);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_right:
-                finish();
-                break;
-            case R.id.tv_enroll:
-                RosterDialogFragment.newInstance(null, listPerson, new RosterDialogFragment.OnCheckListener() {
-                    @Override
-                    public void checkOver(@NotNull ArrayList<PersonBean> list) {
-                        KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0));
-                    }
-                }).show(getSupportFragmentManager(), "");
-                break;
-            default:
-                break;
-        }
-    }
-
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
@@ -141,6 +121,8 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                             tvEnroll.setVisibility(View.VISIBLE);
                         }
                     }
+                    HashSet<Integer> defaultIndex = new HashSet<>();
+                    defaultIndex.add(0);
                     spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
                         @NotNull
                         @Override
@@ -153,7 +135,7 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                         public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
                             getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
                         }
-                    }, true, new Integer[]{0});
+                    }, true, defaultIndex);
                     getPersonList(((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID());
                 }
             }
@@ -183,5 +165,24 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_right:
+                finish();
+                break;
+            case R.id.tv_enroll:
+                RosterDialogFragment.newInstance(null, listPerson, new RosterDialogFragment.OnCheckListener() {
+                    @Override
+                    public void checkOver(@NotNull ArrayList<PersonBean> list) {
+                        KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0));
+                    }
+                }).show(getSupportFragmentManager(), "");
+                break;
+            default:
+                break;
+        }
     }
 }
