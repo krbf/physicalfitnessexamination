@@ -19,7 +19,9 @@ import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.util.ToastUtil;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,25 +63,32 @@ public class KBIResultInputFragment extends Fragment {
             @Override
             public void convert(ViewHolder viewHolder, ClauseBean s) {
                 viewHolder.setText(R.id.tv_clause, s.getNAME());
+                String id = s.getSID();
                 ListView listView = viewHolder.getView(R.id.lv_post);
-                final boolean isShow = false;
+                final boolean[] isShow = {false};
                 commonAdapterPost = new CommonAdapter<String>(getContext(), R.layout.item_kbi_resultinput_child, Arrays.asList(s.getGW())) {
                     @Override
                     public void convert(ViewHolder viewHolder, String s) {
                         viewHolder.setText(R.id.tv_post, s);
+                        viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id);
+                            }
+                        });
                     }
                 };
                 listView.setAdapter(commonAdapterPost);
                 viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        if (!isShow) {
-//                            listView.setVisibility(View.VISIBLE);
-//                            isShow = true;
-//                        } else {
-//                            listView.setVisibility(View.GONE);
-//                            isShow = false;
-//                        }
+                        if (!isShow[0]) {
+                            listView.setVisibility(View.VISIBLE);
+                            isShow[0] = true;
+                        } else {
+                            listView.setVisibility(View.GONE);
+                            isShow[0] = false;
+                        }
 
                     }
                 });
@@ -91,7 +100,7 @@ public class KBIResultInputFragment extends Fragment {
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("ID", id);
-        OkhttpUtil.okHttpGet(Api.GETSUBJECTFORASSESSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETSUBJECTFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

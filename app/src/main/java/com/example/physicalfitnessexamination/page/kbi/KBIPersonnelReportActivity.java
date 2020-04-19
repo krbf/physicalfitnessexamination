@@ -123,7 +123,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         map.put("remark", edtExplain.getText().toString());//说明
         map.put("matter", edtMatter.getText().toString());//事项
         map.put("photo", "");
-        OkhttpUtil.okHttpGet(Api.SETLEAVEPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.SETLEAVEPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

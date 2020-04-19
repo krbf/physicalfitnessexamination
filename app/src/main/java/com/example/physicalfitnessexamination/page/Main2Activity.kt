@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.activity.LoginActivity
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
@@ -71,6 +72,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
             }
             R.id.iv_LoginOut -> {
                 UserManager.getInstance().loginOut(context);
+                LoginActivity.startInstant(this);
                 finish();
             }
         }

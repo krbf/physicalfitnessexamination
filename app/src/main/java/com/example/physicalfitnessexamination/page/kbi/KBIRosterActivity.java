@@ -118,7 +118,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        OkhttpUtil.okHttpGet(Api.GETCREATAORG, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETCREATAORG, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -160,7 +160,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("org_id", org_id);
-        OkhttpUtil.okHttpGet(Api.GETASSESSMENTPERSONLIST, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETASSESSMENTPERSONLIST, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -184,7 +184,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     public void getAssessmentInfo() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        OkhttpUtil.okHttpGet(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

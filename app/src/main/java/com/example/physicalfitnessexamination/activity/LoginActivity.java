@@ -2,6 +2,8 @@ package com.example.physicalfitnessexamination.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,6 +48,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         getToolBar().setTitle("登录页面");
         getToolBar().setLeftVisible(false);
         getToolBar().setRightImgVislble(false);
+    }
+
+    /**
+     * 跳转方法
+     *
+     * @param context 上下文
+     */
+    public static void startInstant(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 
     @Override
@@ -106,7 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         map.put("imei", mDeviceId);
         Map<String, String> heaherMap = new HashMap<>();
         heaherMap.put("content-type", "application/json");
-        OkhttpUtil.okHttpGet(Api.LOGIN, map, heaherMap, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.LOGIN, map, heaherMap, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

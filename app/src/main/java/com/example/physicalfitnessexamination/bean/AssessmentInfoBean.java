@@ -13,7 +13,7 @@ public class AssessmentInfoBean {
     private String ORG_TYPE;//参考单位0-支队机关 1-大队机关 2-应急消防站
     private String PERSON_TYPE;//人员选取方式0-普靠 1-随机抽取 2-单位报名
     private String ACHIEVEMENT_TYPE;//成绩记取方式 0-名次积分 1-年龄积分 2-对抗淘汰
-    private String group_leader;//考官
+    private String GROUP_LEADER;//考官
     private String DEPUTY_GROUP_LEADER;
     private String TEAM_MEMBER;
 
@@ -97,12 +97,12 @@ public class AssessmentInfoBean {
         this.ACHIEVEMENT_TYPE = ACHIEVEMENT_TYPE;
     }
 
-    public String getGroup_leader() {
-        return group_leader;
+    public String getGROUP_LEADER() {
+        return GROUP_LEADER;
     }
 
-    public void setGroup_leader(String group_leader) {
-        this.group_leader = group_leader;
+    public void setGROUP_LEADER(String GROUP_LEADER) {
+        this.GROUP_LEADER = GROUP_LEADER;
     }
 
     public String getDEPUTY_GROUP_LEADER() {

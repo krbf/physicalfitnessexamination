@@ -339,7 +339,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         map.put("type", type);
         map.put("aid",id);
         map.put("org_id", userInfo.getOrg_id());
-        OkhttpUtil.okHttpGet(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -377,7 +377,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         map.put("id", id);
         map.put("org_id", userInfo.getOrg_id());
         map.put("persons", Tool.transformLowerCase(JSON.toJSONString(listCommit)));
-        OkhttpUtil.okHttpGet(Api.SETPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.SETPERSONFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

@@ -104,7 +104,7 @@ public class KBIPersonnelReportDetailActivity extends MyBaseActivity implements 
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         map.put("userid", referencePersonnelBean.getUSERID());
-        OkhttpUtil.okHttpGet(Api.GETLEAVEPERSONINFOFORASSESSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETLEAVEPERSONINFOFORASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 

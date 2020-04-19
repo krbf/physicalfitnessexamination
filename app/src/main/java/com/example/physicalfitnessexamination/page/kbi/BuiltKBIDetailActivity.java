@@ -205,7 +205,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
-                KBIAchievementActivity.startInstant(this,id);
+                KBIAchievementActivity.startInstant(this, id);
                 break;
             case R.id.tv_work:
                 if (KBIPower) {
@@ -223,7 +223,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     public void getAssessmentInfo() {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
-        OkhttpUtil.okHttpGet(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -237,12 +237,16 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                     if ("0".equals(assessmentInfoBean.getTYPE())) {
                         tvOrganization.setVisibility(View.GONE);
                     }
-                    if (userInfo.getOrg_id().equals(assessmentInfoBean.getORG_ID())) {
-                        String GROUP_LEADER = assessmentInfoBean.getGroup_leader();
-                        List<String> listGL = Arrays.asList(GROUP_LEADER.split(","));
-                        for (int i = 0; i < listGL.size(); i++) {
-                            if (userInfo.getUsername().equals(listGL.get(i))) {
-                                KBIPower = true;
+                    if (assessmentInfoBean.getGROUP_LEADER() == null) {
+                        KBIPower = true;
+                    } else {
+                        if (userInfo.getOrg_id().equals(assessmentInfoBean.getORG_ID())) {
+                            String GROUP_LEADER = assessmentInfoBean.getGROUP_LEADER();
+                            List<String> listGL = Arrays.asList(GROUP_LEADER.split(","));
+                            for (int i = 0; i < listGL.size(); i++) {
+                                if (userInfo.getUsername().equals(listGL.get(i))) {
+                                    KBIPower = true;
+                                }
                             }
                         }
                     }
