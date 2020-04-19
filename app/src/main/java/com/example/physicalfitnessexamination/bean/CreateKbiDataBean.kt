@@ -13,7 +13,7 @@ class CreateKbiDataBean {
     var name: String? = null
 
     /**
-     * 参考单位(逗号分割) 0-支队机关 1-大队机关 2-应急消防站
+     * 参考单位
      */
     var orgType: List<String>? = null
 
