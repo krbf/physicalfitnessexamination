@@ -68,7 +68,13 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
 
         spv_evaWay.let {
             it.setName("考核方式")
-            it.setSpinner(resources.getStringArray(R.array.evaMode), isRadio = true,
+            it.setSpinner(
+                    if (UserManager.getInstance().getUserInfo(context).role_id == Constants.RoleIDStr.COMM) {
+                        arrayOf(resources.getStringArray(R.array.evaMode)[3])
+                    } else {
+                        resources.getStringArray(R.array.evaMode)
+                    }
+                    , isRadio = true,
                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                             if (selectBeanList.isNotEmpty()) {
@@ -80,7 +86,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                     when (selectBeanList.first()) {
                                         resources.getStringArray(R.array.evaMode)[0] -> {
                                             //业务竞赛
-                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                            spv_evaOrg.setSpinner(getJoinEvaOrg(),
                                                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                                                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                                                             initProVisible(selectBeanList)
@@ -101,7 +107,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                         resources.getStringArray(R.array.evaMode)[1] -> {
                                             //集中考核
-                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                            spv_evaOrg.setSpinner(getJoinEvaOrg(),
                                                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                                                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                                                             initProVisible(selectBeanList)
@@ -123,7 +129,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                         resources.getStringArray(R.array.evaMode)[2] -> {
                                             //到站考核
-                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                            spv_evaOrg.setSpinner(getJoinEvaOrg(),
                                                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                                                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                                                             initProVisible(selectBeanList)
@@ -191,7 +197,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         }
         spv_evaOrg.let {
             it.setName("参考单位")
-            it.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+            it.setSpinner(getJoinEvaOrg(),
                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                             initProVisible(selectBeanList)
@@ -211,7 +217,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         }
 
         RequestManager.getAssessmentObject(context
-                , GetAssessmentObjectReq(if (orgName == Constants.RoleIDStr.COMM) 0 else 1, UserManager.getInstance().getUserInfo(context).org_id)
+                , GetAssessmentObjectReq(0, UserManager.getInstance().getUserInfo(context).org_id)
                 , object : JsonCallback<ApiResponse<List<TestProjectRes>>, List<TestProjectRes>>() {
             override fun onSuccess(response: Response<ApiResponse<List<TestProjectRes>>>?) {
                 response?.body()?.data?.let {
@@ -222,6 +228,15 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                     spv_pj4.setSpinner(it.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
                         override fun getStr(bean: TestProjectRes): String = bean.NAME
                     })
+                }
+            }
+        })
+
+        RequestManager.getAssessmentObject(context
+                , GetAssessmentObjectReq(1, UserManager.getInstance().getUserInfo(context).org_id)
+                , object : JsonCallback<ApiResponse<List<TestProjectRes>>, List<TestProjectRes>>() {
+            override fun onSuccess(response: Response<ApiResponse<List<TestProjectRes>>>?) {
+                response?.body()?.data?.let {
                     //机关
                     spv_pj1.setSpinner(
                             it.filter { bean ->
@@ -238,6 +253,24 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                 }
             }
         })
+    }
+
+    /**
+     * 获取当前账号可选参考单位
+     */
+    private fun getJoinEvaOrg(): Array<String> {
+        return when (UserManager.getInstance().getUserInfo(context).role_id) {
+            Constants.RoleIDStr.MANAGE -> {
+                resources.getStringArray(R.array.joinEvaOrg)
+            }
+            Constants.RoleIDStr.MANAGE_BRIGADE -> {
+                arrayOf(resources.getStringArray(R.array.joinEvaOrg)[1], resources.getStringArray(R.array.joinEvaOrg)[2])
+            }
+            Constants.RoleIDStr.COMM -> {
+                arrayOf(resources.getStringArray(R.array.joinEvaOrg)[2])
+            }
+            else -> emptyArray()
+        }
     }
 
     /**

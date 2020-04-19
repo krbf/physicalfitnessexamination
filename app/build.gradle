@@ -4,7 +4,25 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-noarg'
 apply plugin: 'kotlin-allopen'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
+    signingConfigs {
+        debug {
+            storeFile file('../krbf.keystore')
+            storePassword '123456'
+            keyAlias = 'key_krbf'
+            keyPassword '123456'
+        }
+        release {
+            storeFile file('../krbf.keystore')
+            storePassword '123456'
+            keyAlias = 'key_krbf'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.physicalfitnessexamination"
@@ -18,6 +36,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
 

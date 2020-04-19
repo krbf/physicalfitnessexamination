@@ -68,11 +68,29 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
     }
 
     override fun initData() {
+        var type = mutableListOf<Int>()
+
+        CreateKbiDataManager.kbiBean?.orgType?.let {
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[0])) {
+                type.add(1)
+            }
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[1])) {
+                type.add(2)
+            }
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[2])) {
+                type.add(3)
+            }
+        }
+
+        val typeStr = CreateKbiDataManager.getAppendStr(type, object : CreateKbiDataManager.GetStrListener<Int> {
+            override fun getStr(bean: Int): String = bean.toString()
+        }, ',')
+
         RequestManager.getOrgForAssessment(context,
                 GetOrgForAssessmentReq(
                         UserManager.getInstance().getUserInfo(context)?.org_id ?: "",
-                        "null",
-                        0
+                        typeStr,
+                        1
                 ),
                 object : JsonCallback<ApiResponse<List<OrgRes>>, List<OrgRes>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<OrgRes>>>?) {

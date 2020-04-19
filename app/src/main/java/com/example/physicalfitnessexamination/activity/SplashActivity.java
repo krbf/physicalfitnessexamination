@@ -17,12 +17,22 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        if (!this.isTaskRoot()) {
+            Intent mainIntent = getIntent();
+            String action = mainIntent.getAction();
+            if (mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                finish();
+                return;
+            }
+        }
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LottieAnimationView lottieAnimationView = new LottieAnimationView(this);
         lottieAnimationView.setAnimation("exercise.json");
         lottieAnimationView.setRepeatCount(3);
         lottieAnimationView.playAnimation();
-        addContentView(lottieAnimationView,params);
+        addContentView(lottieAnimationView, params);
         lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -32,11 +42,11 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 lottieAnimationView.cancelAnimation();
-                if (UserManager.getInstance().getUserInfo(SplashActivity.this).isLogin()){
+                if (UserManager.getInstance().getUserInfo(SplashActivity.this).isLogin()) {
 //                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
                     Main2Activity.startInstant(SplashActivity.this);
                     finish();
-                }else {
+                } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 }

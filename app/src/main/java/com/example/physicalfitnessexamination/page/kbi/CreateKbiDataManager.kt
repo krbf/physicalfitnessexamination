@@ -246,7 +246,7 @@ object CreateKbiDataManager {
      * @param getStrListener 获取需显示的字符回调方法
      * @param splitChar 间隔字符
      */
-    private fun <T> getAppendStr(lists: List<T>?, getStrListener: GetStrListener<T>, splitChar: Char): String {
+    fun <T> getAppendStr(lists: List<T>?, getStrListener: GetStrListener<T>, splitChar: Char): String {
         var msg = ""
 
         lists?.let { s ->
@@ -264,7 +264,7 @@ object CreateKbiDataManager {
         return msg
     }
 
-    private interface GetStrListener<T> {
+    interface GetStrListener<T> {
         fun getStr(bean: T): String
     }
 

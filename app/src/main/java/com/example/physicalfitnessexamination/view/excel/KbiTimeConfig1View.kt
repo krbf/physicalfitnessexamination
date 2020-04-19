@@ -9,9 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
-import com.example.physicalfitnessexamination.Constants
 import com.example.physicalfitnessexamination.R
-import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.response.TestProjectRes
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType1Bean
 import com.example.physicalfitnessexamination.bean.PersonBean
@@ -143,28 +141,26 @@ class KbiTimeConfig1ItemView : LinearLayout {
     private var onRemoveListener: OnRemoveListener<TimeCfgType1DetailBean>? = null
 
     private fun getPositionSpinnerData(): Array<String> {
-        var spinnerData: Array<String> = arrayOf("")
-        when (UserManager.getInstance().getUserInfo(context).role_id) {
-            Constants.RoleIDStr.MANAGE -> {
-                spinnerData = resources.getStringArray(R.array.managePosition)
+        var spinnerData = mutableListOf<String>()
+
+        CreateKbiDataManager.kbiBean?.orgType?.let {
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[0])) {
+                spinnerData.addAll(resources.getStringArray(R.array.managePosition))
             }
-            Constants.RoleIDStr.COMM -> {
-                spinnerData = resources.getStringArray(R.array.commPosition)
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[1])) {
+                spinnerData.addAll(resources.getStringArray(R.array.manageBrigadePosition))
             }
-            Constants.RoleIDStr.MANAGE_CROPS -> {
-                TODO("目前不会出现该角色 后期添加")
-//                    spinnerData = resources.getStringArray(R.array.managePosition)
-            }
-            Constants.RoleIDStr.MANAGE_BRIGADE -> {
-                spinnerData = resources.getStringArray(R.array.manageBrigadePosition)
+            if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[2])) {
+                spinnerData.addAll(resources.getStringArray(R.array.commPosition))
             }
         }
-        return spinnerData
+
+        return spinnerData.toTypedArray()
     }
 
     private fun getTimePick(isStartTime: Boolean): TimePickerDialog {
         val calendar = Calendar.getInstance()
-        val dialog = TimePickerDialog(context, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert,
+        val dialog = TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT,
                 TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                     if (isStartTime) {
                         bean?.startTime = Calendar.getInstance().apply {
@@ -181,7 +177,7 @@ class KbiTimeConfig1ItemView : LinearLayout {
                     }
                 },
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
-        dialog.setTitle(if (isStartTime) "开始时间" else "结束时间")
+        dialog.setMessage(if (isStartTime) "开始时间" else "结束时间")
         return dialog
     }
 
