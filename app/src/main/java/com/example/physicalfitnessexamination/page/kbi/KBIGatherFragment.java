@@ -17,7 +17,9 @@ import android.webkit.WebViewClient;
 
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
-
+/**
+ * 成绩汇总
+ */
 public class KBIGatherFragment extends Fragment {
     private WebView wvKbiGather;
     private String id;//考核id

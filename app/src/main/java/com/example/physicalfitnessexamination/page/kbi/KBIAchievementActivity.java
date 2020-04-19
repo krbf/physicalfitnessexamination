@@ -70,13 +70,17 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
         public Fragment getItem(int i) {
             switch (i) {
                 case 0:
-                    KBIGatherFragment kbiGatherFragment=new KBIGatherFragment();
-                    Bundle bundle=new Bundle();
-                    bundle.putString("id",id);
+                    KBIGatherFragment kbiGatherFragment = new KBIGatherFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
                     kbiGatherFragment.setArguments(bundle);
                     return kbiGatherFragment;
                 case 1:
-                    return new KBIResultInputFragment();
+                    KBIResultInputFragment kbiResultInputFragment = new KBIResultInputFragment();
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("id", id);
+                    kbiResultInputFragment.setArguments(bundle1);
+                    return kbiResultInputFragment;
             }
             return null;
         }

@@ -8,13 +8,13 @@
         android:id="@+id/lin_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/_E6ECFA"
+        android:background="@color/_EF7D65"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="15dp">
 
         <TextView
-            android:id="@+id/tv_clause"
+            android:id="@+id/tv_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -22,13 +22,5 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/lv_post"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/white"
-        android:dividerHeight="1dp"
-        android:visibility="gone" />
 
 </LinearLayout>
