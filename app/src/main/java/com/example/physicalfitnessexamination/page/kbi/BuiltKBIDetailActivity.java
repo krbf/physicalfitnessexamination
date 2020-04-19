@@ -181,7 +181,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 finish();
                 break;
             case R.id.tv_modify:
-                showToast("AAA");
+                showToast("暂未开放");
                 break;
             case R.id.tv_append:
                 KBIAppendixActivity.startInstant(this, id);
@@ -205,7 +205,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
-                KBIAchievementActivity.startInstant(this);
+                KBIAchievementActivity.startInstant(this,id);
                 break;
             case R.id.tv_work:
                 if (KBIPower) {
