@@ -34,15 +34,27 @@ class CreateKbiDataBean {
 
     /**
      * 考核项目1
-     * 机关男 或 消防站指挥员
+     * 机关男
      */
     var objPart1: List<TestProjectRes>? = null
 
     /**
      * 考核项目2
-     * 机关女 或 消防站消防员
+     * 机关女
      */
     var objPart2: List<TestProjectRes>? = null
+
+    /**
+     * 考核项目3
+     * 消防站指挥员
+     */
+    var objPart3: List<TestProjectRes>? = null
+
+    /**
+     * 考核项目4
+     * 消防站消防员
+     */
+    var objPart4: List<TestProjectRes>? = null
 
     /**
      * 考核组长
@@ -64,17 +76,15 @@ class CreateKbiDataBean {
      */
     var examiners: List<KbiOrgGroupBean>? = null
 
-//    /**
-//     * 时间安排:非到站形式 content-内 容;gw-岗位(可能为“”);zjr-召集人;fly-发令员;jsy-计时员;sid-考核项目id(可能为“”)
-//     * [{"t_time":"06:45-07:00","content":"人员报到、装备检录","sid":"","gw":"","zjr":"王一","fly":"张三、李四","jsy":"王五","t_date":"04月13日"},{"t_time":"07:00-08:00","content":"绳索攀爬","sid":"226d5696d053473e87f91fea381b4","gw":"消防站指挥员","zjr":"王一","fly":"张三、李四","jsy":"王五","t_date":"04月13日"}]
-//     */
-//    var timeArrangementA: String? = null
-//
-//    /**
-//     * 时间安排:到站形式 glevel-组别，考核一组就传“1”
-//     * [{"t_time":"06:45-07:00","t_date":"04月13日","glevel":"1","org_name":"雨湖中队","org_id":"226d5696d053473e87f91fea381b4"},{"t_time":"06:45-07:00","t_date":"04月13日","glevel":"2","org_name":"特勤中队","org_id":"226d5696d053473e87f91fea381b4"},{"t_time":"07:00-08:00","t_date":"04月13日","glevel":"1","org_name":"雨湖大队","org_id":"226d5696d053473e87f91fea381b4"}]
-//     */
-//    var timeArrangementB: String? = null
+    /**
+     * 时间安排:非到站形式
+     */
+    var timeArrangementA: List<KbiTimeCfgType1Bean>? = null
+
+    /**
+     * 时间安排:到站形式
+     */
+    var timeArrangementB: List<KbiTimeCfgType2Bean>? = null
 
     /**
      * 公告

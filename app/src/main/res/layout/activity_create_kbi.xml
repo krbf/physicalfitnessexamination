@@ -99,25 +99,25 @@
                 android:id="@+id/spv_evaOrg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/excel_height"
-                app:layout_constraintTop_toBottomOf="@+id/space2" />
+                app:layout_constraintTop_toBottomOf="@+id/space3" />
 
             <Space
                 android:id="@+id/space3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/excel_dividerSize"
-                app:layout_constraintTop_toBottomOf="@+id/spv_evaOrg" />
+                app:layout_constraintTop_toBottomOf="@+id/spv_evaWay" />
 
             <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
                 android:id="@+id/spv_evaWay"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/excel_height"
-                app:layout_constraintTop_toBottomOf="@+id/space3" />
+                app:layout_constraintTop_toBottomOf="@+id/space2" />
 
             <Space
                 android:id="@+id/space4"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/excel_dividerSize"
-                app:layout_constraintTop_toBottomOf="@+id/spv_evaWay" />
+                app:layout_constraintTop_toBottomOf="@+id/spv_evaOrg" />
 
             <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
                 android:id="@+id/spv_perSelect"
@@ -143,7 +143,6 @@
                 android:layout_height="@dimen/excel_dividerSize"
                 app:layout_constraintTop_toBottomOf="@+id/spv_scoreRecord" />
 
-            <!--男-->
             <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
                 android:id="@+id/spv_pj1"
                 android:layout_width="0dp"
@@ -153,7 +152,6 @@
                 app:layout_constraintStart_toStartOf="@id/gLine_v1"
                 app:layout_constraintTop_toBottomOf="@+id/space6" />
 
-            <!--女-->
             <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
                 android:id="@+id/spv_pj2"
                 android:layout_width="0dp"
@@ -164,6 +162,34 @@
                 app:layout_constraintStart_toStartOf="@id/gLine_v1"
                 app:layout_constraintTop_toBottomOf="@+id/spv_pj1" />
 
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_pj3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/excel_dividerSize"
+                android:minHeight="@dimen/excel_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/gLine_v1"
+                app:layout_constraintTop_toBottomOf="@+id/spv_pj2" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/spv_pj4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/excel_dividerSize"
+                android:minHeight="@dimen/excel_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/gLine_v1"
+                app:layout_constraintTop_toBottomOf="@+id/spv_pj3" />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/barrierBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="spv_pj1,spv_pj2,spv_pj3,spv_pj4" />
+
+
             <TextView
                 android:id="@+id/tv_project"
                 android:layout_width="50dp"
@@ -173,12 +199,12 @@
                 android:text="项\n目"
                 android:textColor="@color/black"
                 android:textSize="@dimen/excel_textSize"
-                app:layout_constraintBottom_toBottomOf="@+id/spv_pj2"
+                app:layout_constraintBottom_toBottomOf="@+id/barrierBottom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/space6" />
 
             <TextView
-                android:id="@+id/tv_projectType"
+                android:id="@+id/tv_projectType1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/excel_dividerSize"
@@ -189,10 +215,42 @@
                 android:text="机关"
                 android:textColor="@color/black"
                 android:textSize="@dimen/excel_textSize"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_project"
+                app:layout_constraintBottom_toBottomOf="@+id/spv_pj2"
                 app:layout_constraintEnd_toStartOf="@+id/spv_pj1"
                 app:layout_constraintStart_toEndOf="@+id/tv_project"
-                app:layout_constraintTop_toTopOf="@+id/tv_project" />
+                app:layout_constraintTop_toTopOf="@+id/spv_pj1" />
+
+            <TextView
+                android:id="@+id/tv_projectType2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/excel_dividerSize"
+                android:layout_marginEnd="@dimen/excel_dividerSize"
+                android:background="@color/_B7CFF3"
+                android:ems="1"
+                android:padding="5dp"
+                android:text="消防站"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize"
+                app:layout_constraintBottom_toBottomOf="@+id/spv_pj4"
+                app:layout_constraintEnd_toStartOf="@+id/spv_pj3"
+                app:layout_constraintStart_toEndOf="@+id/tv_project"
+                app:layout_constraintTop_toTopOf="@+id/spv_pj3" />
+
+            <android.support.constraint.Group
+                android:id="@+id/group1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="tv_projectType1,spv_pj1,spv_pj2" />
+
+            <android.support.constraint.Group
+                android:id="@+id/group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="tv_projectType2,spv_pj3,spv_pj4" />
+
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

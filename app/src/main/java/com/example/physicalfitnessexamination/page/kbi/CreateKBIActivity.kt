@@ -45,39 +45,34 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
 
         iv_right.setOnClickListener(this)
         tv_next.setOnClickListener(this)
+
+        group1.visibility = View.GONE
+        group2.visibility = View.GONE
     }
 
     override fun initData() {
         CreateKbiDataManager.createNewKbi()
 
         val orgName = UserManager.getInstance().getUserInfo(context).org_name
-//        val orgName = Constants.RoleIDStr.COMM
 
         //组织单位
         tv_orgUnitStr.text = orgName
 
-        if (orgName == Constants.RoleIDStr.COMM) {
-            //消防站
-            tv_projectType.text = "消防站"
-            spv_pj1.setName("指挥员")
-            spv_pj2.setName("消防员")
-        } else {
-            //机关
-            tv_projectType.text = "机关"
-            spv_pj1.setName("男")
-            spv_pj2.setName("女")
-        }
+        //机关
+        spv_pj1.setName("男")
+        spv_pj2.setName("女")
 
-        spv_evaOrg.let {
-            it.setName("参考单位")
-            it.setSpinner(resources.getStringArray(R.array.joinEvaOrg))
-        }
+        //消防站
+        spv_pj3.setName("指挥员")
+        spv_pj4.setName("消防员")
+
         spv_evaWay.let {
             it.setName("考核方式")
             it.setSpinner(resources.getStringArray(R.array.evaMode), isRadio = true,
                     onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                             if (selectBeanList.isNotEmpty()) {
+                                spv_evaOrg.setChooseAble(true)
                                 spv_perSelect.setChooseAble(true)
                                 spv_scoreRecord.setChooseAble(true)
 
@@ -85,6 +80,14 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                     when (selectBeanList.first()) {
                                         resources.getStringArray(R.array.evaMode)[0] -> {
                                             //业务竞赛
+                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                                                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                                                            initProVisible(selectBeanList)
+                                                        }
+                                                    })
+                                            spv_evaOrg.isEnabled = true
+
                                             spv_perSelect.setSpinner(
                                                     resources.getStringArray(R.array.perSelect).filter { str ->
                                                         return@filter str == resources.getStringArray(R.array.perSelect)[2]
@@ -98,6 +101,14 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                         resources.getStringArray(R.array.evaMode)[1] -> {
                                             //集中考核
+                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                                                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                                                            initProVisible(selectBeanList)
+                                                        }
+                                                    })
+                                            spv_evaOrg.isEnabled = true
+
                                             spv_perSelect.setSpinner(
                                                     resources.getStringArray(R.array.perSelect).filter { str ->
                                                         return@filter (str == resources.getStringArray(R.array.perSelect)[1]
@@ -112,6 +123,14 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                         resources.getStringArray(R.array.evaMode)[2] -> {
                                             //到站考核
+                                            spv_evaOrg.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                                                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                                                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                                                            initProVisible(selectBeanList)
+                                                        }
+                                                    })
+                                            spv_evaOrg.isEnabled = true
+
                                             spv_perSelect.setSpinner(
                                                     resources.getStringArray(R.array.perSelect),
                                                     isRadio = true)
@@ -123,6 +142,32 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                         resources.getStringArray(R.array.evaMode)[3] -> {
                                             //日常考核
+                                            run {
+                                                var dataList: Array<String> = arrayOf()
+                                                when (UserManager.getInstance().getUserInfo(context).role_id) {
+                                                    Constants.RoleIDStr.MANAGE -> {
+                                                        //支队机关
+                                                        dataList = arrayOf(resources.getStringArray(R.array.joinEvaOrg)[0])
+                                                    }
+                                                    Constants.RoleIDStr.COMM -> {
+                                                        //消防站
+                                                        dataList = arrayOf(resources.getStringArray(R.array.joinEvaOrg)[2])
+                                                    }
+                                                    Constants.RoleIDStr.MANAGE_BRIGADE -> {
+                                                        //大队机关
+                                                        dataList = arrayOf(resources.getStringArray(R.array.joinEvaOrg)[1])
+                                                    }
+                                                }
+                                                spv_evaOrg.setSpinner(dataList,
+                                                        onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                                                            override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                                                                initProVisible(selectBeanList)
+                                                            }
+                                                        }, defaultIndex = setOf(0))
+                                                spv_evaOrg.isEnabled = false
+                                                initProVisible(dataList.toList())
+                                            }
+
                                             spv_perSelect.setSpinner(
                                                     resources.getStringArray(R.array.perSelect).filter { str ->
                                                         return@filter str == resources.getStringArray(R.array.perSelect)[0]
@@ -144,6 +189,16 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                         }
                     })
         }
+        spv_evaOrg.let {
+            it.setName("参考单位")
+            it.setSpinner(resources.getStringArray(R.array.joinEvaOrg),
+                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                            initProVisible(selectBeanList)
+                        }
+                    })
+            it.setChooseAble(false, CHOOSE_ORG_FIRST)
+        }
         spv_perSelect.let {
             it.setName("人员选取")
             it.setSpinner(resources.getStringArray(R.array.perSelect), isRadio = true)
@@ -160,32 +215,48 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                 , object : JsonCallback<ApiResponse<List<TestProjectRes>>, List<TestProjectRes>>() {
             override fun onSuccess(response: Response<ApiResponse<List<TestProjectRes>>>?) {
                 response?.body()?.data?.let {
-                    if (orgName == Constants.RoleIDStr.COMM) {
-                        //消防站
-                        spv_pj1.setSpinner(it.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
-                            override fun getStr(bean: TestProjectRes): String = bean.NAME
-                        })
-                        spv_pj2.setSpinner(it.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
-                            override fun getStr(bean: TestProjectRes): String = bean.NAME
-                        })
-                    } else {
-                        //机关
-                        spv_pj1.setSpinner(
-                                it.filter { bean ->
-                                    bean.SEX == "0"
-                                }.toTypedArray()
-                                , object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
-                            override fun getStr(bean: TestProjectRes): String = bean.NAME
-                        })
-                        spv_pj2.setSpinner(it.filter { bean ->
-                            bean.SEX == "1"
-                        }.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
-                            override fun getStr(bean: TestProjectRes): String = bean.NAME
-                        })
-                    }
+                    //消防站
+                    spv_pj3.setSpinner(it.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
+                        override fun getStr(bean: TestProjectRes): String = bean.NAME
+                    })
+                    spv_pj4.setSpinner(it.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
+                        override fun getStr(bean: TestProjectRes): String = bean.NAME
+                    })
+                    //机关
+                    spv_pj1.setSpinner(
+                            it.filter { bean ->
+                                bean.SEX == "0"
+                            }.toTypedArray()
+                            , object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
+                        override fun getStr(bean: TestProjectRes): String = bean.NAME
+                    })
+                    spv_pj2.setSpinner(it.filter { bean ->
+                        bean.SEX == "1"
+                    }.toTypedArray(), object : SpinnerParentView.OnGetStrListener<TestProjectRes> {
+                        override fun getStr(bean: TestProjectRes): String = bean.NAME
+                    })
                 }
             }
         })
+    }
+
+    /**
+     * 初始化项目中 机关、消防站 的显示和隐藏
+     * @param selectBeanList 当前选中的参考单位集合
+     */
+    private fun initProVisible(selectBeanList: List<String>) {
+        group1.visibility = View.GONE
+        group2.visibility = View.GONE
+        if (selectBeanList.contains(resources.getStringArray(R.array.joinEvaOrg)[0])
+                || selectBeanList.contains(resources.getStringArray(R.array.joinEvaOrg)[1])) {
+            //机关
+            group1.visibility = View.VISIBLE
+        }
+
+        if (selectBeanList.contains(resources.getStringArray(R.array.joinEvaOrg)[2])) {
+            //消防站
+            group2.visibility = View.VISIBLE
+        }
     }
 
     override fun onClick(v: View?) {
@@ -193,7 +264,11 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
             iv_right -> finish()
             tv_next -> {
                 if (checkParameter()) {
-                    KbiOrgActivity.startInstant(context)
+                    if (CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[3]) {
+                        KbiTimeConfigActivity.startInstant(context)
+                    } else {
+                        KbiOrgActivity.startInstant(context)
+                    }
                 }
             }
         }
@@ -263,6 +338,8 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         //考核项目
         CreateKbiDataManager.kbiBean?.objPart1 = spv_pj1.getSelectList() as List<TestProjectRes>
         CreateKbiDataManager.kbiBean?.objPart2 = spv_pj2.getSelectList() as List<TestProjectRes>
+        CreateKbiDataManager.kbiBean?.objPart3 = spv_pj3.getSelectList() as List<TestProjectRes>
+        CreateKbiDataManager.kbiBean?.objPart4 = spv_pj4.getSelectList() as List<TestProjectRes>
 
         return true
     }

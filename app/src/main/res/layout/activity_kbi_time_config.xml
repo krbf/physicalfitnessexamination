@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/_B7CFF3"
+    tools:context=".page.kbi.KbiTimeConfigActivity">
+
+    <include layout="@layout/v_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_littleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/excel_height"
+        android:background="@color/_B7CFF3"
+        android:gravity="center_vertical"
+        android:paddingStart="18dp"
+        android:text="时间安排"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/cl_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_next"
+        app:layout_constraintTop_toBottomOf="@+id/tv_littleTitle" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/_EF7D65"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="下一步 公告发布"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -15,5 +15,9 @@ data class TestProjectRes(
         var ID: String,
         var NAME: String,
         var SEX: String?
-)
+){
+    override fun toString(): String {
+        return NAME
+    }
+}
 

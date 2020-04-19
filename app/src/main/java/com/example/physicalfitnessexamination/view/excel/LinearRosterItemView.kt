@@ -63,7 +63,7 @@ class LinearRosterItemView : LinearLayout {
         //职务
         tv_perJob.text = "职务"
         //单位
-        tv_perOrg.text = "单位"
+        tv_perOrg.text = "岗位"
     }
 
     /**
@@ -97,7 +97,7 @@ class LinearRosterItemView : LinearLayout {
         tv_perAge.text = bean.AGE?.toString() ?: ""
         //职务
         tv_perJob.text = bean.ZW
-        //单位
+        //岗位
         tv_perOrg.text = bean.J_TYPE
     }
 

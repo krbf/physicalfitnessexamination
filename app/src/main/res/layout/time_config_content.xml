@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入时间段计划项目内容" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="或选择既定考核项目"
+        android:textColor="@color/black"
+        android:textSize="@dimen/excel_textSize" />
+
+    <Spinner
+        android:id="@+id/spinner_test"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/bk_spinner" />
+</LinearLayout>

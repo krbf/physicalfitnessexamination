@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/excel_height"-->
+<!--        android:orientation="vertical">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@drawable/divider_ver"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <ImageView
+                android:id="@+id/iv_remove"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:padding="7dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_remove" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                tools:text="日期"
+                android:textColor="@color/black"
+                android:textSize="@dimen/excel_textSize" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/sp_isMorning"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/sp_group1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/sp_group2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+                android:id="@+id/sp_group3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/excel_dividerSize"
+            android:background="@color/white" />
+<!--    </LinearLayout>-->
+</merge>

@@ -12,7 +12,7 @@
         <item>业务竞赛</item>
         <item>集中考核</item>
         <item>到站考核</item>
-        <item>日常考核（机关、消防站）</item>
+        <item>日常考核</item>//根据账号权限 roleId if manage 只有 支队机关 else 大队机关
     </string-array>
 
     <!--人员选取-->
@@ -35,4 +35,19 @@
         <item>计时组</item>
         <item>场地组</item>
     </string-array>
+
+    <!--<editor-fold desc="不同角色对于岗位集合">-->
+    <string-array name="commPosition">
+        <item>消防站指挥员</item>
+        <item>消防站消防员</item>
+    </string-array>
+    <string-array name="managePosition">
+        <item>支队领导</item>
+        <item>支队指挥员</item>
+    </string-array>
+    <string-array name="manageBrigadePosition">
+        <item>大队领导</item>
+        <item>大队指挥员</item>
+    </string-array>
+    <!--</editor-fold>-->
 </resources>

@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +135,8 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                         }
                     }
                     getAssessmentInfo();
+                    HashSet<Integer> defSet = new HashSet();
+                    defSet.add(0);
                     spvOrganization.setSpinner(listPI.toArray(), new SpinnerParentView.OnGetStrListener() {
                         @NotNull
                         @Override
@@ -146,7 +149,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                         public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
                             getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
                         }
-                    }, true, new Integer[]{0});
+                    }, true, defSet);
                     getPersonList(((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID());
                 }
             }
