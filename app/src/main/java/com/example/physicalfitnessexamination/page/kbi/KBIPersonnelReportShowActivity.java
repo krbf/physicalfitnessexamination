@@ -95,7 +95,7 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                 viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        KBIPersonnelReportDetailActivity.startInstant(KBIPersonnelReportShowActivity.this, id, s.getUSERID());
+                        KBIPersonnelReportDetailActivity.startInstant(KBIPersonnelReportShowActivity.this, id, s);
                     }
                 });
             }
