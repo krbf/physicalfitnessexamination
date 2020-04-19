@@ -179,7 +179,7 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                     public void checkOver(@NotNull ArrayList<PersonBean> list) {
                         KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0));
                     }
-                }).show(getSupportFragmentManager(), "");
+                },"aid",1).show(getSupportFragmentManager(), "");
                 break;
             default:
                 break;
