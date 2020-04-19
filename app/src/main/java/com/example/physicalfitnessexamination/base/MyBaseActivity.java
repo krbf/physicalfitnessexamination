@@ -77,6 +77,11 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         ActivityCollector.removeActivity(this);
     }
 
+    @Override
+    public boolean moveTaskToBack(boolean nonRoot) {
+        return super.moveTaskToBack(nonRoot);
+    }
+
     /**
      * 设置是否显示标题栏
      *
