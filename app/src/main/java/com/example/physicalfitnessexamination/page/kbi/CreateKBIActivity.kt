@@ -357,7 +357,6 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
             }
         }
 
-
         //成绩记取
         spv_scoreRecord.getSelectList().let { sl ->
             if (sl.isEmpty()) {
@@ -369,11 +368,18 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         }
 
         //考核项目
-        CreateKbiDataManager.kbiBean?.objPart1 = spv_pj1.getSelectList() as List<TestProjectRes>
-        CreateKbiDataManager.kbiBean?.objPart2 = spv_pj2.getSelectList() as List<TestProjectRes>
-        CreateKbiDataManager.kbiBean?.objPart3 = spv_pj3.getSelectList() as List<TestProjectRes>
-        CreateKbiDataManager.kbiBean?.objPart4 = spv_pj4.getSelectList() as List<TestProjectRes>
-
+        CreateKbiDataManager.kbiBean?.objPart1 = null
+        CreateKbiDataManager.kbiBean?.objPart2 = null
+        CreateKbiDataManager.kbiBean?.objPart3 = null
+        CreateKbiDataManager.kbiBean?.objPart4 = null
+        if (group1.visibility == View.VISIBLE) {
+            CreateKbiDataManager.kbiBean?.objPart1 = spv_pj1.getSelectList() as List<TestProjectRes>
+            CreateKbiDataManager.kbiBean?.objPart2 = spv_pj2.getSelectList() as List<TestProjectRes>
+        }
+        if (group2.visibility == View.VISIBLE) {
+            CreateKbiDataManager.kbiBean?.objPart3 = spv_pj3.getSelectList() as List<TestProjectRes>
+            CreateKbiDataManager.kbiBean?.objPart4 = spv_pj4.getSelectList() as List<TestProjectRes>
+        }
         return true
     }
 }

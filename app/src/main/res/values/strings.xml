@@ -4,7 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="mainPageTitle">湘潭消防训练考核</string>
+    <string name="mainPageTitle">湘潭消防训练考核系统</string>
 
     <string name="mainBtnStr1">创建考核</string>
     <string name="mainBtnStr2">我的考核</string>
@@ -13,4 +13,7 @@
     <string name="mainBtnStr5">训练文件</string>
 
     <string name="kbi_scheme">考核方案</string>
+
+    <string name="main_public_note1">&#160;&#160;&#160;支队二季度普考，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案</string>
+    <string name="main_public_note2">&#160;&#160;&#160;支队二季度体能竞赛（考核）将于4月中旬进行，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案</string>
 </resources>
