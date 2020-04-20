@@ -8,8 +8,8 @@ import com.example.physicalfitnessexamination.activity.LoginActivity
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
-import com.example.physicalfitnessexamination.util.toast
 import kotlinx.android.synthetic.main.activity_main2.*
+
 
 /**
  * 首页
@@ -35,7 +35,6 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
 
         tv_new1.setOnClickListener(this)
         tv_new2.setOnClickListener(this)
-        tv_new3.setOnClickListener(this)
         btn_main1.setOnClickListener(this)
         btn_main2.setOnClickListener(this)
         btn_main3.setOnClickListener(this)
@@ -49,15 +48,6 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.tv_new1 -> {
-                toast("跳转新闻")
-            }
-            R.id.tv_new2 -> {
-                toast("跳转新闻")
-            }
-            R.id.tv_new3 -> {
-                toast("跳转新闻")
-            }
             R.id.btn_main1 -> {
                 //创建考核
                 KbiShuntActivity.startInstant(this)
