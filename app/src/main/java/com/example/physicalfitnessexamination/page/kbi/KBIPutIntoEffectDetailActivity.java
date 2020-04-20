@@ -197,15 +197,10 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
-                KBIAchievementActivity.startInstant(this, id,"2");
+                KBIAchievementActivity.startInstant(this, id, "2");
                 break;
             case R.id.tv_work:
-                if (KBIPower) {
-                    showToast("考核实施");
-                } else {
-                    showToast("权限不够");
-                }
-
+                showToast("考核结束");
                 break;
             default:
                 break;
