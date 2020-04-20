@@ -9,7 +9,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.5"
+        android:alpha="0.1"
         app:lottie_autoPlay="true"
         app:lottie_fileName="exercise.json"
         app:lottie_loop="true" />
