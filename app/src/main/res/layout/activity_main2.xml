@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".page.Main2Activity">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="exercise.json"
+        app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/tv_mainTitle"
