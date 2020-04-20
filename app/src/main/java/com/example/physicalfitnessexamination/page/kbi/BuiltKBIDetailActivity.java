@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -28,6 +29,7 @@ import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.view.DMDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -201,7 +203,29 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBIAchievementActivity.startInstant(this, id, "1");
                 break;
             case R.id.tv_work:
-                putIntoEffect();
+                DMDialog.builder(this, R.layout.dialog_hint)
+                        .onDialogInitListener((helper, dialog) ->
+                        {
+                            helper.setText(R.id.tv_hint, "确定实施此考核吗？");
+                            helper.setText(R.id.tv_cancel, "取消");
+                            helper.setText(R.id.tv_ok,"确定");
+                            helper.setOnClickListener(R.id.tv_cancel, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    putIntoEffect();
+                                    dialog.dismiss();
+                                }
+                            });
+                        })
+
+                        .setGravity(Gravity.BOTTOM)
+                        .show();
                 break;
             default:
                 break;

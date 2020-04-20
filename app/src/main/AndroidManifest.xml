@@ -80,6 +80,7 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.KBIPutIntoEffectDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.Main2Activity"

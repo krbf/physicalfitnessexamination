@@ -11,7 +11,7 @@
         android:background="@color/_EF7D65"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_post"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>
 

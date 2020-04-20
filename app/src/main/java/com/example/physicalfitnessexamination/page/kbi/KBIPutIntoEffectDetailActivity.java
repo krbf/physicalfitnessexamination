@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -26,6 +27,7 @@ import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.view.DMDialog;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -200,7 +202,28 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 KBIAchievementActivity.startInstant(this, id, "2");
                 break;
             case R.id.tv_work:
-                showToast("考核结束");
+                DMDialog.builder(this, R.layout.dialog_hint)
+                        .onDialogInitListener((helper, dialog) ->
+                        {
+                            helper.setText(R.id.tv_hint, "确定结束此考核吗？");
+                            helper.setText(R.id.tv_cancel, "取消");
+                            helper.setText(R.id.tv_ok,"确定");
+                            helper.setOnClickListener(R.id.tv_cancel, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    showToast("考核结束");
+                                    dialog.dismiss();
+                                }
+                            });
+                        })
+                        .setGravity(Gravity.BOTTOM)
+                        .show();
                 break;
             default:
                 break;

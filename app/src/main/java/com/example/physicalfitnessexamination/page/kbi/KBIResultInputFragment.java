@@ -37,7 +37,7 @@ import okhttp3.Call;
 public class KBIResultInputFragment extends Fragment {
     private ListView lvResultInput;
     private CommonAdapter<ClauseBean> commonAdapterClause;
-    private CommonAdapter<String> commonAdapterPost;
+    private CommonAdapter<ClauseBean.Clause> commonAdapterPost;
     private List<ClauseBean> listClause = new ArrayList<>();
     private String id;//考核id
 
@@ -62,18 +62,18 @@ public class KBIResultInputFragment extends Fragment {
         commonAdapterClause = new CommonAdapter<ClauseBean>(getContext(), R.layout.item_kbi_resultinput, listClause) {
             @Override
             public void convert(ViewHolder viewHolder, ClauseBean s) {
-                viewHolder.setText(R.id.tv_clause, s.getNAME());
-                String sid = s.getSID();
+                viewHolder.setText(R.id.tv_clause, s.getGW());
+                String gw = s.getGW();
                 ListView listView = viewHolder.getView(R.id.lv_post);
                 final boolean[] isShow = {false};
-                commonAdapterPost = new CommonAdapter<String>(getContext(), R.layout.item_kbi_resultinput_child, Arrays.asList(s.getGW())) {
+                commonAdapterPost = new CommonAdapter<ClauseBean.Clause>(getContext(), R.layout.item_kbi_resultinput_child, s.getSUBJECT()) {
                     @Override
-                    public void convert(ViewHolder viewHolder, String s) {
-                        viewHolder.setText(R.id.tv_post, s);
+                    public void convert(ViewHolder viewHolder, ClauseBean.Clause s) {
+                        viewHolder.setText(R.id.tv_post, s.getNAME());
                         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, sid, s);
+                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s.getSID(), gw,s.getTYPE(),s.getNAME());
                             }
                         });
                     }
