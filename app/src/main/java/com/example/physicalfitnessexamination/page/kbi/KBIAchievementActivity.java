@@ -8,13 +8,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.view.NoScrollViewPager;
 
 /**
  * 考核成绩页
@@ -23,18 +23,20 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
     private TextView tvTitle;
     private ImageView imgRight;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private NoScrollViewPager viewPager;
     private String[] title = new String[]{"成绩汇总", "成绩录入"};
     private String id;//考核id
+    private String flag;//tab切换控制 1-展示成绩汇总 2-展示成绩汇总+成绩录入
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id) {
+    public static void startInstant(Context context, String id, String flag) {
         Intent intent = new Intent(context, KBIAchievementActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("flag", flag);
         context.startActivity(intent);
     }
 
@@ -46,6 +48,7 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
+        flag = getIntent().getStringExtra("flag");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -55,6 +58,16 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
 
     @Override
     protected void initData() {
+        switch (flag) {
+            case "1":
+                title = new String[]{"成绩汇总"};
+                break;
+            case "2":
+                title = new String[]{"成绩汇总", "成绩录入"};
+                break;
+            default:
+                break;
+        }
         tvTitle.setText("考核成绩表");
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(0);

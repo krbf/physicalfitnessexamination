@@ -14,7 +14,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -24,12 +23,9 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
-import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,13 +35,13 @@ import java.util.Map;
 import okhttp3.Call;
 
 /**
- * 已建考核详情页
+ * 考核实施详情页
  */
-public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnClickListener {
+public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
     private WebView wvKbiDetail;
-    private TextView tvModify;//修改
+    private TextView tvModify;//考核中
     private TextView tvAppend;//考核附件
     private TextView tvPlan;//考核方案
     private TextView tvOrganization;//考核组织
@@ -53,7 +49,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     private TextView tvRoster;//考核花名册
     private TextView tvAchievement;//考核成绩表
     private TextView tvName;//页面第一行名称显示
-    private TextView tvWork;//考核实施
+    private TextView tvWork;//考核结束
     private String id;//考核id
     private AssessmentInfoBean assessmentInfoBean;
     private UserInfo userInfo;
@@ -70,7 +66,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
      * @param context 上下文
      */
     public static void startInstant(Context context, String id) {
-        Intent intent = new Intent(context, BuiltKBIDetailActivity.class);
+        Intent intent = new Intent(context, KBIPutIntoEffectDetailActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
     }
@@ -110,7 +106,10 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     @Override
     protected void initData() {
         getAssessmentInfo();//获取考核基本信息
-        tvTitle.setText("已建考核");
+        tvModify.setText("考核中");
+        tvWork.setText("考核结束");
+
+        tvTitle.setText("考核实施");
         tvName.setText("考核方案");
 
         //加载本地html文件
@@ -132,7 +131,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
         //加载网络URL
         wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentInfoH5?id=" + id);
         //设置在当前WebView继续加载网页
-        wvKbiDetail.setWebViewClient(new MyWebViewClient());
+        wvKbiDetail.setWebViewClient(new KBIPutIntoEffectDetailActivity.MyWebViewClient());
     }
 
     class MyWebViewClient extends WebViewClient {
@@ -172,7 +171,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 finish();
                 break;
             case R.id.tv_modify:
-                showToast("暂未开放");
+                showToast("考核中");
                 break;
             case R.id.tv_append:
                 KBIAppendixActivity.startInstant(this, id);
@@ -198,10 +197,15 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
-                KBIAchievementActivity.startInstant(this, id, "1");
+                KBIAchievementActivity.startInstant(this, id,"2");
                 break;
             case R.id.tv_work:
-                putIntoEffect();
+                if (KBIPower) {
+                    showToast("考核实施");
+                } else {
+                    showToast("权限不够");
+                }
+
                 break;
             default:
                 break;
@@ -259,9 +263,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 String msg = JSON.parseObject(response).getString("msg");
                 if (success) {
-                    EventBus.getDefault().post(new MessageEvent("已建考核列表页刷新"));
-                    KBIPutIntoEffectDetailActivity.startInstant(BuiltKBIDetailActivity.this, id);
-                    finish();
+
                 } else {
                     showToast(msg);
                 }

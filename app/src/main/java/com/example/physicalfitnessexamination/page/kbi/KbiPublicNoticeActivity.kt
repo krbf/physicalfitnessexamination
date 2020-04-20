@@ -89,7 +89,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                                     if (res.success) {
                                         Toast.makeText(context, "创建成功", Toast.LENGTH_SHORT).show()
 
-                                        BuiltKBIDetailActivity.startInstant(this@KbiPublicNoticeActivity, res.id, "1");
+                                        BuiltKBIDetailActivity.startInstant(this@KbiPublicNoticeActivity, res.id);
 
                                         //关闭之前创建流程中的页面
                                         ActivityCollector.activitys.forEach {

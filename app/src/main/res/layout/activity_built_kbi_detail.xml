@@ -25,15 +25,16 @@
 
         <TextView
             android:id="@+id/tv_work"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/_EF7D65"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="2dp"
             android:text="考核实施"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 
     <WebView

@@ -8,6 +8,7 @@
     <include layout="@layout/v_toolbar" />
 
     <android.support.design.widget.TabLayout
+        android:background="#393D49"
         android:id="@+id/tab_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,9 +23,9 @@
 
     </android.support.design.widget.TabLayout>
 
-    <android.support.v4.view.ViewPager
+    <com.example.physicalfitnessexamination.view.NoScrollViewPager
         android:id="@+id/viewpage_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"></android.support.v4.view.ViewPager>
+        android:layout_weight="1"></com.example.physicalfitnessexamination.view.NoScrollViewPager>
 </LinearLayout>

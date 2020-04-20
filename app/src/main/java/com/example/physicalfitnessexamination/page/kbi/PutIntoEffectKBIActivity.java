@@ -71,7 +71,7 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
                 viewHolder.getConvertView().setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        BuiltKBIDetailActivity.startInstant(PutIntoEffectKBIActivity.this, s.getID(), "2");
+                        KBIPutIntoEffectDetailActivity.startInstant(PutIntoEffectKBIActivity.this, s.getID());
                     }
                 });
             }

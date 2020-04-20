@@ -13,6 +13,7 @@ public class Api {
     public static final String GETLEAVEPERSONFORASSESSMENT = Constants.IP + "assessment/getLeavePersonForAssessment";//已请假人员列表
     public static final String SETLEAVEPERSONFORASSESSMENT = Constants.IP + "assessment/setLeavePersonForAssessment";//上报请假人员接口
     public static final String GETLEAVEPERSONINFOFORASSESSMENT = Constants.IP + "assessment/getLeavePersonInfoForAssessment";//获取请假人员详细信息
+    public static final String STARTASSESSMENT = Constants.IP + "assessment/startAssessment";//实施考核接口
     public static final String GETSUBJECTFORASSESSMENT = Constants.IP + "assessment/getSubjectForAssessment";//成绩录入-项目列表
-    public static final String GETPERSONACHIEVEMENT4ASSESS=Constants.IP+"assessment/getPersonAchievement4Assess";//成绩录入-人员名单
+    public static final String GETPERSONACHIEVEMENT4ASSESS = Constants.IP + "assessment/getPersonAchievement4Assess";//成绩录入-人员名单
 }

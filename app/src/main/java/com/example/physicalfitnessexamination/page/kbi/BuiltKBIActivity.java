@@ -15,10 +15,15 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
+
 /**
  * 已建考核列表页
  */
@@ -39,6 +45,7 @@ public class BuiltKBIActivity extends MyBaseActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     /**
@@ -77,7 +84,7 @@ public class BuiltKBIActivity extends MyBaseActivity implements View.OnClickList
                 viewHolder.getConvertView().setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        BuiltKBIDetailActivity.startInstant(BuiltKBIActivity.this,s.getID(),"1");
+                        BuiltKBIDetailActivity.startInstant(BuiltKBIActivity.this, s.getID());
                     }
                 });
             }
@@ -97,10 +104,16 @@ public class BuiltKBIActivity extends MyBaseActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("org_id", UserManager.getInstance().getUserInfo(this).getOrg_id());
-        map.put("status","0");//0 已建考核  1 考核实施
+        map.put("status", "0");//0 已建考核  1 考核实施
         OkhttpUtil.okHttpPost(Api.BUILTKBILIST, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -116,5 +129,17 @@ public class BuiltKBIActivity extends MyBaseActivity implements View.OnClickList
                 }
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        switch (messageEvent.getMessage()) {
+            case "已建考核列表页刷新":
+                list.clear();
+                getData();
+                break;
+            default:
+                break;
+        }
     }
 }
