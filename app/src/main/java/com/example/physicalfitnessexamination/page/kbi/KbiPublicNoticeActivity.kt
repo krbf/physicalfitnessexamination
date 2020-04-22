@@ -2,6 +2,7 @@ package com.example.physicalfitnessexamination.page.kbi
 
 import android.content.Context
 import android.content.Intent
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.Toast
 import com.example.physicalfitnessexamination.R
@@ -49,15 +50,28 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
         iv_right.setOnClickListener(this)
         tv_createFinish.setOnClickListener(this)
 
+        //公告预设文案
+        edt_publicNotice.setText("***体能竞赛（考核）将于*月中旬进行，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案")
+
         if (isCommonTest) {
             //普考
             v_dividerLine2.visibility = View.GONE
             tv_PerRequest.visibility = View.GONE
-            edt_PerRequest.visibility = View.GONE
+            group1.visibility = View.GONE
+            group2.visibility = View.GONE
+            group3.visibility = View.GONE
         } else {
             v_dividerLine2.visibility = View.VISIBLE
             tv_PerRequest.visibility = View.VISIBLE
-            edt_PerRequest.visibility = View.VISIBLE
+
+            group1.visibility = View.GONE
+            group2.visibility = View.GONE
+            group3.visibility = View.GONE
+            CreateKbiDataManager.kbiBean?.orgType?.let {
+                group1.visibility = if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[0])) View.VISIBLE else View.GONE
+                group2.visibility = if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[1])) View.VISIBLE else View.GONE
+                group3.visibility = if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[2])) View.VISIBLE else View.GONE
+            }
         }
     }
 
@@ -124,15 +138,69 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
             }
         }
 
+        CreateKbiDataManager.kbiBean?.requirementPerson = null
         if (!isCommonTest) {
-            edt_PerRequest.text.trim().toString().let { str ->
-                if (str.isEmpty()) {
-                    tv_createFinish.snack("请输入 人员要求 内容")
-                    return false
-                } else {
-                    CreateKbiDataManager.kbiBean?.requirementPerson = str
+            val spb = SpannableStringBuilder()
+            CreateKbiDataManager.kbiBean?.orgType?.let {
+                if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[0])) {
+                    edt_tv_personReq1.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("支队领导${numStr}人 ")
+                        }
+                    }
+                    edt_tv_personReq2.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("支队指挥员${numStr}人 ")
+                        }
+                    }
+                }
+
+                if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[1])) {
+                    edt_tv_personReq3.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("大队领导${numStr}人 ")
+                        }
+                    }
+                    edt_tv_personReq4.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("大队指挥员${numStr}人 ")
+                        }
+                    }
+                }
+
+                if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[2])) {
+                    edt_tv_personReq5.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("消防站指挥员${numStr}人 ")
+                        }
+                    }
+                    edt_tv_personReq6.text.trim().let { numStr ->
+                        if (numStr.isEmpty()) {
+                            tv_createFinish.snack("请输入 人员要求 内容")
+                            return false
+                        } else {
+                            spb.append("消防站消防员${numStr}人 ")
+                        }
+                    }
                 }
             }
+
+            CreateKbiDataManager.kbiBean?.requirementPerson = spb.toString()
         }
 
         return true

@@ -114,9 +114,8 @@ class KbiTimeConfig1ItemView : LinearLayout {
             tv_starter.text = value?.starter?.let { appendLabel(it) }
             tv_timekeeper.text = value?.timekeeper?.let { appendLabel(it) }
 
-            tv_timeQuantum.text = if (
-                    value?.startTime != null && value.endTime != null
-            ) "${sdf.format(value.startTime)}-${sdf.format(value.endTime)}" else ""
+            tv_startTime.text = if (value?.startTime != null) sdf.format(value.startTime) else ""
+            tv_endTime.text = if (value?.endTime != null) sdf.format(value.endTime) else ""
 
             sp_position.let { sp ->
                 val defaultIndex = getPositionSpinnerData().indexOf(bean?.position)
@@ -158,6 +157,11 @@ class KbiTimeConfig1ItemView : LinearLayout {
         return spinnerData.toTypedArray()
     }
 
+    /**
+     * 获取时间选择Dialog
+     * @param isStartTime 是否是开始时间
+     * @return 时间选择器Dialog
+     */
     private fun getTimePick(isStartTime: Boolean): TimePickerDialog {
         val calendar = Calendar.getInstance()
         val dialog = TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT,
@@ -167,17 +171,16 @@ class KbiTimeConfig1ItemView : LinearLayout {
                             set(Calendar.HOUR_OF_DAY, hourOfDay)
                             set(Calendar.MINUTE, minute)
                         }.time
-                        getTimePick(false).show()
                     } else {
                         bean?.endTime = Calendar.getInstance().apply {
                             set(Calendar.HOUR_OF_DAY, hourOfDay)
                             set(Calendar.MINUTE, minute)
                         }.time
-                        bean = bean
                     }
+                    bean = bean
                 },
                 calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true)
-        dialog.setMessage(if (isStartTime) "开始时间" else "结束时间")
+        dialog.setTitle(if (isStartTime) "开始时间" else "结束时间")
         return dialog
     }
 
@@ -204,9 +207,14 @@ class KbiTimeConfig1ItemView : LinearLayout {
             bean?.let { it1 -> onRemoveListener?.onRemove(it1) }
         }
 
-        tv_timeQuantum.setOnClickListener {
+        tv_startTime.setOnClickListener {
             getTimePick(true).show()
         }
+
+        tv_endTime.setOnClickListener {
+            getTimePick(false).show()
+        }
+
         tv_contentMsg.setOnClickListener {
             val dialogView = KbiTimeConfig1ContentDialogView(context)
             AlertDialog.Builder(context)

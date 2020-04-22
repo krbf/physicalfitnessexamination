@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,10 +15,12 @@
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_personPickType"
                 android:layout_width="wrap_content"
@@ -74,19 +77,175 @@
                 android:text="人员要求："
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/edt_PerRequest"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="18dp"
-                android:background="@color/white"
-                android:gravity="top|start"
-                android:hint="大队领导...人 参谋...人 中队指挥员...人"
-                android:minHeight="70dp"
-                android:padding="5dp"
-                android:textSize="@dimen/excel_textSize" />
+                android:layout_marginEnd="18dp">
+
+                <TextView
+                    android:id="@+id/tv_personReq1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支队领导："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/edt_tv_personReq1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/edt_tv_personReq1" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq1"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_personReq2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支队指挥员："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toEndOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq1" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq2"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_personReq2"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq2"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq2" />
+
+
+                <TextView
+                    android:id="@+id/tv_personReq3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="大队领导："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_tv_personReq1" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq3"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_personReq3"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq3"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq3" />
+
+                <TextView
+                    android:id="@+id/tv_personReq4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大队指挥员："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toEndOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq3" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq4"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_personReq4"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq4"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq4" />
+
+                <TextView
+                    android:id="@+id/tv_personReq5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="消防站指挥员："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edt_tv_personReq3" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq5"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_personReq5"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq5"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq5" />
+
+                <TextView
+                    android:id="@+id/tv_personReq6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消防站消防员："
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintStart_toEndOf="@+id/guideline2"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq5" />
+
+                <EditText
+                    android:id="@+id/edt_tv_personReq6"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textSize="@dimen/excel_textSize"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_personReq6"
+                    app:layout_constraintStart_toEndOf="@+id/tv_personReq6"
+                    app:layout_constraintTop_toTopOf="@+id/tv_personReq6" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="220dp" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tv_personReq1,edt_tv_personReq1,tv_personReq2,edt_tv_personReq2" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tv_personReq3,edt_tv_personReq3,tv_personReq4,edt_tv_personReq4" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tv_personReq5,edt_tv_personReq5,tv_personReq6,edt_tv_personReq6" />
+            </android.support.constraint.ConstraintLayout>
+
+
         </LinearLayout>
     </ScrollView>
 
