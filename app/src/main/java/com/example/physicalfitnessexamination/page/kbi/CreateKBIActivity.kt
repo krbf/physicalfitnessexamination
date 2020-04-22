@@ -68,6 +68,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
 
         spv_evaWay.let {
             it.setName("考核方式")
+            it.defaultDisplayWhenJustOne = true
             it.setSpinner(
                     if (UserManager.getInstance().getUserInfo(context).role_id == Constants.RoleIDStr.COMM) {
                         arrayOf(resources.getStringArray(R.array.evaMode)[3])
@@ -207,11 +208,13 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         }
         spv_perSelect.let {
             it.setName("人员选取")
+            it.defaultDisplayWhenJustOne = true
             it.setSpinner(resources.getStringArray(R.array.perSelect), isRadio = true)
             it.setChooseAble(false, CHOOSE_ORG_FIRST)
         }
         spv_scoreRecord.let {
             it.setName("成绩记录")
+            it.defaultDisplayWhenJustOne = true
             it.setSpinner(resources.getStringArray(R.array.resultsRemember), isRadio = true)
             it.setChooseAble(false, CHOOSE_ORG_FIRST)
         }

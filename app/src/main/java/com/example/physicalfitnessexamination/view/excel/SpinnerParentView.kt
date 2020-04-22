@@ -28,7 +28,7 @@ class SpinnerParentView<X> : LinearLayout {
     /**
      * 选项是否是单选
      */
-    private var isRadio: Boolean = false
+    private var isSingleSelection: Boolean = false
 
     /**
      * 已选中的下标
@@ -81,6 +81,11 @@ class SpinnerParentView<X> : LinearLayout {
      */
     var unableChooseMsg: String = UNABLE_MSG
 
+    /**
+     * 是否在数据集合有且仅有一条的时候,默认选中该数据
+     */
+    var defaultDisplayWhenJustOne = false
+
     companion object {
         private const val UNABLE_MSG = "暂不可选择"
     }
@@ -109,7 +114,7 @@ class SpinnerParentView<X> : LinearLayout {
                 AlertDialog.Builder(context).let { builder ->
                     builder.setTitle(tv_name.text.toString())
                     builder.setView(
-                            if (isRadio) {
+                            if (isSingleSelection) {
                                 ScrollView(context).apply {
                                     if (spinnerRadioGroup.parent is ViewGroup) {
                                         (spinnerRadioGroup.parent as ViewGroup).removeView(spinnerRadioGroup)
@@ -143,7 +148,7 @@ class SpinnerParentView<X> : LinearLayout {
                 warpLinearLayout.addView(TextView(context).apply {
                     setTextColor(ContextCompat.getColor(context, R.color._2C2C2C))
                     setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-                    text = if (isRadio) {
+                    text = if (isSingleSelection) {
                         spinnerRadioGroup.findViewById<RadioButton>(spinnerRadioGroup.checkedRadioButtonId).text.toString()
                     } else {
                         spinnerAdapter.getData()?.get(index)
@@ -158,7 +163,7 @@ class SpinnerParentView<X> : LinearLayout {
     }
 
     private fun prepareChoiceView(dataStrList: ArrayList<String>) {
-        if (isRadio) {
+        if (isSingleSelection) {
             spinnerRadioGroup.removeAllViews()
             dataStrList.forEach { choiceStr ->
                 spinnerRadioGroup.addView(
@@ -205,13 +210,17 @@ class SpinnerParentView<X> : LinearLayout {
                        defaultIndex: Set<Int> = mutableSetOf()) where T : Any {
         clear()
         this.data = data as Array<X>
-        this.isRadio = isRadio
+        this.isSingleSelection = isRadio
 
         selectSet.clear()
-        if (isRadio && defaultIndex.isNotEmpty()) {
-            selectSet.add(defaultIndex.first())
+        if (defaultDisplayWhenJustOne && isSingleSelection && data.size == 1) {
+            selectSet.add(0)
         } else {
-            selectSet.addAll(defaultIndex)
+            if (isRadio && defaultIndex.isNotEmpty()) {
+                selectSet.add(defaultIndex.first())
+            } else {
+                selectSet.addAll(defaultIndex)
+            }
         }
 
         this.onCheckListener = if (onCheckListener != null) onCheckListener as OnCheckListener<X> else null
