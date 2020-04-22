@@ -49,6 +49,9 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
         iv_right.setOnClickListener(this)
         tv_createFinish.setOnClickListener(this)
 
+        //公告预设文案
+        edt_publicNotice.setText("***体能竞赛（考核）将于*月中旬进行，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案")
+
         if (isCommonTest) {
             //普考
             v_dividerLine2.visibility = View.GONE
