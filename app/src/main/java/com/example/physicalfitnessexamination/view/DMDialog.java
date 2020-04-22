@@ -64,8 +64,8 @@ public class DMDialog extends DialogFragment {
             WindowManager.LayoutParams localLayoutParams = localWindow.getAttributes();
             localLayoutParams.dimAmount = this.dialogParams.dimAmount;
             localLayoutParams.gravity = this.dialogParams.gravity;
-            localLayoutParams.width = -1;
-            localLayoutParams.height = -2;
+            localLayoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            localLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             localWindow.setAttributes(localLayoutParams);
         }
     }

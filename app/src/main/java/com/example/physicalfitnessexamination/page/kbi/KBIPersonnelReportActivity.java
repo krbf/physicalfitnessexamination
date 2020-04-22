@@ -11,10 +11,13 @@ import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.Tool;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,6 +137,7 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     showToast("提交成功");
+                    EventBus.getDefault().post(new MessageEvent("请假人员列表刷新"));
                     finish();
                 }
             }
@@ -147,10 +151,11 @@ public class KBIPersonnelReportActivity extends MyBaseActivity implements View.O
         } else if (Tool.isEmpty(edtExplain.getText().toString())) {
             showToast("请填写说明");
             return false;
-        } else if (Tool.isEmpty(edtRemarks.getText().toString())) {
-            showToast("请填写备注");
-            return false;
         }
+//        else if (Tool.isEmpty(edtRemarks.getText().toString())) {
+//            showToast("请填写备注");
+//            return false;
+//        }
         return true;
     }
 }

@@ -42,12 +42,14 @@
     <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
         android:id="@+id/spv_organization"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/excel_height" />
+        android:layout_height="@dimen/excel_height"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"

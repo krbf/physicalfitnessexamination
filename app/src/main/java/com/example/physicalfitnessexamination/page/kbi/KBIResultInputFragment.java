@@ -63,7 +63,7 @@ public class KBIResultInputFragment extends Fragment {
             @Override
             public void convert(ViewHolder viewHolder, ClauseBean s) {
                 viewHolder.setText(R.id.tv_clause, s.getGW());
-                String gw = s.getGW();
+                String GW = s.getGW();
                 ListView listView = viewHolder.getView(R.id.lv_post);
                 final boolean[] isShow = {false};
                 commonAdapterPost = new CommonAdapter<ClauseBean.Clause>(getContext(), R.layout.item_kbi_resultinput_child, s.getSUBJECT()) {
@@ -73,7 +73,7 @@ public class KBIResultInputFragment extends Fragment {
                         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s.getSID(), gw,s.getTYPE(),s.getNAME());
+                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s,GW);
                             }
                         });
                     }

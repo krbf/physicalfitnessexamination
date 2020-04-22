@@ -2,9 +2,11 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
@@ -35,10 +38,8 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private ImageView imgRight;
     private TextView tvClause;
     private String id;//考核id
-    private String sid;//项目id
-    private String gw;//岗位
-    private String type;
-    private String name;//项目名称
+    private ClauseBean.Clause clause;//项目实体类
+    private String GW;//岗位
     private ListView lvAchievementTakeNotes;
     private CommonAdapter<PersonAchievementBean> commonAdapter;
     private List<PersonAchievementBean> list = new ArrayList<>();
@@ -48,13 +49,11 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id, String sid, String gw, String type, String name) {
+    public static void startInstant(Context context, String id, ClauseBean.Clause clause, String GW) {
         Intent intent = new Intent(context, KBIAchievementTakeNotesActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("sid", sid);
-        intent.putExtra("gw", gw);
-        intent.putExtra("type", type);
-        intent.putExtra("name", name);
+        intent.putExtra("clause", (Parcelable) clause);
+        intent.putExtra("GW", GW);
         context.startActivity(intent);
     }
 
@@ -66,10 +65,8 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
-        sid = getIntent().getStringExtra("sid");
-        gw = getIntent().getStringExtra("gw");
-        type = getIntent().getStringExtra("type");
-        name = getIntent().getStringExtra("name");
+        clause = getIntent().getParcelableExtra("clause");
+        GW = getIntent().getStringExtra("GW");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -80,7 +77,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     @Override
     protected void initData() {
         tvTitle.setText("成绩记录表");
-        tvClause.setText(name);
+        tvClause.setText(clause.getNAME());
         getData();
         commonAdapter = new CommonAdapter<PersonAchievementBean>(this, R.layout.item_kbi_achievement_takes_notes, list) {
             @Override
@@ -99,10 +96,29 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                 {
                                     helper.setText(R.id.tv_name, s.getUSERNAME());
                                     helper.setText(R.id.tv_unit, s.getORG_NAME());
+                                    helper.setText(R.id.tv_measurement, clause.getDW());
+                                    EditText edtAchievement = helper.getView(R.id.edt_achievement);
+                                    switch (clause.getATYPE()) {
+                                        case "0"://时间计数
+                                            edtAchievement.setFocusable(false);
+                                            edtAchievement.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                }
+                                            });
+                                            break;
+                                        case "1"://次数
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
                                     helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-
+                                            submission(s.getUSERID(), edtAchievement.getText().toString());
+                                            dialog.dismiss();
                                         }
                                     });
                                 })
@@ -129,9 +145,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     public void getData() {
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
-        map.put("sid", sid);
-        map.put("gw", gw);
-        map.put("type", type);
+        map.put("sid", clause.getSID());
+        map.put("gw", GW);
+        map.put("type", clause.getTYPE());
         OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -152,7 +168,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     public void submission(String userid, String achievement) {
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
-        map.put("sid", sid);
+        map.put("sid", clause.getSID());
         map.put("userid", userid);
         map.put("achievement", achievement);
         OkhttpUtil.okHttpPost(Api.SETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
@@ -165,7 +181,8 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
-
+                    list.clear();
+                    getData();
                 }
             }
         });
