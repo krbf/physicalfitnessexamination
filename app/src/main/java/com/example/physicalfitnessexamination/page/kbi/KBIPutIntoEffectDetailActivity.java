@@ -222,7 +222,7 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                                 }
                             });
                         })
-                        .setGravity(Gravity.BOTTOM)
+                        .setGravity(Gravity.CENTER)
                         .show();
                 break;
             default:

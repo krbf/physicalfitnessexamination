@@ -92,4 +92,6 @@ dependencies {
     implementation 'com.airbnb.android:lottie:2.7.0'
 
     implementation 'org.greenrobot:eventbus:3.0.0'
+    //选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

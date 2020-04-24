@@ -224,7 +224,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                             });
                         })
 
-                        .setGravity(Gravity.BOTTOM)
+                        .setGravity(Gravity.CENTER)
                         .show();
                 break;
             default:
