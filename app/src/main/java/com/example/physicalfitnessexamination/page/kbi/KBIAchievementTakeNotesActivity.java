@@ -18,12 +18,14 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
+import com.example.physicalfitnessexamination.glide.ImageLoaderUtils;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
@@ -108,6 +110,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                 {
                                     helper.setText(R.id.tv_name, s.getUSERNAME());
                                     helper.setText(R.id.tv_unit, s.getORG_NAME());
+                                    ImageLoaderUtils.display(KBIAchievementTakeNotesActivity.this,helper.getView(R.id.img_photo), Constants.IP+s.getPHOTO());
                                     if ("1".equals(clause.getATYPE())){
                                         helper.setText(R.id.tv_measurement, clause.getDW());
                                     }
