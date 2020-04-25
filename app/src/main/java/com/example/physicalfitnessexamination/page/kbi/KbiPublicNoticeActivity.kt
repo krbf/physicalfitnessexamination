@@ -165,7 +165,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("支队领导${numStr}人 ")
+                            spb.append("支队领导:${numStr}人;")
                         }
                     }
                     edt_tv_personReq2.text.trim().let { numStr ->
@@ -173,7 +173,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("支队指挥员${numStr}人 ")
+                            spb.append("支队指挥员:${numStr}人;")
                         }
                     }
                 }
@@ -184,7 +184,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("大队领导${numStr}人 ")
+                            spb.append("大队领导:${numStr}人;")
                         }
                     }
                     edt_tv_personReq4.text.trim().let { numStr ->
@@ -192,7 +192,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("大队指挥员${numStr}人 ")
+                            spb.append("大队指挥员:${numStr}人;")
                         }
                     }
                 }
@@ -203,7 +203,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("消防站指挥员${numStr}人 ")
+                            spb.append("消防站指挥员:${numStr}人;")
                         }
                     }
                     edt_tv_personReq6.text.trim().let { numStr ->
@@ -211,7 +211,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             tv_createFinish.snack("请输入 人员要求 内容")
                             return false
                         } else {
-                            spb.append("消防站消防员${numStr}人 ")
+                            spb.append("消防站消防员:${numStr}人;")
                         }
                     }
                 }
