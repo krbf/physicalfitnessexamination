@@ -18,6 +18,8 @@ import com.lzy.okgo.model.Response
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_kbi_public_notice.*
 import kotlinx.android.synthetic.main.v_toolbar.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * 新建考核-公告发布
@@ -34,6 +36,8 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                 context.startActivity(it)
             }
         }
+
+        val sdf = SimpleDateFormat("MM月dd日", Locale.CHINESE)
     }
 
     /**
@@ -50,8 +54,21 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
         iv_right.setOnClickListener(this)
         tv_createFinish.setOnClickListener(this)
 
-        //公告预设文案
-        edt_publicNotice.setText("***体能竞赛（考核）将于*月中旬进行，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案")
+        run {
+            var timeStr = ""
+            //公告预设文案
+            CreateKbiDataManager.kbiBean?.timeArrangementA?.let {
+                if (it.isNotEmpty()) {
+                    timeStr = sdf.format(it.first().date.time)
+                }
+            }
+            CreateKbiDataManager.kbiBean?.timeArrangementB?.let {
+                if (it.isNotEmpty()) {
+                    timeStr = sdf.format(it.first().date)
+                }
+            }
+            edt_publicNotice.setText("${CreateKbiDataManager.kbiBean?.name}将于${timeStr}进行，请各单位核对本单位名单，不能参考人员，请在已建考核中备注区注明原因，拍取相关照片资料备案")
+        }
 
         if (isCommonTest) {
             //普考

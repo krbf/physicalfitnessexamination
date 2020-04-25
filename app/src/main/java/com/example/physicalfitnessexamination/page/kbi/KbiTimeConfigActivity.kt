@@ -164,8 +164,10 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
 
         if (!isToPlaceEva) {
             CreateKbiDataManager.kbiBean?.timeArrangementA = timeTypeList as List<KbiTimeCfgType1Bean>
+            CreateKbiDataManager.kbiBean?.timeArrangementB = null
         } else {
             CreateKbiDataManager.kbiBean?.timeArrangementB = timeTypeList as List<KbiTimeCfgType2Bean>
+            CreateKbiDataManager.kbiBean?.timeArrangementA = null
         }
         return true
     }
