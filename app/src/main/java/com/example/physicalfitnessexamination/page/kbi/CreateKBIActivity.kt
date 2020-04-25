@@ -371,6 +371,11 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         }
 
         //考核项目
+        if (spv_pj1.getSelectList().isNullOrEmpty() && spv_pj2.getSelectList().isNullOrEmpty()
+                && spv_pj3.getSelectList().isNullOrEmpty() && spv_pj4.getSelectList().isNullOrEmpty()){
+            edit_kbiName.snack("最少添加一项考核项目")
+            return false
+        }
         CreateKbiDataManager.kbiBean?.objPart1 = null
         CreateKbiDataManager.kbiBean?.objPart2 = null
         CreateKbiDataManager.kbiBean?.objPart3 = null

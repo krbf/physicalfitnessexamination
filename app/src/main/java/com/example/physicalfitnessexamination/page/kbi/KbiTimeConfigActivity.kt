@@ -113,59 +113,17 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
     }
 
     private fun checkParameter(): Boolean {
-        timeTypeList.forEach { cfgBean ->
-            when (cfgBean) {
-                is KbiTimeCfgType1Bean -> {
-                    cfgBean.detailBean.forEach { cfgDetailBean ->
-                        if (cfgDetailBean.startTime == null || cfgDetailBean.endTime == null) {
-                            tv_next.snack("时间不可为空")
-                            return false
-                        }
-
-                        if (cfgDetailBean.contentStr.isNullOrEmpty() && cfgDetailBean.assessment == null) {
-                            tv_next.snack("内容不可为空")
-                            return false
-                        }
-
-                        if (cfgDetailBean.position == null) {
-                            tv_next.snack("岗位不可为空")
-                            return false
-                        }
-
-                        if (cfgDetailBean.convener.isEmpty()) {
-                            tv_next.snack("请选择召集人")
-                            return false
-                        }
-
-                        if (cfgDetailBean.starter.isEmpty()) {
-                            tv_next.snack("请选择发令员")
-                            return false
-                        }
-
-                        if (cfgDetailBean.timekeeper.isEmpty()) {
-                            tv_next.snack("请选择计时员")
-                            return false
-                        }
-                    }
-                }
-                is KbiTimeCfgType2Bean -> {
-                    if (cfgBean.isMorning == null) {
-                        tv_next.snack("请选择时间")
-                        return false
-                    }
-
-                    if (cfgBean.org1 == null && cfgBean.org2 == null && cfgBean.org3 == null) {
-                        tv_next.snack("请选择考核组")
-                        return false
-                    }
-                }
-            }
+        if (timeTypeList.isNullOrEmpty()){
+            tv_next.snack("请添加一个考核时间")
+            return false
         }
 
         if (!isToPlaceEva) {
             CreateKbiDataManager.kbiBean?.timeArrangementA = timeTypeList as List<KbiTimeCfgType1Bean>
+            CreateKbiDataManager.kbiBean?.timeArrangementB = null
         } else {
             CreateKbiDataManager.kbiBean?.timeArrangementB = timeTypeList as List<KbiTimeCfgType2Bean>
+            CreateKbiDataManager.kbiBean?.timeArrangementA = null
         }
         return true
     }
