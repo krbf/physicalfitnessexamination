@@ -3,6 +3,8 @@ package com.example.physicalfitnessexamination.page.kbi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
@@ -22,6 +25,9 @@ import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -47,6 +53,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private String id;//考核id
     private AssessmentInfoBean assessmentInfoBean;
     private boolean unit;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     /**
      * 跳转方法
@@ -108,7 +120,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_enroll:
-                KBIRosterEnrollActivity.startInstant(this, assessmentInfoBean.getREQUIREMENT_PERSON(), assessmentInfoBean.getPERSON_TYPE(), id);
+                getPersonList1();
                 break;
             default:
                 break;
@@ -156,6 +168,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     public void getPersonList(String org_id) {
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
@@ -173,7 +191,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     listRoster.clear();
                     listRoster.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
                     commonAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     listRoster.clear();
                     commonAdapter.notifyDataSetChanged();
                 }
@@ -201,5 +219,39 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 }
             }
         });
+    }
+
+    public void getPersonList1() {//用于反选已报名人员
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("org_id", UserManager.getInstance().getUserInfo(this).getOrg_id());
+        OkhttpUtil.okHttpPost(Api.GETASSESSMENTPERSONLIST, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                List<ReferencePersonnelBean> list = new ArrayList<>();
+                if (success) {
+                    list.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), ReferencePersonnelBean.class));
+                    KBIRosterEnrollActivity.startInstant(KBIRosterActivity.this, assessmentInfoBean.getREQUIREMENT_PERSON(), assessmentInfoBean.getPERSON_TYPE(), id, list);
+                } else {
+                    KBIRosterEnrollActivity.startInstant(KBIRosterActivity.this, assessmentInfoBean.getREQUIREMENT_PERSON(), assessmentInfoBean.getPERSON_TYPE(), id, list);
+                }
+            }
+        });
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        switch (messageEvent.getMessage()) {
+            case "刷新参赛人员列表":
+
+                break;
+            default:
+                break;
+        }
     }
 }

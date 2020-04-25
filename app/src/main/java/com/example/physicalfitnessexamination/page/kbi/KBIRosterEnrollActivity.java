@@ -2,6 +2,7 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +17,9 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AllPersonBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PostBean;
+import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
@@ -25,6 +28,7 @@ import com.example.physicalfitnessexamination.util.Tool;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -57,6 +61,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
     private List<AllPersonBean> listRandom1 = new ArrayList<>();//type-1
     private List<AllPersonBean> listRandom2 = new ArrayList<>();//type-2
     private List<PostBean> listType = new ArrayList<>();
+    private List<ReferencePersonnelBean> listRoster = new ArrayList<>();
     private String requirements;//人员要求
     private String personType;//人员选取方式 1-随机抽取 2-单位报名
     private UserInfo userInfo;
@@ -70,11 +75,12 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String requirements, String personType, String id) {
+    public static void startInstant(Context context, String requirements, String personType, String id, List<ReferencePersonnelBean> listRoster) {
         Intent intent = new Intent(context, KBIRosterEnrollActivity.class);
         intent.putExtra("requirements", requirements);
         intent.putExtra("personType", personType);
         intent.putExtra("id", id);
+        intent.putParcelableArrayListExtra("listRoster", (ArrayList<? extends Parcelable>) listRoster);
         context.startActivity(intent);
     }
 
@@ -89,6 +95,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         requirements = getIntent().getStringExtra("requirements");
         personType = getIntent().getStringExtra("personType");
         id = getIntent().getStringExtra("id");
+        listRoster = getIntent().getParcelableArrayListExtra("listRoster");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -337,7 +344,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
     public void getPersonList(String type) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
-        map.put("aid",id);
+        map.put("aid", id);
         map.put("org_id", userInfo.getOrg_id());
         OkhttpUtil.okHttpPost(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
             @Override
@@ -352,11 +359,34 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                     switch (type) {
                         case "1":
                             listPost1.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), AllPersonBean.class));
+                            for (int i = 0; i < listRoster.size(); i++) {
+                                for (int j = 0; j < listPost1.size(); j++) {
+                                    if (listRoster.get(i).getUSERID().equals(listPost1.get(j).getID())) {
+                                        AllPersonBean allPersonBean = listPost1.get(j);
+                                        listRandom1.add(allPersonBean);
+                                        listPost1.remove(allPersonBean);
+                                    }
+                                }
+
+                            }
+                            listPost.clear();
                             listPost.addAll(listPost1);
                             commonAdapterPost.notifyDataSetChanged();
+                            listRandom.clear();
+                            listRandom.addAll(listRandom1);
+                            commonAdapterRandom.notifyDataSetChanged();
                             break;
                         case "2":
                             listPost2.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), AllPersonBean.class));
+                            for (int i = 0; i < listRoster.size(); i++) {
+                                for (int j = 0; j < listPost2.size(); j++) {
+                                    if (listRoster.get(i).getUSERID().equals(listPost2.get(j).getID())) {
+                                        AllPersonBean allPersonBean = listPost2.get(j);
+                                        listRandom2.add(allPersonBean);
+                                        listPost2.remove(allPersonBean);
+                                    }
+                                }
+                            }
                             break;
                         default:
                             break;
@@ -387,6 +417,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
+                    EventBus.getDefault().post(new MessageEvent("刷新参赛人员列表"));
                     finish();
                 }
             }

@@ -94,4 +94,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
     //选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+    //网络图片加载
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 }

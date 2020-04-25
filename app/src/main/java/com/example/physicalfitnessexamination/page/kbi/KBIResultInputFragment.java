@@ -20,6 +20,7 @@ import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.ToastUtil;
+import com.example.physicalfitnessexamination.view.MyListView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 import com.facebook.stetho.Stetho;
 
@@ -64,7 +65,7 @@ public class KBIResultInputFragment extends Fragment {
             public void convert(ViewHolder viewHolder, ClauseBean s) {
                 viewHolder.setText(R.id.tv_clause, s.getGW());
                 String GW = s.getGW();
-                ListView listView = viewHolder.getView(R.id.lv_post);
+                MyListView listView = viewHolder.getView(R.id.lv_post);
                 final boolean[] isShow = {false};
                 commonAdapterPost = new CommonAdapter<ClauseBean.Clause>(getContext(), R.layout.item_kbi_resultinput_child, s.getSUBJECT()) {
                     @Override
