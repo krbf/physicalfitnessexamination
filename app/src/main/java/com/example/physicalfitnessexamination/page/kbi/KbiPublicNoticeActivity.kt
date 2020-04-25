@@ -13,8 +13,10 @@ import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.util.JacksonMapper
 import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.util.spannableBold
+import com.example.physicalfitnessexamination.view.dialog.MessageDialog
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
+import com.lzy.okgo.request.base.Request
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_kbi_public_notice.*
 import kotlinx.android.synthetic.main.v_toolbar.*
@@ -45,6 +47,13 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
      */
     private val isCommonTest by lazy {
         CreateKbiDataManager.kbiBean?.personType == resources.getStringArray(R.array.perSelect)[0]
+    }
+
+    /**
+     * 等待Dialog
+     */
+    private val loadingDialog: MessageDialog by lazy {
+        MessageDialog.newInstance("创建考核中，请稍等……")
     }
 
     override fun initLayout(): Int = R.layout.activity_kbi_public_notice
@@ -112,6 +121,13 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
         try {
             RequestManager.saveAssessment(context, CreateKbiDataManager.getFinalReq(context),
                     object : StringCallback() {
+                        override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
+                            super.onStart(request)
+                            if (!loadingDialog.isVisible) {
+                                loadingDialog.show(supportFragmentManager, "")
+                            }
+                        }
+
                         override fun onSuccess(response: Response<String>?) {
                             try {
                                 response?.body()?.let {
@@ -123,11 +139,11 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                                         BuiltKBIDetailActivity.startInstant(this@KbiPublicNoticeActivity, res.id);
 
                                         //关闭之前创建流程中的页面
-                                        ActivityCollector.activitys.forEach {
-                                            if (it is CreateKBIActivity || it is KbiOrgActivity
-                                                    || it is KbiTimeConfigActivity || it is KbiPublicNoticeActivity) {
-                                                if (!it.isFinishing) {
-                                                    it.finish()
+                                        ActivityCollector.activitys.forEach {ac->
+                                            if (ac is CreateKBIActivity || ac is KbiOrgActivity
+                                                    || ac is KbiTimeConfigActivity || ac is KbiPublicNoticeActivity) {
+                                                if (!ac.isFinishing) {
+                                                    ac.finish()
                                                 }
                                             }
                                         }
@@ -137,6 +153,13 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                                 }
                             } catch (e: Exception) {
                                 Logger.e(e, "StringCallback()")
+                            }
+                        }
+
+                        override fun onFinish() {
+                            super.onFinish()
+                            if (loadingDialog.isVisible) {
+                                loadingDialog.dismiss()
                             }
                         }
                     })
