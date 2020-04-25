@@ -133,7 +133,7 @@ object CreateKbiDataManager {
 
                             list.add(TimeTypeA(
                                     t_date = sdf_date.format(a.date.time),
-                                    t_time = if (b.startTime == null || b.endTime == null) "${sdf_hour.format(b.startTime)}-${sdf_hour.format(b.endTime)}" else "",
+                                    t_time = if (b.startTime != null && b.endTime != null) "${sdf_hour.format(b.startTime)}-${sdf_hour.format(b.endTime)}" else "",
                                     content = b.assessment?.NAME ?: b.contentStr ?: "",
                                     sid = b.assessment?.ID ?: "",
                                     gw = b.position ?: "",
