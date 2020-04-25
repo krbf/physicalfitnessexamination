@@ -208,7 +208,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         map.put("sid", clause.getSID());
         map.put("userid", userid);
         map.put("achievement", achievement);
-        map.put("type", clause.getTYPE());
+        map.put("type", clause.getATYPE());
         OkhttpUtil.okHttpPost(Api.SETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
