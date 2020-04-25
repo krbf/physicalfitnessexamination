@@ -24,10 +24,13 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.DMDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -217,7 +220,7 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                             helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    showToast("考核结束");
+                                    finishKbi();
                                     dialog.dismiss();
                                 }
                             });
@@ -267,10 +270,10 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
         });
     }
 
-    public void putIntoEffect() {
+    public void finishKbi() {
         Map<String, String> map = new HashMap<>();
         map.put("ID", id);
-        OkhttpUtil.okHttpPost(Api.STARTASSESSMENT, map, new CallBackUtil.CallBackString() {
+        OkhttpUtil.okHttpPost(Api.ENDASSESSMENT, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
 
@@ -281,7 +284,8 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 String msg = JSON.parseObject(response).getString("msg");
                 if (success) {
-
+                    EventBus.getDefault().post(new MessageEvent("考核实施列表页刷新"));
+                    finish();
                 } else {
                     showToast(msg);
                 }

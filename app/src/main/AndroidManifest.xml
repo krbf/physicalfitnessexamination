@@ -79,6 +79,9 @@
             android:name=".page.kbi.PutIntoEffectKBIActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.myKbi.MyKbiActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.kbi.KBIPutIntoEffectDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />

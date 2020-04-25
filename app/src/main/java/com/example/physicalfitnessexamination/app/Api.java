@@ -17,4 +17,5 @@ public class Api {
     public static final String GETSUBJECTFORASSESSMENT = Constants.IP + "assessment/getSubjectForAssessment";//成绩录入-项目列表
     public static final String GETPERSONACHIEVEMENT4ASSESS = Constants.IP + "assessment/getPersonAchievement4Assess";//成绩录入-人员名单
     public static final String SETPERSONACHIEVEMENT4ASSESS=Constants.IP+"assessment/setPersonAchievement4Assess";//成绩录入-成绩录入
+    public static final String ENDASSESSMENT=Constants.IP+"assessment/endAssessment";//结束考核
 }

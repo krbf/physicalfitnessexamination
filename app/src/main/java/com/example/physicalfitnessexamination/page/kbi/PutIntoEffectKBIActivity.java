@@ -2,6 +2,8 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,10 +15,15 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +41,12 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
     private ListView lvKBI;
     private List<BuiltKBIListBean> list = new ArrayList<>();
     private CommonAdapter<BuiltKBIListBean> commonAdapter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     /**
      * 跳转方法
@@ -110,5 +123,23 @@ public class PutIntoEffectKBIActivity extends MyBaseActivity implements View.OnC
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        switch (messageEvent.getMessage()) {
+            case "考核实施列表页刷新":
+                list.clear();
+                getData();
+                break;
+            default:
+                break;
+        }
     }
 }
