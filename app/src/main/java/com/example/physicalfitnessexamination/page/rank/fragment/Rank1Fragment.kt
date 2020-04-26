@@ -121,6 +121,7 @@ class Rank1Fragment : Fragment() {
                 object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
                         response?.body()?.data?.let { list ->
+                            adapter.dataList.clear()
                             adapter.dataList.addAll(list)
                             adapter.notifyDataSetChanged()
                         }
