@@ -199,6 +199,8 @@ public class KbiShuntActivity extends MyBaseActivity implements View.OnClickList
             case "已建考核列表页刷新":
                 listBuildKbi.clear();
                 getData("0");
+                listPutIntoKbi.clear();
+                getData("1");
                 break;
             case "考核实施列表页刷新":
                 listPutIntoKbi.clear();

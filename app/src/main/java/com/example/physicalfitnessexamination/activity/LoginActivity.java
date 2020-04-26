@@ -27,6 +27,7 @@ import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.page.Main2Activity;
 import com.example.physicalfitnessexamination.util.MD5;
 import com.example.physicalfitnessexamination.util.Tool;
+import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText et_password;//密码
     private Button btn_login;//登录
     private String mDeviceId;
+    private MessageDialog messageDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         getToolBar().setTitle("登录页面");
         getToolBar().setLeftVisible(false);
         getToolBar().setRightImgVislble(false);
+        messageDialog = MessageDialog.newInstance("登录中，请稍等……");
     }
 
     /**
@@ -92,6 +95,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.btn_login:
                 if (checkLogin()) {
                     login();
+                    if (!messageDialog.isVisible()) {
+                        messageDialog.show(getSupportFragmentManager(), "");
+                    }
                 }
                 break;
             default:
@@ -115,9 +121,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         map.put("pwd", et_password.getText().toString());
         map.put("pwd_md5", MD5.md5Decode(et_password.getText().toString()));
         map.put("userid", et_user_name.getText().toString());
-        if (mDeviceId==null){
+        if (mDeviceId == null) {
             map.put("imei", "");
-        }else {
+        } else {
             map.put("imei", mDeviceId);
         }
         Map<String, String> heaherMap = new HashMap<>();
@@ -130,12 +136,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             @Override
             public void onResponse(String response) {
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
+                }
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     String result = JSON.parseObject(response).getString("userinfo");
                     UserInfo userInfo = JSON.parseObject(result, UserInfo.class);
                     UserManager.getInstance().saveUserInfo(LoginActivity.this, userInfo);
-//                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     Main2Activity.startInstant(LoginActivity.this);
                     finish();
                 } else {

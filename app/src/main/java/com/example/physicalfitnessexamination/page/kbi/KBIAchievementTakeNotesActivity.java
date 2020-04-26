@@ -128,12 +128,12 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
 
                                     SportKeyBoardView keyboardView = helper.getView(R.id.ky_keyboard);
                                     LinearLayout ky_keyboard_parent = helper.getView(R.id.ky_keyboard_parent);
-                                    sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement,flag);
+                                    sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
                                     edtAchievement.setOnTouchListener(new View.OnTouchListener() {
                                         @Override
                                         public boolean onTouch(View v, MotionEvent event) {
                                             if (sportKeyBoardUtil[0] == null) {
-                                                sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement,flag);
+                                                sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
                                             }
                                             sportKeyBoardUtil[0].showKeyboard();
                                             return false;
@@ -155,6 +155,17 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                                             achievement = Integer.parseInt(re[0]) * 1000 + Integer.parseInt(re[1]) * 10;
                                                         } else {
                                                             achievement = Integer.parseInt(re[0]) * 60 * 1000 + Integer.parseInt(re[1]) * 1000;
+                                                        }
+                                                    } else if (re.length == 1) {
+                                                        if (result.contains("”")) {
+                                                            achievement = Integer.parseInt(re[0]) * 1000;
+                                                        } else {
+                                                            if (result.contains("’")) {
+                                                                achievement = Integer.parseInt(re[0]) * 60 * 1000;
+                                                            } else {
+                                                                showToast("请输入单位");
+                                                                return;
+                                                            }
                                                         }
                                                     }
                                                     submission(s.getUSERID(), String.valueOf(achievement));

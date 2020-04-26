@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/_B7CFF3"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -84,7 +84,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:gravity="center"
             android:padding="10dp"
             android:text="支队平均积分"
@@ -100,7 +100,16 @@
     <ListView
         android:id="@+id/lv_my_achievement"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@color/white"
         android:dividerHeight="1dp" />
+
+    <TextView
+        android:id="@+id/tv_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/_B7CFF3" />
 </LinearLayout>
