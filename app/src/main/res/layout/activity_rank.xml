@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".page.rank.RankActivity">
+
+    <include layout="@layout/v_toolbar" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_rank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#393D49"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/_B7CFF3"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="scrollable"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@color/_B7CFF3"
+        app:tabTextAppearance="@android:style/TextAppearance.Holo.Small"
+        app:tabTextColor="#000000"/>
+
+    <com.example.physicalfitnessexamination.view.NoScrollViewPager
+        android:id="@+id/viewpager_rank"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

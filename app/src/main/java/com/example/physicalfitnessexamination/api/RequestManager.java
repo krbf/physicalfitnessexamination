@@ -3,10 +3,12 @@ package com.example.physicalfitnessexamination.api;
 import com.example.physicalfitnessexamination.api.request.FTRequest;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentGroupReq;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentObjectReq;
+import com.example.physicalfitnessexamination.api.request.GetOrgAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgForAssessmentReq;
+import com.example.physicalfitnessexamination.api.request.GetOrgListReq;
+import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
-import com.example.physicalfitnessexamination.view.RosterDialogFragment;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.request.base.Request;
@@ -117,13 +119,35 @@ public class RequestManager {
 
     /**
      * 新增考核计划
-     *
-     * @param tag      tag
-     * @param request  请求体
-     * @param callback 回调
      */
     public static void saveAssessment(Object tag, SaveAssessmentReq request, Callback callback) {
         setRequestAndCallBack(OkGo.post(HOST + "/saveAssessment").tag(tag)
                 , request, callback);
     }
+
+    /**
+     * 获取机构层级列表
+     */
+    public static void getOrgList(Object tag, GetOrgListReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getOrgList").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 单位历次考核第一
+     */
+    public static void getOrgAssessList4Bsym(Object tag, GetOrgAssessList4BsymReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getOrgAssessList4Bsym").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 单项成绩记录
+     */
+    public static void getPersonAssessList4Bsym(Object tag, GetPersonAssessList4BsymReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getPersonAssessList4Bsym").tag(tag)
+                , request, callback);
+    }
+
+
 }
