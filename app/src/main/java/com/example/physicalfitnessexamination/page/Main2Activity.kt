@@ -8,6 +8,7 @@ import com.example.physicalfitnessexamination.activity.LoginActivity
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
+import com.example.physicalfitnessexamination.page.rank.RankActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
 
@@ -40,6 +41,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
         btn_main3.setOnClickListener(this)
         btn_main4.setOnClickListener(this)
         btn_main5.setOnClickListener(this)
+        btn_main6.setOnClickListener(this)
         iv_LoginOut.setOnClickListener(this)
     }
 
@@ -53,12 +55,20 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
                 KbiShuntActivity.startInstant(this)
             }
             R.id.btn_main2 -> {
+                //我的考核
             }
             R.id.btn_main3 -> {
+                //统计分析
             }
             R.id.btn_main4 -> {
+                //榜上有名
+                RankActivity.startInstant(this)
             }
             R.id.btn_main5 -> {
+                //训练文件
+            }
+            R.id.btn_main6 -> {
+                //历史考核
             }
             R.id.iv_LoginOut -> {
                 UserManager.getInstance().loginOut(context);

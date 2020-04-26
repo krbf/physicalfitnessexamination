@@ -142,7 +142,7 @@
 
     <Button
         android:id="@+id/btn_main1"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/bk_main_btn"
@@ -157,7 +157,7 @@
 
     <Button
         android:id="@+id/btn_main2"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:background="@drawable/bk_main_btn"
         android:drawableStart="@mipmap/ic_main_tab3"
@@ -171,7 +171,7 @@
 
     <Button
         android:id="@+id/btn_main3"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:background="@drawable/bk_main_btn"
         android:drawableStart="@mipmap/ic_main_tab2"
@@ -185,7 +185,7 @@
 
     <Button
         android:id="@+id/btn_main4"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:background="@drawable/bk_main_btn"
         android:drawableStart="@mipmap/ic_main_tab1"
@@ -199,7 +199,7 @@
 
     <Button
         android:id="@+id/btn_main5"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="50dp"
         android:background="@drawable/bk_main_btn"
         android:drawableStart="@mipmap/ic_main_tab4"
@@ -207,9 +207,22 @@
         android:text="@string/mainBtnStr5"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/btn_main1"
+        app:layout_constraintEnd_toStartOf="@+id/btn_main6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_main4"/>
+    <Button
+        android:id="@+id/btn_main6"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bk_main_btn"
+        android:drawableStart="@mipmap/ic_main_tab4"
+        android:paddingStart="12dp"
+        android:text="@string/mainBtnStr6"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_main1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_main4" />
+        app:layout_constraintStart_toEndOf="@+id/btn_main5" />
 
     <ImageView
         android:id="@+id/iv_banner"
