@@ -6,69 +6,94 @@
 
     <include layout="@layout/v_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/lin_create"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/_B7CFF3"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="新建考核"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
+            <LinearLayout
+                android:id="@+id/lin_create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_B7CFF3"
+                android:orientation="horizontal"
+                android:padding="15dp">
 
-    <LinearLayout
-        android:id="@+id/lin_built"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/_B7CFF3"
-        android:orientation="horizontal"
-        android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="新建考核"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="已建考核"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
+            <LinearLayout
+                android:id="@+id/lin_built"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_B7CFF3"
+                android:orientation="horizontal"
+                android:padding="15dp">
 
-    <LinearLayout
-        android:id="@+id/lin_kbiWork"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/_B7CFF3"
-        android:orientation="horizontal"
-        android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="已建考核"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="考核实施"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/white" />
 
+            <com.example.physicalfitnessexamination.view.MyListView
+                android:id="@+id/lv_build_kbi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/white"
+                android:dividerHeight="1dp"
+                android:visibility="gone" />
 
+            <LinearLayout
+                android:id="@+id/lin_kbiWork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/_B7CFF3"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="考核实施"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.example.physicalfitnessexamination.view.MyListView
+                android:id="@+id/lv_put_into_kbi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/white"
+                android:dividerHeight="1dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

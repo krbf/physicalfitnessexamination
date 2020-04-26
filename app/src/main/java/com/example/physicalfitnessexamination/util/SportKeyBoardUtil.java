@@ -20,11 +20,13 @@ public class SportKeyBoardUtil {
     private KeyboardView keyboardView;
     private EditText editText;
     private Keyboard keyboard;// 键盘
+    private int flag;
 
-    public SportKeyBoardUtil(View keyboardParentView, KeyboardView keyboardView, EditText editText) {
+    public SportKeyBoardUtil(View keyboardParentView, KeyboardView keyboardView, EditText editText, int flag) {
         this.keyboardParentView = keyboardParentView;
         this.keyboardView = keyboardView;
         this.editText = editText;
+        this.flag = flag;
 
         this.keyboard = new Keyboard(editText.getContext(), R.xml.customer_key_board);
         this.editText.setInputType(InputType.TYPE_NULL);
@@ -89,10 +91,15 @@ public class SportKeyBoardUtil {
                     }
                     break;
                 case -1:
-                    editable.insert(start, "’");
+                    if (flag == 1) {
+                        editable.insert(start, "’");
+                    }
                     break;
                 case -2:
-                    editable.insert(start, "”");
+                    if (flag == 1) {
+                        editable.insert(start, "”");
+                    }
+
                     break;
                 default:
                     editable.insert(start, Character.toString((char) primaryCode));
