@@ -9,8 +9,9 @@
     <string name="mainBtnStr1">创建考核</string>
     <string name="mainBtnStr2">我的考核</string>
     <string name="mainBtnStr3">统计分析</string>
-    <string name="mainBtnStr4">英雄榜</string>
+    <string name="mainBtnStr4">榜上有名</string>
     <string name="mainBtnStr5">训练文件</string>
+    <string name="mainBtnStr6">历史考核</string>
 
     <string name="kbi_scheme">考核方案</string>
 
