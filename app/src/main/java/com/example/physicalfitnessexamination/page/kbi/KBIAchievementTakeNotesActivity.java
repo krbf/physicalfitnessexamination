@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 
@@ -115,6 +117,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                     if ("1".equals(clause.getATYPE())) {
                                         helper.setText(R.id.tv_measurement, clause.getDW());
                                     }
+//                                    else {
+//                                        helper.setText(R.id.tv_measurement, "格式00’00”00");
+//                                    }
                                     EditText edtAchievement = helper.getView(R.id.edt_achievement);
 
                                     int flag;
@@ -146,6 +151,17 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                             switch (clause.getATYPE()) {
                                                 case "0"://时间计数
                                                     String result = edtAchievement.getText().toString();
+
+                                                    // 首先要编译正则规则形式
+                                                    Pattern p = Pattern.compile("([0-5][0-9]’[0-5][0-9]”[0-9][0-9])|([0-5][0-9]’[0-5][0-9])|([0-5][0-9]”[0-9][0-9])");
+                                                    // 将正则进行匹配
+                                                    Matcher m = p.matcher(result);
+                                                    // 进行判断
+                                                    boolean b = m.matches();
+                                                    if (!b) {
+                                                        showToast("输入不合法");
+                                                        return;
+                                                    }
                                                     String[] re = result.split("’|”");
                                                     int achievement = 0;
                                                     if (re.length == 3) {
