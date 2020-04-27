@@ -8,6 +8,7 @@ import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgListReq;
 import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq;
+import com.example.physicalfitnessexamination.api.request.GetRemarkForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
@@ -146,6 +147,14 @@ public class RequestManager {
      */
     public static void getPersonAssessList4Bsym(Object tag, GetPersonAssessList4BsymReq request, Callback callback) {
         setRequestAndCallBack(OkGo.post(HOST + "/getPersonAssessList4Bsym").tag(tag)
+                , request, callback);
+    }
+
+    /**
+     * 主页公告
+     */
+    public static void getRemarkForAssessment(Object tag, GetRemarkForAssessmentReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getRemarkForAssessment").tag(tag)
                 , request, callback);
     }
 

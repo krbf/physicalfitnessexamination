@@ -35,79 +35,32 @@
         app:layout_constraintGuide_begin="50dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="•"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_new1_space"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv_new1_space" />
-
-    <TextView
-        android:id="@+id/tv_new2_space"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_new2" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="•"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_new2_space"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/tv_new2_space" />
-
-    <TextView
-        android:id="@+id/tv_new1_space"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_new1" />
-
-    <TextView
-        android:id="@+id/tv_new1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/main_public_note1"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_new2"
-        app:layout_constraintEnd_toStartOf="@+id/iv_banner"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_mainTitle"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
-        android:id="@+id/tv_new2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="@string/main_public_note2"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_main1"
-        app:layout_constraintEnd_toStartOf="@+id/iv_banner"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_new1" />
-
-    <TextView
         android:id="@+id/tv_public_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:text="公告"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_new1"
-        app:layout_constraintEnd_toEndOf="@+id/tv_new1"
-        app:layout_constraintStart_toStartOf="@+id/tv_new1" />
+        app:layout_constraintEnd_toEndOf="@+id/vFlip_notice"
+        app:layout_constraintStart_toStartOf="@+id/vFlip_notice"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mainTitle" />
+
+    <ViewFlipper
+        android:id="@+id/vFlip_notice"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="18dp"
+        android:autoStart="true"
+        android:flipInterval="5000"
+        android:inAnimation="@anim/view_fliper_in"
+        android:outAnimation="@anim/view_fliper_out"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/v_dashLineBottom"
+        app:layout_constraintEnd_toStartOf="@+id/iv_banner"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tv_public_note" />
 
     <View
         android:layout_width="0dp"
@@ -116,7 +69,7 @@
         android:background="@drawable/bk_main_public_note_line"
         app:layout_constraintBottom_toBottomOf="@+id/tv_public_note"
         app:layout_constraintEnd_toStartOf="@+id/tv_public_note"
-        app:layout_constraintStart_toStartOf="@+id/tv_new1"
+        app:layout_constraintStart_toStartOf="@+id/vFlip_notice"
         app:layout_constraintTop_toTopOf="@+id/tv_public_note" />
 
     <View
@@ -126,7 +79,7 @@
         android:layout_marginStart="20dp"
         android:background="@drawable/bk_main_public_note_line"
         app:layout_constraintBottom_toBottomOf="@+id/tv_public_note"
-        app:layout_constraintEnd_toEndOf="@+id/tv_new1"
+        app:layout_constraintEnd_toEndOf="@+id/vFlip_notice"
         app:layout_constraintStart_toEndOf="@+id/tv_public_note"
         app:layout_constraintTop_toTopOf="@+id/tv_public_note" />
 
@@ -134,11 +87,11 @@
         android:id="@+id/v_dashLineBottom"
         android:layout_width="0dp"
         android:layout_height="1.5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/bk_main_public_note_line"
-        app:layout_constraintEnd_toEndOf="@+id/tv_new2"
-        app:layout_constraintStart_toStartOf="@+id/tv_new2"
-        app:layout_constraintTop_toBottomOf="@+id/tv_new2" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_main1"
+        app:layout_constraintEnd_toEndOf="@+id/vFlip_notice"
+        app:layout_constraintStart_toStartOf="@+id/vFlip_notice" />
 
     <Button
         android:id="@+id/btn_main1"
@@ -209,7 +162,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/btn_main1"
         app:layout_constraintEnd_toStartOf="@+id/btn_main6"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_main4"/>
+        app:layout_constraintStart_toEndOf="@+id/btn_main4" />
+
     <Button
         android:id="@+id/btn_main6"
         android:layout_width="120dp"
