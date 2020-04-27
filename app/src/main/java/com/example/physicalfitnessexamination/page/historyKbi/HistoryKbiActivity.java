@@ -103,7 +103,7 @@ public class HistoryKbiActivity extends MyBaseActivity implements View.OnClickLi
                 viewHolder.getConvertView().setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        // BuiltKBIDetailActivity.startInstant(BuiltKBIActivity.this, s.getID());
+                         HistoryKbiDetailActivity.startInstant(HistoryKbiActivity.this, s.getID());
                     }
                 });
             }

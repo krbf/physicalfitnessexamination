@@ -215,7 +215,7 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:background="@drawable/bk_main_btn"
-        android:drawableStart="@mipmap/ic_main_tab4"
+        android:drawableStart="@mipmap/ic_main_tab6"
         android:paddingStart="12dp"
         android:text="@string/mainBtnStr6"
         android:textColor="@color/white"

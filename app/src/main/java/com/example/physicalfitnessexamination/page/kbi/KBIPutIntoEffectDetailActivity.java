@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -179,10 +180,13 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 showToast("考核中");
                 break;
             case R.id.tv_append:
-                KBIAppendixActivity.startInstant(this, id);
+                KBIAppendixActivity.startInstant(this, id,2);
                 break;
             case R.id.tv_plan:
                 tvName.setText("考核方案");
+                tvPlan.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
+                tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
+                tvTime.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 if (KBIPower) {
                     tvWork.setVisibility(View.VISIBLE);
                 }
@@ -190,11 +194,17 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 break;
             case R.id.tv_organization:
                 tvName.setText("考核组织");
+                tvPlan.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
+                tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
+                tvTime.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 tvWork.setVisibility(View.GONE);
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentExaminerH5?id=" + id);
                 break;
             case R.id.tv_time:
                 tvName.setText("时间安排");
+                tvPlan.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
+                tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
+                tvTime.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
                 tvWork.setVisibility(View.GONE);
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentTimeH5?id=" + id);
                 break;

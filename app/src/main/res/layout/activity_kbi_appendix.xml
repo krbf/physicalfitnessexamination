@@ -30,6 +30,7 @@
         android:background="@color/white" />
 
     <LinearLayout
+        android:id="@+id/lin_appeal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/_B7CFF3"
@@ -52,6 +53,7 @@
         android:background="@color/white" />
 
     <LinearLayout
+        android:id="@+id/lin_means"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/_B7CFF3"

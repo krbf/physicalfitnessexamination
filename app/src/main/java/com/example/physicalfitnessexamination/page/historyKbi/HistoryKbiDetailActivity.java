@@ -1,11 +1,9 @@
-package com.example.physicalfitnessexamination.page.kbi;
+package com.example.physicalfitnessexamination.page.historyKbi;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,7 +14,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +27,11 @@ import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.page.kbi.BuiltKBIDetailActivity;
+import com.example.physicalfitnessexamination.page.kbi.KBIAchievementActivity;
+import com.example.physicalfitnessexamination.page.kbi.KBIAppendixActivity;
+import com.example.physicalfitnessexamination.page.kbi.KBIPutIntoEffectDetailActivity;
+import com.example.physicalfitnessexamination.page.kbi.KBIRosterActivity;
 import com.example.physicalfitnessexamination.view.DMDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,13 +44,13 @@ import java.util.Map;
 import okhttp3.Call;
 
 /**
- * 已建考核详情页
+ * 历史考核详情页
  */
-public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnClickListener {
+public class HistoryKbiDetailActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
     private WebView wvKbiDetail;
-    private TextView tvModify;//修改
+    private TextView tvModify;//历史考核隐藏此按钮
     private TextView tvAppend;//考核附件
     private TextView tvPlan;//考核方案
     private TextView tvOrganization;//考核组织
@@ -56,16 +58,10 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     private TextView tvRoster;//考核花名册
     private TextView tvAchievement;//考核成绩表
     private TextView tvName;//页面第一行名称显示
-    private TextView tvWork;//考核实施
+    private TextView tvWork;//历史考核隐藏此按钮
     private String id;//考核id
     private AssessmentInfoBean assessmentInfoBean;
     private UserInfo userInfo;
-    private boolean KBIPower = false;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     /**
      * 跳转方法
@@ -73,7 +69,7 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
      * @param context 上下文
      */
     public static void startInstant(Context context, String id) {
-        Intent intent = new Intent(context, BuiltKBIDetailActivity.class);
+        Intent intent = new Intent(context, HistoryKbiDetailActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
     }
@@ -113,7 +109,11 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
     @Override
     protected void initData() {
         getAssessmentInfo();//获取考核基本信息
-        tvTitle.setText("已建考核");
+        tvModify.setVisibility(View.GONE);
+        tvWork.setVisibility(View.GONE);
+        tvRoster.setVisibility(View.GONE);
+
+        tvTitle.setText("历史考核");
         tvName.setText("考核方案");
 
         //加载本地html文件
@@ -174,20 +174,14 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
             case R.id.iv_right:
                 finish();
                 break;
-            case R.id.tv_modify:
-                showToast("暂未开放");
-                break;
             case R.id.tv_append:
-                KBIAppendixActivity.startInstant(this, id,1);
+                KBIAppendixActivity.startInstant(this, id, 3);
                 break;
             case R.id.tv_plan:
                 tvName.setText("考核方案");
                 tvPlan.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
                 tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 tvTime.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
-                if (KBIPower) {
-                    tvWork.setVisibility(View.VISIBLE);
-                }
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentInfoH5?id=" + id);
                 break;
             case R.id.tv_organization:
@@ -195,7 +189,6 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 tvPlan.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
                 tvTime.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
-                tvWork.setVisibility(View.GONE);
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentExaminerH5?id=" + id);
                 break;
             case R.id.tv_time:
@@ -203,39 +196,10 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                 tvPlan.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 tvOrganization.setTextColor(ContextCompat.getColor(this,R.color._8A8A8A));
                 tvTime.setTextColor(ContextCompat.getColor(this,R.color._EF7D65));
-                tvWork.setVisibility(View.GONE);
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentTimeH5?id=" + id);
-                break;
-            case R.id.tv_roster:
-                KBIRosterActivity.startInstant(this, id);
                 break;
             case R.id.tv_achievement:
                 KBIAchievementActivity.startInstant(this, id, "1");
-                break;
-            case R.id.tv_work:
-                DMDialog.builder(this, R.layout.dialog_hint)
-                        .onDialogInitListener((helper, dialog) ->
-                        {
-                            helper.setText(R.id.tv_hint, "确定实施此考核吗？");
-                            helper.setText(R.id.tv_cancel, "取消");
-                            helper.setText(R.id.tv_ok,"确定");
-                            helper.setOnClickListener(R.id.tv_cancel, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-                                }
-                            });
-                            helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    putIntoEffect();
-                                    dialog.dismiss();
-                                }
-                            });
-                        })
-
-                        .setGravity(Gravity.CENTER)
-                        .show();
                 break;
             default:
                 break;
@@ -259,45 +223,6 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                     if ("0".equals(assessmentInfoBean.getTYPE())) {
                         tvOrganization.setVisibility(View.GONE);//日常考核无考核组织
                     }
-                    if (assessmentInfoBean.getGROUP_LEADER() == null) {
-                        KBIPower = true;
-                        tvWork.setVisibility(View.VISIBLE);
-                    } else {
-                        if (userInfo.getOrg_id().equals(assessmentInfoBean.getORG_ID())) {
-                            String GROUP_LEADER = assessmentInfoBean.getGROUP_LEADER();
-                            List<String> listGL = Arrays.asList(GROUP_LEADER.split(","));
-                            for (int i = 0; i < listGL.size(); i++) {
-                                if (userInfo.getUsername().equals(listGL.get(i))) {
-                                    KBIPower = true;
-                                    tvWork.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    public void putIntoEffect() {
-        Map<String, String> map = new HashMap<>();
-        map.put("ID", id);
-        OkhttpUtil.okHttpPost(Api.STARTASSESSMENT, map, new CallBackUtil.CallBackString() {
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                boolean success = JSON.parseObject(response).getBoolean("success");
-                String msg = JSON.parseObject(response).getString("msg");
-                if (success) {
-                    EventBus.getDefault().post(new MessageEvent("已建考核列表页刷新"));
-                    KBIPutIntoEffectDetailActivity.startInstant(BuiltKBIDetailActivity.this, id);
-                    finish();
-                } else {
-                    showToast(msg);
                 }
             }
         });

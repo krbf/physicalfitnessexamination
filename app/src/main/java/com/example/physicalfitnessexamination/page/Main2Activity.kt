@@ -11,6 +11,7 @@ import com.example.physicalfitnessexamination.page.historyKbi.HistoryKbiActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
 import com.example.physicalfitnessexamination.page.myKbi.MyKbiActivity
 import com.example.physicalfitnessexamination.page.rank.RankActivity
+import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
 
@@ -69,6 +70,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
             }
             R.id.btn_main5 -> {
                 //训练文件
+                TrainFilesActivity.startInstant(this)
             }
             R.id.btn_main6 -> {
                 //历史考核
