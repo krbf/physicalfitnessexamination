@@ -92,6 +92,9 @@
             android:name=".page.historyKbi.HistoryKbiDetailActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.statistics.TrainingAnalysisActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.trainFiles.TrainFilesActivity"
             android:screenOrientation="sensorLandscape" />
         <activity

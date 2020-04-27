@@ -18,6 +18,7 @@ import com.example.physicalfitnessexamination.page.historyKbi.HistoryKbiActivity
 import com.example.physicalfitnessexamination.page.kbi.KbiShuntActivity
 import com.example.physicalfitnessexamination.page.myKbi.MyKbiActivity
 import com.example.physicalfitnessexamination.page.rank.RankActivity
+import com.example.physicalfitnessexamination.page.statistics.TrainingAnalysisActivity
 import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
 import com.lzy.okgo.model.Response
 import kotlinx.android.synthetic.main.activity_main2.*
@@ -83,6 +84,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
             }
             R.id.btn_main3 -> {
                 //统计分析
+                TrainingAnalysisActivity.startInstant(this)
             }
             R.id.btn_main4 -> {
                 //榜上有名
