@@ -88,13 +88,19 @@ class Rank1Fragment : Fragment() {
                 sp_type2.adapter = ArrayAdapter(context, R.layout.time_config_content_spinner_item,
                         when (position) {
                             0 -> {
-                                resources.getStringArray(R.array.managePosition)
+                                val li = mutableListOf("")
+                                li.addAll(resources.getStringArray(R.array.managePosition))
+                                li.toTypedArray()
                             }
                             1 -> {
-                                resources.getStringArray(R.array.manageBrigadePosition)
+                                val li = mutableListOf("")
+                                li.addAll(resources.getStringArray(R.array.manageBrigadePosition))
+                                li.toTypedArray()
                             }
                             else -> {
-                                resources.getStringArray(R.array.commPosition)
+                                val li = mutableListOf("")
+                                li.addAll(resources.getStringArray(R.array.commPosition))
+                                li.toTypedArray()
                             }
                         })
             }
