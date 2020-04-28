@@ -186,9 +186,15 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
                 HistoryKbiActivity.startInstant(this)
             }
             R.id.iv_LoginOut -> {
-                UserManager.getInstance().loginOut(context);
-                LoginActivity.startInstant(this);
-                finish();
+                AlertDialog.Builder(context)
+                        .setMessage("确定退出当前登录账户吗？")
+                        .setPositiveButton("确定") { _, _ ->
+                            UserManager.getInstance().loginOut(context)
+                            LoginActivity.startInstant(this)
+                            finish()
+                        }
+                        .setNegativeButton("取消", null)
+                        .create().show()
             }
         }
     }
