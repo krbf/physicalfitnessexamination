@@ -10,6 +10,7 @@ import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.page.rank.fragment.Rank1Fragment
 import com.example.physicalfitnessexamination.page.rank.fragment.Rank2Fragment
+import com.example.physicalfitnessexamination.page.rank.fragment.Rank3Fragment
 import com.example.physicalfitnessexamination.view.NoScrollViewPager
 import kotlinx.android.synthetic.main.activity_rank.*
 import kotlinx.android.synthetic.main.v_toolbar.*
@@ -71,10 +72,10 @@ class RankActivity : MyBaseActivity(), View.OnClickListener {
             return when (i) {
                 0 -> Rank1Fragment.newInstance("", "")
                 1 -> Rank2Fragment.newInstance("", "")
-                2 -> Rank1Fragment.newInstance("", "")
-                3 -> Rank1Fragment.newInstance("", "")
-                4 -> Rank1Fragment.newInstance("", "")
-                else -> Rank1Fragment.newInstance("", "")
+                2 -> Rank3Fragment.newInstance("", "")
+                3 -> Rank3Fragment.newInstance("", "")
+                4 -> Rank3Fragment.newInstance("", "")
+                else -> Rank3Fragment.newInstance("", "")
             }
         }
 

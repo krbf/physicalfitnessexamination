@@ -138,7 +138,7 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
                                                         },
                                                         LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                                                 LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                                                            setMargins(0, 18.dp2px, 0, 0)
+                                                            setMargins(0, 8.dp2px, 0, 0)
                                                         })
                                                 addView(
                                                         TextView(context).apply {
