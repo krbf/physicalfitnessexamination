@@ -30,6 +30,7 @@ import com.example.physicalfitnessexamination.glide.ImageLoaderUtils;
 import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
 import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
+import com.example.physicalfitnessexamination.util.Tool;
 import com.example.physicalfitnessexamination.view.DMDialog;
 import com.example.physicalfitnessexamination.view.SportKeyBoardView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
@@ -187,6 +188,10 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                                     submission(s.getUSERID(), String.valueOf(achievement));
                                                     break;
                                                 case "1"://次数
+                                                    if (Tool.isEmpty(edtAchievement.getText().toString())) {
+                                                        showToast("请输入成绩");
+                                                        return;
+                                                    }
                                                     submission(s.getUSERID(), edtAchievement.getText().toString());
                                                     break;
                                             }
