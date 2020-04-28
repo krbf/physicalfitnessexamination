@@ -3,11 +3,13 @@ package com.example.physicalfitnessexamination.page
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.support.v7.app.AlertDialog
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
@@ -189,5 +191,16 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
                 finish();
             }
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder(context)
+                    .setMessage("确定退出当前应用吗？")
+                    .setPositiveButton("确定") { dialog, which -> finish() }
+                    .setNegativeButton("取消", null)
+                    .create().show()
+        }
+        return true
     }
 }
