@@ -2,12 +2,14 @@ package com.example.physicalfitnessexamination.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.tencent.smtt.sdk.QbSdk;
 
 import okhttp3.OkHttpClient;
 
@@ -35,6 +37,8 @@ public class MyApplication extends Application {
         initOkGo();
 
         Stetho.initializeWithDefaults(this);
+
+        initX5Web();
     }
 
     /**
@@ -61,6 +65,22 @@ public class MyApplication extends Application {
 //                .addCommonHeaders(headers)                      //全局公共头
 //                .addCommonParams(params)
         ;
+    }
+
+
+    private void initX5Web() {
+        //Log.i(TAG, "QbSdk.initX5Environment");
+        QbSdk.initX5Environment(getApplicationContext(), new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                //   Log.d(TAG, "onCoreInitFinished");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean initResult) {
+                //    Log.e(TAG, "onViewInitFinished:" + initResult);
+            }
+        });
     }
 
     @Override

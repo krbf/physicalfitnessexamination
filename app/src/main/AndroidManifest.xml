@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 访问日历权限 -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /><!-- 读取手机状态权限 -->
 
     <application
         android:name=".base.MyApplication"
@@ -97,6 +97,17 @@
         <activity
             android:name=".page.trainFiles.TrainFilesActivity"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.trainFiles.FileLookActivity"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name="com.hanlyjiang.library.fileviewer.tbs.TBSFileViewActivity"
+            android:screenOrientation="sensorLandscape" />
+
+        <activity
+            android:name="com.artifex.mupdf.viewer.DocumentActivity"
+            android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".page.kbi.KBIPutIntoEffectDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

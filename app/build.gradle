@@ -23,14 +23,19 @@ android {
             keyPassword '123456'
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "com.example.physicalfitnessexamination"
-        minSdkVersion 23
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 此处必须设置为 armeabi ，TBS 文件浏览不支持其他类型
+            abiFilters "armeabi"
+        }
     }
     buildTypes {
         release {
@@ -96,4 +101,5 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     //网络图片加载
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation project(':lib_fileviewer')
 }
