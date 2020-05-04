@@ -4,6 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/cl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#1D2AC8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="标题"
+            android:textColor="#F4D224"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:src="@drawable/back" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_error_handle"
@@ -31,8 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00ffffff"
-                android:paddingBottom="10dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:text="使用其他应用查看"
                 android:textColor="@color/action_bar_color"
                 android:textSize="14sp" />
@@ -52,6 +79,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
-
 </FrameLayout>

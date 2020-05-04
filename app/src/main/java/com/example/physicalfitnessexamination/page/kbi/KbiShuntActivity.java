@@ -90,7 +90,7 @@ public class KbiShuntActivity extends MyBaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
-        tvTitle.setText("考核");
+        tvTitle.setText("创建考核");
         commonAdapterBuildKbi = new CommonAdapter<BuiltKBIListBean>(this, R.layout.item_built_kbi, listBuildKbi) {
             @Override
             public void convert(ViewHolder viewHolder, BuiltKBIListBean s) {

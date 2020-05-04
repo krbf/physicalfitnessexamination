@@ -20,7 +20,7 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
     private LinearLayout linAppeal;//考核申诉
     private LinearLayout linMeans;//考核资料
     private String id;//考核id
-    private int flag;//1 已经考核进入  2 考核实施进入  3 历史考核进入
+    private int flag;//1 已建考核进入  2 考核实施进入  3 历史考核进入
 
     /**
      * 跳转方法
@@ -56,7 +56,14 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        tvTitle.setText("考核附件");
+        switch (flag){
+            case 1:
+                tvTitle.setText("已建考核 - 考核附件");
+                break;
+            case 2:
+                tvTitle.setText("考核实施 - 考核附件");
+                break;
+        }
     }
 
     @Override

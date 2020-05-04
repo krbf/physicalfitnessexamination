@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.artifex.mupdf.R;
@@ -47,6 +50,8 @@ public class TBSFileViewActivity extends AppCompatActivity implements TbsReaderV
 
     private ViewGroup errorHandleLayout;
     private String filePath;
+    private TextView tvTitle;
+    private ImageView imgRight;
 
     public static void viewFile(Context context, String localPath) {
         Intent intent = new Intent(context, TBSFileViewActivity.class);
@@ -72,6 +77,8 @@ public class TBSFileViewActivity extends AppCompatActivity implements TbsReaderV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
+                , WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tbs_file_view_layout);
         rootViewParent = (FrameLayout) findViewById(R.id.fl_rootview);
         errorHandleLayout = (ViewGroup) findViewById(R.id.ll_error_handle);
@@ -91,9 +98,20 @@ public class TBSFileViewActivity extends AppCompatActivity implements TbsReaderV
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
         );
+        layoutParams.topMargin = 160;
         mTbsReaderView.setLayoutParams(layoutParams);
         rootViewParent.addView(mTbsReaderView);
         displayFile(filePath);
+
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvTitle.setText(getString(R.string.view_file) + getFileName(filePath));
+        imgRight = (ImageView) findViewById(R.id.iv_right);
+        imgRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initErrorHandleLayout(ViewGroup errorHandleLayout) {

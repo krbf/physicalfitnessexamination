@@ -21,7 +21,7 @@
         app:tabRippleColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/_B7CFF3"
         app:tabTextAppearance="@android:style/TextAppearance.Holo.Small"
-        app:tabTextColor="#000000"/>
+        app:tabTextColor="@color/white"/>
 
     <com.example.physicalfitnessexamination.view.NoScrollViewPager
         android:id="@+id/viewpager_rank"

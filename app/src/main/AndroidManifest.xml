@@ -98,9 +98,6 @@
             android:name=".page.trainFiles.TrainFilesActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.trainFiles.FileLookActivity"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name="com.hanlyjiang.library.fileviewer.tbs.TBSFileViewActivity"
             android:screenOrientation="sensorLandscape" />
 

@@ -53,6 +53,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private String id;//考核id
     private AssessmentInfoBean assessmentInfoBean;
     private boolean unit;
+    private int flag;//1 已建考核进入  2 考核实施进入  3 历史考核进入
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,9 +66,10 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id) {
+    public static void startInstant(Context context, String id, int flag) {
         Intent intent = new Intent(context, KBIRosterActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("flag", flag);
         context.startActivity(intent);
     }
 
@@ -79,6 +81,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
+        flag = getIntent().getIntExtra("flag", 0);
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -90,7 +93,14 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        tvTitle.setText("考核花名册 - 查看");
+        switch (flag){
+            case 1:
+                tvTitle.setText("已建考核 - 考核花名册");
+                break;
+            case 2:
+                tvTitle.setText("考核实施 - 考核花名册");
+                break;
+        }
         spvOrganization.setName("单位");
         getData();
         commonAdapter = new CommonAdapter<ReferencePersonnelBean>(this, R.layout.item_kbi_roster, listRoster) {
@@ -105,7 +115,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 viewHolder.setText(R.id.tv_name, s.getUSERNAME());
                 viewHolder.setText(R.id.tv_sex, s.getSEX());
                 viewHolder.setText(R.id.tv_age, s.getAGE());
-                viewHolder.setText(R.id.tv_type, s.getTYPE());
+                viewHolder.setText(R.id.tv_job, s.getZW());
                 viewHolder.setText(R.id.tv_post, s.getGW());
                 viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
             }

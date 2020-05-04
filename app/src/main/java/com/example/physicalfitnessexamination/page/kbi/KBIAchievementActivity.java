@@ -61,14 +61,15 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
         switch (flag) {
             case "1":
                 title = new String[]{"成绩汇总"};
+                tvTitle.setText("已建考核 - 考核成绩表");
                 break;
             case "2":
                 title = new String[]{"成绩汇总", "成绩录入"};
+                tvTitle.setText("考核实施 - 考核成绩表");
                 break;
             default:
                 break;
         }
-        tvTitle.setText("考核成绩表");
         viewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);

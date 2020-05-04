@@ -68,13 +68,13 @@
         android:background="@color/white" />
 
     <TextView
-        android:id="@+id/tv_type"
+        android:id="@+id/tv_job"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center"
         android:padding="10dp"
-        android:text="类型"
+        android:text="职务"
         android:textColor="@color/black" />
 
     <View

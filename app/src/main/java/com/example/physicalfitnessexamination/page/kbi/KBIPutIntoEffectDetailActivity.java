@@ -209,7 +209,7 @@ public class KBIPutIntoEffectDetailActivity extends MyBaseActivity implements Vi
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentTimeH5?id=" + id);
                 break;
             case R.id.tv_roster:
-                KBIRosterActivity.startInstant(this, id);
+                KBIRosterActivity.startInstant(this, id,2);
                 break;
             case R.id.tv_achievement:
                 KBIAchievementActivity.startInstant(this, id, "2");
