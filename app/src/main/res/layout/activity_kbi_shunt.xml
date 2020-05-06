@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:divider="@color/white"
                 android:dividerHeight="1dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/lin_kbiWork"
@@ -93,7 +93,7 @@
                 android:layout_height="match_parent"
                 android:divider="@color/white"
                 android:dividerHeight="1dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

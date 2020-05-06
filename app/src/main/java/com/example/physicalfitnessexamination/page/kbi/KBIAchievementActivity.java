@@ -26,7 +26,7 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
     private NoScrollViewPager viewPager;
     private String[] title = new String[]{"成绩汇总", "成绩录入"};
     private String id;//考核id
-    private String flag;//tab切换控制 1-展示成绩汇总 2-展示成绩汇总+成绩录入
+    private String flag;//tab切换控制 1-已建考核 2-考核实施 3-历史考核
 
     /**
      * 跳转方法
@@ -60,12 +60,16 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
     protected void initData() {
         switch (flag) {
             case "1":
-                title = new String[]{"成绩汇总"};
+//                title = new String[]{"成绩汇总"};
                 tvTitle.setText("已建考核 - 考核成绩表");
                 break;
             case "2":
-                title = new String[]{"成绩汇总", "成绩录入"};
+//                title = new String[]{"成绩汇总", "成绩录入"};
                 tvTitle.setText("考核实施 - 考核成绩表");
+                break;
+            case "3":
+                title = new String[]{"成绩汇总"};
+                tvTitle.setText("历史考核 - 考核成绩表");
                 break;
             default:
                 break;

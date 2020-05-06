@@ -3,6 +3,8 @@ package com.example.physicalfitnessexamination.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.physicalfitnessexamination.view.NoScrollViewPager;
+
 /**
  * 参考人员实体类 +请假人员实体类 （STATUS无）
  */
@@ -17,8 +19,9 @@ public class ReferencePersonnelBean implements Parcelable {
     private String TYPE;
     private String ORG_NAME;
     private String GW;
+    private String NO;
 
-    public ReferencePersonnelBean(){
+    public ReferencePersonnelBean() {
 
     }
 
@@ -33,6 +36,7 @@ public class ReferencePersonnelBean implements Parcelable {
         TYPE = in.readString();
         ORG_NAME = in.readString();
         GW = in.readString();
+        NO = in.readString();
     }
 
     @Override
@@ -47,6 +51,7 @@ public class ReferencePersonnelBean implements Parcelable {
         dest.writeString(TYPE);
         dest.writeString(ORG_NAME);
         dest.writeString(GW);
+        dest.writeString(NO);
     }
 
     @Override
@@ -144,5 +149,13 @@ public class ReferencePersonnelBean implements Parcelable {
 
     public void setGW(String GW) {
         this.GW = GW;
+    }
+
+    public String getNO() {
+        return NO;
+    }
+
+    public void setNO(String NO) {
+        this.NO = NO;
     }
 }

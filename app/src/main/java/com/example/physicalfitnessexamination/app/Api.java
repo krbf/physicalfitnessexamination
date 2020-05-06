@@ -16,7 +16,8 @@ public class Api {
     public static final String STARTASSESSMENT = Constants.IP + "assessment/startAssessment";//实施考核接口
     public static final String GETSUBJECTFORASSESSMENT = Constants.IP + "assessment/getSubjectForAssessment";//成绩录入-项目列表
     public static final String GETPERSONACHIEVEMENT4ASSESS = Constants.IP + "assessment/getPersonAchievement4Assess";//成绩录入-人员名单
-    public static final String SETPERSONACHIEVEMENT4ASSESS=Constants.IP+"assessment/setPersonAchievement4Assess";//成绩录入-成绩录入
-    public static final String ENDASSESSMENT=Constants.IP+"assessment/endAssessment";//结束考核
-    public static final String GETACHIEVEMENT4MINE=Constants.IP+"assessment/getAchievement4mine";//我的成绩
+    public static final String SETPERSONACHIEVEMENT4ASSESS = Constants.IP + "assessment/setPersonAchievement4Assess";//成绩录入-成绩录入
+    public static final String ENDASSESSMENT = Constants.IP + "assessment/endAssessment";//结束考核
+    public static final String GETACHIEVEMENT4MINE = Constants.IP + "assessment/getAchievement4mine";//我的成绩
+    public static final String GETFILELIST = Constants.IP + "assessment/getFileList";//文件列表
 }

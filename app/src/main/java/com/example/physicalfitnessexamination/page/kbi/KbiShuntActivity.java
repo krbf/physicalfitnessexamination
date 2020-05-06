@@ -50,7 +50,7 @@ public class KbiShuntActivity extends MyBaseActivity implements View.OnClickList
     private CommonAdapter<BuiltKBIListBean> commonAdapterPutIntoKbi;
     private TextView tvTitle;
     private ImageView imgRight;
-    private boolean showBuildKbi, showPutIntoKbi;
+    private boolean showBuildKbi = true, showPutIntoKbi = true;
 
     /**
      * 跳转方法

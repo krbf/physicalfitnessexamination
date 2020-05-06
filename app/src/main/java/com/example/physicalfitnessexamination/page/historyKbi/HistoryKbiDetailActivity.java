@@ -199,7 +199,7 @@ public class HistoryKbiDetailActivity extends MyBaseActivity implements View.OnC
                 wvKbiDetail.loadUrl(Constants.IP + "assessment/assessmentTimeH5?id=" + id);
                 break;
             case R.id.tv_achievement:
-                KBIAchievementActivity.startInstant(this, id, "1");
+                KBIAchievementActivity.startInstant(this, id, "3");
                 break;
             default:
                 break;

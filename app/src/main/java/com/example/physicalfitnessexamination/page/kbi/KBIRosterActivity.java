@@ -93,7 +93,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        switch (flag){
+        switch (flag) {
             case 1:
                 tvTitle.setText("已建考核 - 考核花名册");
                 break;
@@ -112,6 +112,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     viewHolder.getView(R.id.lin_content).setBackgroundColor(Color.parseColor("#EF7D65"));
                 }
                 viewHolder.setText(R.id.tv_order, viewHolder.getPosition() + 1 + "");
+                viewHolder.setText(R.id.tv_number, s.getNO());
                 viewHolder.setText(R.id.tv_name, s.getUSERNAME());
                 viewHolder.setText(R.id.tv_sex, s.getSEX());
                 viewHolder.setText(R.id.tv_age, s.getAGE());
@@ -254,6 +255,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
             }
         });
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         switch (messageEvent.getMessage()) {
