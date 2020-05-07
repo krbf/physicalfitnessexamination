@@ -224,7 +224,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
-                    if (!"0".equals(assessmentInfoBean.getPERSON_TYPE()) && unit) {
+                    if (!"0".equals(assessmentInfoBean.getPERSON_TYPE()) && unit && flag == 1) {
                         tvEnroll.setVisibility(View.VISIBLE);
                     }
                 }

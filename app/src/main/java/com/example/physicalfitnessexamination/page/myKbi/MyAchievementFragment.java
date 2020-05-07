@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
+
 /**
  * 我的考核-我的成绩页面
  */
@@ -86,7 +87,7 @@ public class MyAchievementFragment extends Fragment {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     myAchievementBean = JSON.parseObject(JSON.parseObject(response).getString("data"), MyAchievementBean.class);
-                    if (myAchievementBean.getList()!=null){
+                    if (myAchievementBean.getList() != null) {
                         listMyAchievement.addAll(myAchievementBean.getList());
                         commonAdapter.notifyDataSetChanged();
                     }

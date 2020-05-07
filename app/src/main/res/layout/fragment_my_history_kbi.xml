@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-        android:id="@+id/spv_organization"
+        android:id="@+id/spv_clause"
         android:layout_width="match_parent"
         android:layout_height="@dimen/excel_height" />
 

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:padding="15dp"
         android:text="一组"
         android:textColor="@color/black" />
 
@@ -20,20 +21,13 @@
         android:layout_height="match_parent"
         android:background="@color/white" />
 
-    <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-        android:id="@+id/spv_start"
+    <TextView
+        android:id="@+id/tv_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
-
-    <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-        android:id="@+id/spv_end"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="left"
+        android:padding="15dp"
+        android:text="序号:"
+        android:textColor="@color/black" />
 </LinearLayout>

@@ -99,6 +99,7 @@
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".page.kbi.GroupSettingsActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name="com.hanlyjiang.library.fileviewer.tbs.TBSFileViewActivity"

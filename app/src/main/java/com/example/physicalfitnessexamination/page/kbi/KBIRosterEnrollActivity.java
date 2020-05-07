@@ -184,8 +184,8 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 }
             }
         }, true, defSet);
-        getPersonList("1");
-        getPersonList("2");
+        getPersonList("1",listType.get(0).getName());
+        getPersonList("2",listType.get(1).getName());
 
         commonAdapterPost = new CommonAdapter<AllPersonBean>(this, R.layout.item_kbi_roster_enroll_post, listPost) {
             @Override
@@ -341,10 +341,11 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         listType.add(postBean1);
     }
 
-    public void getPersonList(String type) {
+    public void getPersonList(String type,String gw) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         map.put("aid", id);
+        map.put("gw",gw);
         map.put("org_id", userInfo.getOrg_id());
         OkhttpUtil.okHttpPost(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
             @Override

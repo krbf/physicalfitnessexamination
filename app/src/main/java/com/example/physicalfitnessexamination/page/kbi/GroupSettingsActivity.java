@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.GropSettingsBean;
+import com.example.physicalfitnessexamination.bean.GroupSettingsBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
-import com.example.physicalfitnessexamination.view.MyListView;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
@@ -27,11 +26,9 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
     private TextView tvNumber;
     private SpinnerParentView spvGroup;
     private ListView lvGroup;
-    private CommonAdapter<GropSettingsBean> commonAdapter;
-    private List<GropSettingsBean> listGroup = new ArrayList<>();
+    private CommonAdapter<GroupSettingsBean> commonAdapter;
+    private List<GroupSettingsBean> listGroup = new ArrayList<>();
     private List<String> list = new ArrayList<>();
-    private List<String> listStartOrder=new ArrayList<>();
-    private List<String> listEndOrder=new ArrayList<>();
 
     /**
      * 跳转方法
@@ -62,10 +59,8 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
     protected void initData() {
         tvTitle.setText("组别设置");
         spvGroup.setName("分组");
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1; i < 6; i++) {
             list.add(i + "");
-            listStartOrder.add(i + "");
-            listEndOrder.add(i + "");
         }
         HashSet<Integer> defSet = new HashSet<>();
 //        defSet.add(0);
@@ -79,51 +74,32 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
             @Override
             public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
                 int number = Integer.parseInt(selectBeanList.get(0).toString());
+                int result = 32 / number;
+                int remainder = 32 % number;
                 listGroup.clear();
-                for (int i = 0; i < number; i++) {
-                    GropSettingsBean gropSettingsBean = new GropSettingsBean();
-                    gropSettingsBean.setName(i + 1 + "组");
-                    listGroup.add(gropSettingsBean);
+                for (int i = 1; i < number + 1; i++) {
+                    GroupSettingsBean groupSettingsBean = new GroupSettingsBean();
+                    groupSettingsBean.setName(i + "组");
+                    if (i != number) {
+                        groupSettingsBean.setStartOrder(result * i - result + 1);
+                        groupSettingsBean.setEndOrder(result * i);
+                    } else {
+                        groupSettingsBean.setStartOrder(result * i - result + 1);
+                        groupSettingsBean.setEndOrder(result * i + remainder);
+                    }
+                    listGroup.add(groupSettingsBean);
                 }
+
+
                 commonAdapter.notifyDataSetChanged();
             }
         }, true, defSet);
 
-        commonAdapter = new CommonAdapter<GropSettingsBean>(this, R.layout.item_group_settings, listGroup) {
+        commonAdapter = new CommonAdapter<GroupSettingsBean>(this, R.layout.item_group_settings, listGroup) {
             @Override
-            public void convert(ViewHolder viewHolder, GropSettingsBean s) {
+            public void convert(ViewHolder viewHolder, GroupSettingsBean s) {
                 viewHolder.setText(R.id.tv_group, s.getName());
-                SpinnerParentView spvStart = viewHolder.getView(R.id.spv_start);
-                SpinnerParentView spvEnd = viewHolder.getView(R.id.spv_end);
-                spvStart.setName("开始序号");
-                spvEnd.setName("结束序号");
-                HashSet<Integer> defSetStart = new HashSet<>();
-                spvStart.setSpinner(listStartOrder.toArray(), new SpinnerParentView.OnGetStrListener() {
-                    @NotNull
-                    @Override
-                    public String getStr(Object bean) {
-                        return bean.toString();
-                    }
-                }, new SpinnerParentView.OnCheckListener() {
-                    @Override
-                    public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-
-                    }
-                },true,defSetStart);
-
-                HashSet<Integer> defSetEnd = new HashSet<>();
-                spvEnd.setSpinner(listEndOrder.toArray(), new SpinnerParentView.OnGetStrListener() {
-                    @NotNull
-                    @Override
-                    public String getStr(Object bean) {
-                        return bean.toString();
-                    }
-                }, new SpinnerParentView.OnCheckListener() {
-                    @Override
-                    public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-
-                    }
-                },true,defSetEnd);
+                viewHolder.setText(R.id.tv_order, "序号：" + s.getStartOrder() + " - " + s.getEndOrder());
             }
         };
         lvGroup.setAdapter(commonAdapter);
