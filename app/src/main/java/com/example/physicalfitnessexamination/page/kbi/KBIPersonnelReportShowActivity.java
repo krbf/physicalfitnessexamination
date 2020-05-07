@@ -19,10 +19,9 @@ import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean
 import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.RosterDialogFragment;
-import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 

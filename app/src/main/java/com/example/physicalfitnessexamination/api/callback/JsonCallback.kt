@@ -2,7 +2,7 @@ package com.example.physicalfitnessexamination.api.callback
 
 import com.example.physicalfitnessexamination.api.response.ApiResponse
 import com.example.physicalfitnessexamination.base.MyApplication
-import com.example.physicalfitnessexamination.util.JacksonMapper
+import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.util.toast
 import com.lzy.okgo.callback.AbsCallback
 import com.lzy.okgo.model.Response

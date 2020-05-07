@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.physicalfitnessexamination.R;
-import com.example.physicalfitnessexamination.util.DeviceUtils;
-import com.example.physicalfitnessexamination.util.Tool;
+import com.czy.module_common.utils.DeviceUtils;
+import com.czy.module_common.utils.Tool;
 
 public class MyToolBar extends Toolbar {
     private TextView textTile, textRight;

@@ -16,7 +16,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -28,8 +27,8 @@ import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.DMDialog;
 
 import org.greenrobot.eventbus.EventBus;

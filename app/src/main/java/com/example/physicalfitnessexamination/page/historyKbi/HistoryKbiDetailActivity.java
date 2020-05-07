@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -23,22 +22,13 @@ import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
-import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.UserInfo;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
-import com.example.physicalfitnessexamination.page.kbi.BuiltKBIDetailActivity;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.page.kbi.KBIAchievementActivity;
 import com.example.physicalfitnessexamination.page.kbi.KBIAppendixActivity;
-import com.example.physicalfitnessexamination.page.kbi.KBIPutIntoEffectDetailActivity;
-import com.example.physicalfitnessexamination.page.kbi.KBIRosterActivity;
-import com.example.physicalfitnessexamination.view.DMDialog;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;

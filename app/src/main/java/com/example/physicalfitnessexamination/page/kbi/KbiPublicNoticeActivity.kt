@@ -10,7 +10,7 @@ import com.example.physicalfitnessexamination.api.RequestManager
 import com.example.physicalfitnessexamination.api.response.SaveAssessmentRes
 import com.example.physicalfitnessexamination.base.ActivityCollector
 import com.example.physicalfitnessexamination.base.MyBaseActivity
-import com.example.physicalfitnessexamination.util.JacksonMapper
+import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.util.spannableBold
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog

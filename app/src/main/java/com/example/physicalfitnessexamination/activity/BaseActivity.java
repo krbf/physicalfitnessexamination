@@ -15,8 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.example.physicalfitnessexamination.R;
-import com.example.physicalfitnessexamination.util.StatusBarHelper;
-import com.example.physicalfitnessexamination.util.ToastUtil;
+import com.czy.module_common.utils.StatusBarHelper;
+import com.czy.module_common.utils.ToastUtil;
 import com.example.physicalfitnessexamination.view.MyToolBar;
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.api.response.PersonAssessList4Res
-import com.example.physicalfitnessexamination.glide.ImageLoaderUtils
+import com.czy.module_common.glide.ImageLoaderUtils
 import kotlinx.android.synthetic.main.v_rank_person_assess_item.view.*
 
 /**

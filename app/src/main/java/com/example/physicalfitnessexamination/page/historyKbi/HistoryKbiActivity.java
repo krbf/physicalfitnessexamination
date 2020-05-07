@@ -19,8 +19,8 @@ import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 

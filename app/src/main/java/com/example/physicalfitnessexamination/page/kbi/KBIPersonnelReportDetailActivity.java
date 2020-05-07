@@ -12,8 +12,8 @@ import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.bean.ReportPersonBean;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 
 import java.util.HashMap;
 import java.util.Map;

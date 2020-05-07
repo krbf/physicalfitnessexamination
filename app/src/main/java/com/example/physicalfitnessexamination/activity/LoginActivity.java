@@ -22,11 +22,11 @@ import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.bean.UserInfo;
-import com.example.physicalfitnessexamination.okhttp.CallBackUtil;
-import com.example.physicalfitnessexamination.okhttp.OkhttpUtil;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.page.Main2Activity;
-import com.example.physicalfitnessexamination.util.MD5;
-import com.example.physicalfitnessexamination.util.Tool;
+import com.czy.module_common.utils.MD5;
+import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
 
 import java.util.HashMap;

@@ -82,30 +82,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //okhttp网络请求框架
-    implementation 'com.squareup.okhttp3:okhttp:3.13.1'
-    //网络请求框架
-    implementation 'com.lzy.net:okgo:3.0.4'
-    //基于RxJava2的扩展项目
-    implementation 'com.lzy.net:okrx2:2.0.2'
-
-    //Facebook debug工具
-    implementation 'com.facebook.stetho:stetho:1.5.1'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-
-    //日志库
-    implementation 'com.orhanobut:logger:2.2.0'
-    //json格式化工具
-    implementation 'com.alibaba:fastjson:1.2.55'
-    //jackson json序列化工具
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
-    //Airbnb动画框架
-    implementation 'com.airbnb.android:lottie:2.7.0'
-
-    implementation 'org.greenrobot:eventbus:3.0.0'
     //选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
-    //网络图片加载
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation project(':lib_fileviewer')
+    implementation project(':module_common')
 }

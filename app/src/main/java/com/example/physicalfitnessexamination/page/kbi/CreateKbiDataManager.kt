@@ -10,7 +10,7 @@ import com.example.physicalfitnessexamination.bean.KbiOrgGroupIndexBean
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupTypeBean
 import com.example.physicalfitnessexamination.bean.PersonBean
 import com.example.physicalfitnessexamination.common.annotation.AllOpenAndNoArgAnnotation
-import com.example.physicalfitnessexamination.util.JacksonMapper
+import com.czy.module_common.utils.JacksonMapper
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
