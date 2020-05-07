@@ -43,7 +43,20 @@
     <ListView
         android:id="@+id/lv_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@color/white"
         android:dividerHeight="1dp" />
+
+    <TextView
+        android:id="@+id/tv_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/_E6ECFA"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="确定"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </LinearLayout>

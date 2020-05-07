@@ -29,6 +29,7 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
     private CommonAdapter<GroupSettingsBean> commonAdapter;
     private List<GroupSettingsBean> listGroup = new ArrayList<>();
     private List<String> list = new ArrayList<>();
+    private TextView tvCommit;
 
     /**
      * 跳转方法
@@ -53,6 +54,8 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
         tvNumber = findViewById(R.id.tv_number);
         spvGroup = findViewById(R.id.spv_group);
         lvGroup = findViewById(R.id.lv_group);
+        tvCommit = findViewById(R.id.tv_commit);
+        tvCommit.setOnClickListener(this::onClick);
     }
 
     @Override
@@ -110,6 +113,9 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.iv_right:
                 finish();
+                break;
+            case R.id.tv_commit:
+
                 break;
             default:
                 break;

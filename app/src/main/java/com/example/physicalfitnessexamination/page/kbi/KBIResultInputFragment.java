@@ -74,8 +74,7 @@ public class KBIResultInputFragment extends Fragment {
                         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                               // KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s,GW);
-                                GroupSettingsActivity.startInstant(getContext());
+                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s,GW);
                             }
                         });
                     }
