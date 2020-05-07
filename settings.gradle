@@ -1,2 +1,1 @@
-include ':app', ':lib_fileviewer'
-include ':module_common'
+include ':app', ':lib_fileviewer',':module_common'
