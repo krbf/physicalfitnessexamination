@@ -10,7 +10,6 @@ import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -30,6 +29,7 @@ import com.example.physicalfitnessexamination.page.rank.RankActivity
 import com.example.physicalfitnessexamination.page.statistics.TrainingAnalysisActivity
 import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
 import com.example.physicalfitnessexamination.util.dp2px
+import com.example.physicalfitnessexamination.util.setPaddingBottom
 import com.lzy.okgo.model.Response
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -62,21 +62,6 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         btn_main5.setOnClickListener(this)
         btn_main6.setOnClickListener(this)
         iv_LoginOut.setOnClickListener(this)
-
-        vFlip_notice.setOnTouchListener { v, event ->
-            when (event?.action) {
-                MotionEvent.ACTION_MOVE, MotionEvent.ACTION_DOWN -> {
-                    if (vFlip_notice.isFlipping) {
-                        vFlip_notice.stopFlipping()
-                    }
-                }
-                else -> if (!vFlip_notice.isFlipping) {
-                    vFlip_notice.startFlipping()
-                    vFlip_notice.showNext()
-                }
-            }
-            true
-        }
     }
 
     override fun initData() {
@@ -85,72 +70,26 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
                 object : JsonCallback<ApiResponse<List<RemarkForAssessmentRes>>, List<RemarkForAssessmentRes>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<RemarkForAssessmentRes>>>?) {
                         response?.body()?.data?.let { list ->
-                            val twoBeanList = mutableListOf<MutableList<RemarkForAssessmentRes>>()
-                            list.forEachIndexed { index, res ->
-                                when (index % 2) {
-                                    0 -> {
-                                        twoBeanList.add(
-                                                mutableListOf<RemarkForAssessmentRes>().apply {
-                                                    add(res)
-                                                })
-                                    }
-                                    1 -> {
-                                        twoBeanList[index / 2].add(res)
-                                    }
-                                }
-                            }
-
-                            twoBeanList.forEach { res ->
-                                vFlip_notice.addView(
-                                        LinearLayout(context).apply {
-                                            orientation = LinearLayout.VERTICAL
-                                            if (res.size > 0) {
-                                                addView(
-                                                        TextView(context).apply {
-                                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-                                                            val span = SpannableStringBuilder("缩进" + res[0].REMARK).apply {
-                                                                setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
-                                                                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                                            }
-                                                            text = span
-                                                        })
-                                                addView(
-                                                        TextView(context).apply {
-                                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-                                                            text = "————" + res[0].CREATETIME
-                                                        },
-                                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                                                            gravity = Gravity.END
-                                                        }
-                                                )
+                            list.forEach { res ->
+                                ll_notice.addView(
+                                        TextView(context).apply {
+                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+                                            val span = SpannableStringBuilder("缩进" + res.REMARK).apply {
+                                                setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
+                                                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                                             }
-
-                                            if (res.size > 1) {
-                                                addView(
-                                                        TextView(context).apply {
-                                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-                                                            val span = SpannableStringBuilder("缩进" + res[1].REMARK).apply {
-                                                                setSpan(ForegroundColorSpan(Color.TRANSPARENT), 0, 2,
-                                                                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                                            }
-                                                            text = span
-                                                        },
-                                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                                                            setMargins(0, 8.dp2px, 0, 0)
-                                                        })
-                                                addView(
-                                                        TextView(context).apply {
-                                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-                                                            text = "————" + res[1].CREATETIME
-                                                        },
-                                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-                                                            gravity = Gravity.END
-                                                        }
-                                                )
-                                            }
+                                            text = span
+                                            setPaddingBottom(15.dp2px)
+                                        })
+                                ll_notice.addView(
+                                        TextView(context).apply {
+                                            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
+                                            text = "————" + res.CREATETIME
+                                            setPaddingBottom(20.dp2px)
+                                        },
+                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                                            gravity = Gravity.END
                                         }
                                 )
                             }
