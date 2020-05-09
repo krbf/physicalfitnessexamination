@@ -114,7 +114,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".page.Main2Activity"
+            android:name=".page.MainActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".activity.SplashActivity"

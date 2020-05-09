@@ -31,13 +31,13 @@ import com.example.physicalfitnessexamination.page.statistics.TrainingAnalysisAc
 import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
 import com.example.physicalfitnessexamination.util.dp2px
 import com.lzy.okgo.model.Response
-import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
  * 首页
  */
-class Main2Activity : MyBaseActivity(), View.OnClickListener {
+class MainActivity : MyBaseActivity(), View.OnClickListener {
 
     companion object {
         /**
@@ -46,13 +46,13 @@ class Main2Activity : MyBaseActivity(), View.OnClickListener {
          */
         @JvmStatic
         fun startInstant(context: Context) {
-            Intent(context, Main2Activity::class.java).let {
+            Intent(context, MainActivity::class.java).let {
                 context.startActivity(it)
             }
         }
     }
 
-    override fun initLayout(): Int = R.layout.activity_main2
+    override fun initLayout(): Int = R.layout.activity_main
 
     override fun initView() {
         btn_main1.setOnClickListener(this)

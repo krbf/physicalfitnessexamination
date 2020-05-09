@@ -24,7 +24,7 @@ import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
-import com.example.physicalfitnessexamination.page.Main2Activity;
+import com.example.physicalfitnessexamination.page.MainActivity;
 import com.czy.module_common.utils.MD5;
 import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
@@ -144,7 +144,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     String result = JSON.parseObject(response).getString("userinfo");
                     UserInfo userInfo = JSON.parseObject(result, UserInfo.class);
                     UserManager.getInstance().saveUserInfo(LoginActivity.this, userInfo);
-                    Main2Activity.startInstant(LoginActivity.this);
+                    MainActivity.startInstant(LoginActivity.this);
                     finish();
                 } else {
                     String msg = JSON.parseObject(response).getString("msg");
