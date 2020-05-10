@@ -45,10 +45,8 @@ dependencies {
     api 'com.lzy.net:okgo:3.0.4'
     //基于RxJava2的扩展项目
     api 'com.lzy.net:okrx2:2.0.2'
-
-    //Facebook debug工具
-    api 'com.facebook.stetho:stetho:1.5.1'
-    api 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    //对okgo的扩展 下载管理 上传管理
+    api 'com.lzy.net:okserver:2.0.5'
 
     //日志库
     api 'com.orhanobut:logger:2.2.0'

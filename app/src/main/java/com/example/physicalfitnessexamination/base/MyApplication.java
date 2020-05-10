@@ -2,10 +2,7 @@ package com.example.physicalfitnessexamination.base;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -36,8 +33,6 @@ public class MyApplication extends Application {
 
         initOkGo();
 
-        Stetho.initializeWithDefaults(this);
-
         initX5Web();
     }
 
@@ -57,7 +52,6 @@ public class MyApplication extends Application {
 
         OkGo.getInstance().init(this)                       //必须调用初始化
                 .setOkHttpClient(new OkHttpClient.Builder()
-                        .addNetworkInterceptor(new StethoInterceptor())
                         .build())               //建议设置OkHttpClient，不设置将使用默认的
 //                .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
 //                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
