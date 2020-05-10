@@ -57,6 +57,15 @@ public class TrainingAnalysisActivity extends MyBaseActivity implements View.OnC
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_right:
+                finish();
+                break;
+        }
+    }
+
     public class PageAdapter extends FragmentStatePagerAdapter {
         public PageAdapter(FragmentManager fm) {
             super(fm);
@@ -74,7 +83,7 @@ public class TrainingAnalysisActivity extends MyBaseActivity implements View.OnC
                 case 3:
                     return new PersonalAnalysisFragment();
                 case 4:
-                    return new Fragment();
+                    return AnalysisPkFragment.newInstance("", "");
             }
             return null;
         }
@@ -88,15 +97,6 @@ public class TrainingAnalysisActivity extends MyBaseActivity implements View.OnC
         @Override
         public CharSequence getPageTitle(int position) {
             return title[position];
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_right:
-                finish();
-                break;
         }
     }
 }
