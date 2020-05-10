@@ -62,6 +62,7 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         btn_main5.setOnClickListener(this)
         btn_main6.setOnClickListener(this)
         iv_LoginOut.setOnClickListener(this)
+        
     }
 
     override fun initData() {
