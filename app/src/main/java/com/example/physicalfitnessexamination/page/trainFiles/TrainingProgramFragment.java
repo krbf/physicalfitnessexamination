@@ -18,6 +18,7 @@ import com.example.physicalfitnessexamination.bean.FilesBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.ota.OTAManager;
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 import com.hanlyjiang.library.fileviewer.FileViewer;

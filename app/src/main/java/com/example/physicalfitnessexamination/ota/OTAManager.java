@@ -1,7 +1,10 @@
 package com.example.physicalfitnessexamination.ota;
 
 import android.os.Environment;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.base.MyApplication;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.GetRequest;
@@ -36,36 +39,12 @@ public class OTAManager {
      *
      * @param fileUrl 文件下载地址
      */
-    void downloadApk(String fileUrl) {
+    public void downloadApk(String fileUrl,DownloadListener downloadListener) {
         DownloadTask downloadTask = OkDownload.request(OTA_TAG, new GetRequest(fileUrl));
         downloadTask.folder(MyApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath());
-        downloadTask.register(new DownloadListener(OTA_TAG) {
-            @Override
-            public void onStart(Progress progress) {
-                // TODO: 2020/5/10 下载任务开始
-            }
-
-            @Override
-            public void onProgress(Progress progress) {
-                // TODO: 2020/5/10 下载进度回调 （0-1）
-            }
-
-            @Override
-            public void onError(Progress progress) {
-                // TODO: 2020/5/10 下载错误
-            }
-
-            @Override
-            public void onFinish(File file, Progress progress) {
-                // TODO: 2020/5/10 下载任务结束
-            }
-
-            @Override
-            public void onRemove(Progress progress) {
-                // TODO: 2020/5/10 下载任务被remove
-            }
-        }).save();
+        downloadTask.register(downloadListener).save();
 
         downloadTask.start();
     }
+
 }

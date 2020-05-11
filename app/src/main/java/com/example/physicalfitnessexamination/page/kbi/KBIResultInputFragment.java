@@ -57,14 +57,14 @@ public class KBIResultInputFragment extends Fragment {
         commonAdapterClause = new CommonAdapter<ClauseBean>(getContext(), R.layout.item_kbi_resultinput, listClause) {
             @Override
             public void convert(ViewHolder viewHolder, ClauseBean s) {
-                viewHolder.setText(R.id.tv_clause, s.getGW());
+                viewHolder.setText(R.id.tv_post, s.getGW());
                 String GW = s.getGW();
-                MyListView listView = viewHolder.getView(R.id.lv_post);
+                MyListView listView = viewHolder.getView(R.id.lv_clause);
                 final boolean[] isShow = {false};
                 commonAdapterPost = new CommonAdapter<ClauseBean.Clause>(getContext(), R.layout.item_kbi_resultinput_child, s.getSUBJECT()) {
                     @Override
                     public void convert(ViewHolder viewHolder, ClauseBean.Clause s) {
-                        viewHolder.setText(R.id.tv_post, s.getNAME());
+                        viewHolder.setText(R.id.tv_clause, s.getNAME());
                         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

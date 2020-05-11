@@ -20,6 +20,8 @@ public class Api {
     public static final String ENDASSESSMENT = Constants.IP + "assessment/endAssessment";//结束考核
     public static final String GETACHIEVEMENT4MINE = Constants.IP + "assessment/getAchievement4mine";//我的成绩
     public static final String GETFILELIST = Constants.IP + "assessment/getFileList";//文件列表
-    public static final String GETSUBJECT4MINE=Constants.IP+"assessment/getSubject4mine";//我的考核-历史考核-项目列表
-    public static final String GETOLDASSESSMENT4MINE=Constants.IP+"assessment/getOldAssessment4mine";//我的考核-历史考核
+    public static final String GETSUBJECT4MINE = Constants.IP + "assessment/getSubject4mine";//我的考核-历史考核-项目列表
+    public static final String GETOLDASSESSMENT4MINE = Constants.IP + "assessment/getOldAssessment4mine";//我的考核-历史考核
+    public static final String GETVERSIONNAME = Constants.IP + "down/zdjc_xlkh_version.txt";//版本更新
+    public static final String DOWNAPK = Constants.IP + "down/xlkh.apk";//apk下载
 }

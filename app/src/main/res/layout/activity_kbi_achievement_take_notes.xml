@@ -14,12 +14,34 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/tv_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tv_clause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:text="百米赛跑"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_group_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/_EF7D65"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="组别设置"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -114,20 +136,20 @@
             android:textColor="@color/black" />
 
         <View
-            android:visibility="gone"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="center"
             android:padding="10dp"
             android:text="备注"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="gone" />
     </LinearLayout>
 
     <View

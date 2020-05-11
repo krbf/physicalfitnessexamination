@@ -3,7 +3,11 @@ package com.example.physicalfitnessexamination.page.statistics;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,9 @@ public class AnalysisPkFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private String[] title = new String[]{"单位总积分PK", "单位单项PK", "个人全能PK"};
 
     /**
      * 训练分析Fragment实例化方法
@@ -54,5 +61,44 @@ public class AnalysisPkFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tabLayout = view.findViewById(R.id.tab_order);
+        viewPager = view.findViewById(R.id.viewpage_order);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewPager.setAdapter(new PageAdapter(getChildFragmentManager()));
+        viewPager.setCurrentItem(0);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    public class PageAdapter extends FragmentStatePagerAdapter {
+        public PageAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            switch (i) {
+                case 0:
+                    return UnitCreditsPkFragment.newInstance("", "");
+                case 1:
+                case 2:
+                    return new Fragment();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return title.length;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return title[position];
+        }
     }
 }

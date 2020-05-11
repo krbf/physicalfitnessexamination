@@ -88,7 +88,9 @@ public class MyHistoryKbiFragment extends Fragment {
                 if (success) {
                     listClause.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), MyClauseBean.class));
                     HashSet<Integer> defSet = new HashSet();
-                    defSet.add(0);
+                    if (listClause.size()>0){
+                         defSet.add(0);
+                    }
                     spvClause.setSpinner(listClause.toArray(), new SpinnerParentView.OnGetStrListener() {
                         @NotNull
                         @Override
@@ -102,7 +104,9 @@ public class MyHistoryKbiFragment extends Fragment {
                             getMyKbiList(((MyClauseBean) selectBeanList.get(0)).getID());
                         }
                     }, true, defSet);
-                    getMyKbiList(((MyClauseBean) spvClause.getSelectList().get(0)).getID());
+                    if (listClause.size()>0){
+                        getMyKbiList(((MyClauseBean) spvClause.getSelectList().get(0)).getID());
+                    }
                 }
             }
         });

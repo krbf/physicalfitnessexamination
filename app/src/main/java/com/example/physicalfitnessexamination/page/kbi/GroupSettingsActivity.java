@@ -2,6 +2,7 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.GroupSettingsBean;
+import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
@@ -28,16 +30,20 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
     private ListView lvGroup;
     private CommonAdapter<GroupSettingsBean> commonAdapter;
     private List<GroupSettingsBean> listGroup = new ArrayList<>();
-    private List<String> list = new ArrayList<>();
+    private List<String> listGroupNumber = new ArrayList<>();
+    private List<PersonAchievementBean> listPersonAchievement = new ArrayList<>();
     private TextView tvCommit;
+    private int personNumber;
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context) {
+    public static void startInstant(Context context, int number, List<PersonAchievementBean> listPersonAchievement) {
         Intent intent = new Intent(context, GroupSettingsActivity.class);
+        intent.putExtra("number", number);
+        intent.putParcelableArrayListExtra("listPersonAchievement", (ArrayList<? extends Parcelable>) listPersonAchievement);
         context.startActivity(intent);
     }
 
@@ -48,6 +54,8 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
 
     @Override
     protected void initView() {
+        personNumber = getIntent().getIntExtra("number", 0);
+        listPersonAchievement = getIntent().getParcelableArrayListExtra("listPersonAchievement");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -61,13 +69,14 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
     @Override
     protected void initData() {
         tvTitle.setText("组别设置");
+        tvNumber.setText("总人数：" + personNumber);
         spvGroup.setName("分组");
-        for (int i = 1; i < 6; i++) {
-            list.add(i + "");
+        for (int i = 1; i < personNumber + 1; i++) {
+            listGroupNumber.add(i + "");
         }
         HashSet<Integer> defSet = new HashSet<>();
 //        defSet.add(0);
-        spvGroup.setSpinner(list.toArray(), new SpinnerParentView.OnGetStrListener() {
+        spvGroup.setSpinner(listGroupNumber.toArray(), new SpinnerParentView.OnGetStrListener() {
             @NotNull
             @Override
             public String getStr(Object bean) {
@@ -77,8 +86,8 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
             @Override
             public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
                 int number = Integer.parseInt(selectBeanList.get(0).toString());
-                int result = 32 / number;
-                int remainder = 32 % number;
+                int result = personNumber / number;
+                int remainder = personNumber % number;
                 listGroup.clear();
                 for (int i = 1; i < number + 1; i++) {
                     GroupSettingsBean groupSettingsBean = new GroupSettingsBean();
@@ -92,8 +101,6 @@ public class GroupSettingsActivity extends MyBaseActivity implements View.OnClic
                     }
                     listGroup.add(groupSettingsBean);
                 }
-
-
                 commonAdapter.notifyDataSetChanged();
             }
         }, true, defSet);

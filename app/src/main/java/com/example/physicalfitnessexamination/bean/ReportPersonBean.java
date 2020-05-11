@@ -1,5 +1,7 @@
 package com.example.physicalfitnessexamination.bean;
-
+/**
+ * 报送人员详情实体类
+ */
 public class ReportPersonBean {
     private String USERNAME;
     private String BZ;

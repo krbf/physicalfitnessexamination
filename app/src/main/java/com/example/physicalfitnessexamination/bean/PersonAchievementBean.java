@@ -1,8 +1,12 @@
 package com.example.physicalfitnessexamination.bean;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 人员名单（人员成绩列表）
  */
-public class PersonAchievementBean {
+public class PersonAchievementBean implements Parcelable {
     private String USERID;
     private String USERNAME;
     private String NO;
@@ -11,6 +15,50 @@ public class PersonAchievementBean {
     private String GW;
     private String PHOTO;
     private String ACHIEVEMENT;
+
+    public PersonAchievementBean(){
+
+    }
+
+    protected PersonAchievementBean(Parcel in) {
+        USERID = in.readString();
+        USERNAME = in.readString();
+        NO = in.readString();
+        ORG_ID = in.readString();
+        ORG_NAME = in.readString();
+        GW = in.readString();
+        PHOTO = in.readString();
+        ACHIEVEMENT = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(USERID);
+        dest.writeString(USERNAME);
+        dest.writeString(NO);
+        dest.writeString(ORG_ID);
+        dest.writeString(ORG_NAME);
+        dest.writeString(GW);
+        dest.writeString(PHOTO);
+        dest.writeString(ACHIEVEMENT);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<PersonAchievementBean> CREATOR = new Creator<PersonAchievementBean>() {
+        @Override
+        public PersonAchievementBean createFromParcel(Parcel in) {
+            return new PersonAchievementBean(in);
+        }
+
+        @Override
+        public PersonAchievementBean[] newArray(int size) {
+            return new PersonAchievementBean[size];
+        }
+    };
 
     public String getUSERID() {
         return USERID;

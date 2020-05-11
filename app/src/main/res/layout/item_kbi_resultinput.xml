@@ -14,7 +14,7 @@
         android:padding="15dp">
 
         <TextView
-            android:id="@+id/tv_clause"
+            android:id="@+id/tv_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -24,7 +24,7 @@
     </LinearLayout>
 
     <com.example.physicalfitnessexamination.view.MyListView
-        android:id="@+id/lv_post"
+        android:id="@+id/lv_clause"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/white"

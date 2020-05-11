@@ -16,6 +16,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -232,7 +234,6 @@ public class BuiltKBIDetailActivity extends MyBaseActivity implements View.OnCli
                                 }
                             });
                         })
-
                         .setGravity(Gravity.CENTER)
                         .show();
                 break;

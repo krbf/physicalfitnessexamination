@@ -56,7 +56,7 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        switch (flag){
+        switch (flag) {
             case 1:
                 tvTitle.setText("已建考核 - 考核附件");
                 break;
@@ -73,14 +73,18 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.lin_report:
-                if (flag == 3) {
-                    showToast("考核结束无法进行报送");
+                if (flag == 3 || flag == 2) {
+                    showToast("此阶段无法进行报送");
                     return;
                 }
                 KBIPersonnelReportShowActivity.startInstant(this, id);
                 break;
             case R.id.lin_appeal:
-                showToast("暂未开放考核申诉");
+                if (flag == 3 || flag == 1){
+                    showToast("此阶段无法进行考核申诉");
+                    return;
+                }
+                    //跳转申诉页面
                 break;
             case R.id.lin_means:
                 showToast("暂未开放");

@@ -23,12 +23,14 @@
             android:textStyle="bold" />
 
         <TextView
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="10dp"
             android:id="@+id/tv_enroll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-> 报名"
-            android:textColor="@color/_FFB14B"
-            android:textSize="16sp"
+            android:background="@color/_EF7D65"
+            android:text="报名"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:visibility="gone" />
     </LinearLayout>

@@ -48,7 +48,9 @@ import okhttp3.Call;
 public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements View.OnClickListener {
     private TextView tvTitle;
     private ImageView imgRight;
-    private TextView tvClause;
+    private TextView tvClause;//项目显示
+    private TextView tvPost;//岗位显示
+    private TextView tvGroupSetting;//组别设置
     private String id;//考核id
     private ClauseBean.Clause clause;//项目实体类
     private String GW;//岗位
@@ -88,12 +90,16 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         imgRight.setOnClickListener(this::onClick);
         lvAchievementTakeNotes = findViewById(R.id.lv_achievement_take_notes);
         tvClause = findViewById(R.id.tv_clause);
+        tvPost = findViewById(R.id.tv_post);
+        tvGroupSetting = findViewById(R.id.tv_group_setting);
+        tvGroupSetting.setOnClickListener(this::onClick);
     }
 
     @Override
     protected void initData() {
         tvTitle.setText("成绩记录表");
         tvClause.setText(clause.getNAME());
+        tvPost.setText(GW);
         getData();
         commonAdapter = new CommonAdapter<PersonAchievementBean>(this, R.layout.item_kbi_achievement_takes_notes, list) {
             @Override
@@ -211,6 +217,13 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         switch (v.getId()) {
             case R.id.iv_right:
                 finish();
+                break;
+            case R.id.tv_group_setting:
+                if (list.size() < 1) {
+                    showToast("无参考人员无法进行组别设置");
+                } else {
+                    GroupSettingsActivity.startInstant(this, list.size(),list);
+                }
                 break;
             default:
                 break;
