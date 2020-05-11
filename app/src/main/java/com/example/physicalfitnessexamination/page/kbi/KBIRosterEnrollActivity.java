@@ -69,6 +69,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
     private TextView tvCommit;//人员报名提交
     private String id;//考核id
     private TextView tvExtract;//随机抽取显示
+    private int personNum1, personNum2;
 
     /**
      * 跳转方法
@@ -184,8 +185,8 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 }
             }
         }, true, defSet);
-        getPersonList("1",listType.get(0).getName());
-        getPersonList("2",listType.get(1).getName());
+        getPersonList("1", listType.get(0).getName());
+        getPersonList("2", listType.get(1).getName());
 
         commonAdapterPost = new CommonAdapter<AllPersonBean>(this, R.layout.item_kbi_roster_enroll_post, listPost) {
             @Override
@@ -199,26 +200,34 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                         if ("2".equals(personType)) {
                             switch (type) {
                                 case 1:
-                                    AllPersonBean allPersonBean = listPost1.get(position);
-                                    listRandom1.add(allPersonBean);
-                                    listPost1.remove(allPersonBean);
-                                    listPost.clear();
-                                    listPost.addAll(listPost1);
-                                    commonAdapterPost.notifyDataSetChanged();
-                                    listRandom.clear();
-                                    listRandom.addAll(listRandom1);
-                                    commonAdapterRandom.notifyDataSetChanged();
+                                    if (listRandom1.size() < personNum1) {
+                                        AllPersonBean allPersonBean = listPost1.get(position);
+                                        listRandom1.add(allPersonBean);
+                                        listPost1.remove(allPersonBean);
+                                        listPost.clear();
+                                        listPost.addAll(listPost1);
+                                        commonAdapterPost.notifyDataSetChanged();
+                                        listRandom.clear();
+                                        listRandom.addAll(listRandom1);
+                                        commonAdapterRandom.notifyDataSetChanged();
+                                    } else {
+                                        showToast("已经达到要求人数");
+                                    }
                                     break;
                                 case 2:
-                                    AllPersonBean allPersonBean1 = listPost2.get(position);
-                                    listRandom2.add(allPersonBean1);
-                                    listPost2.remove(allPersonBean1);
-                                    listPost.clear();
-                                    listPost.addAll(listPost2);
-                                    commonAdapterPost.notifyDataSetChanged();
-                                    listRandom.clear();
-                                    listRandom.addAll(listRandom2);
-                                    commonAdapterRandom.notifyDataSetChanged();
+                                    if (listRandom2.size() < personNum2) {
+                                        AllPersonBean allPersonBean1 = listPost2.get(position);
+                                        listRandom2.add(allPersonBean1);
+                                        listPost2.remove(allPersonBean1);
+                                        listPost.clear();
+                                        listPost.addAll(listPost2);
+                                        commonAdapterPost.notifyDataSetChanged();
+                                        listRandom.clear();
+                                        listRandom.addAll(listRandom2);
+                                        commonAdapterRandom.notifyDataSetChanged();
+                                    } else {
+                                        showToast("已经达到要求人数");
+                                    }
                                     break;
                                 default:
                                     break;
@@ -323,7 +332,11 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 }
                 break;
             case R.id.tv_commit:
-                commitData();
+                if (listRandom1.size()!=personNum1||listRandom2.size()!=personNum2){
+                    showToast("请按照人员要求提交："+requirements);
+                }else {
+                    commitData();
+                }
                 break;
             default:
                 break;
@@ -341,11 +354,11 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
         listType.add(postBean1);
     }
 
-    public void getPersonList(String type,String gw) {
+    public void getPersonList(String type, String gw) {
         Map<String, String> map = new HashMap<>();
         map.put("type", type);
         map.put("aid", id);
-        map.put("gw",gw);
+        map.put("gw", gw);
         map.put("org_id", userInfo.getOrg_id());
         OkhttpUtil.okHttpPost(Api.GETORGCOMMANDER, map, new CallBackUtil.CallBackString() {
             @Override
@@ -359,6 +372,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                 if (success) {
                     switch (type) {
                         case "1":
+                            personNum1 = JSON.parseObject(response).getInteger("personNum");
                             listPost1.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), AllPersonBean.class));
                             for (int i = 0; i < listRoster.size(); i++) {
                                 for (int j = 0; j < listPost1.size(); j++) {
@@ -378,6 +392,7 @@ public class KBIRosterEnrollActivity extends MyBaseActivity implements View.OnCl
                             commonAdapterRandom.notifyDataSetChanged();
                             break;
                         case "2":
+                            personNum2 = JSON.parseObject(response).getInteger("personNum");
                             listPost2.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), AllPersonBean.class));
                             for (int i = 0; i < listRoster.size(); i++) {
                                 for (int j = 0; j < listPost2.size(); j++) {

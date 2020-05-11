@@ -260,7 +260,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     public void Event(MessageEvent messageEvent) {
         switch (messageEvent.getMessage()) {
             case "刷新参赛人员列表":
-
+                if (((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID().equals(UserManager.getInstance().getUserInfo(this).getOrg_id())) {
+                    getPersonList(UserManager.getInstance().getUserInfo(this).getOrg_id());
+                }
                 break;
             default:
                 break;

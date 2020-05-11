@@ -76,7 +76,7 @@ public class AuthorityFileFragment extends Fragment {
         getData("4");
     }
     public void downLoad(String url, String fileName) {
-        OkhttpUtil.okHttpDownloadFile(url, new CallBackUtil.CallBackFile(Environment.getExternalStorageDirectory() + File.separator + "体能考核" + File.separator, fileName) {
+        OkhttpUtil.okHttpDownloadFile(url, new CallBackUtil.CallBackFile(getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath()+ File.separator + "体能考核" + File.separator, fileName) {
             @Override
             public void onFailure(Call call, Exception e) {
                 if (messageDialog.isVisible()) {
@@ -89,7 +89,7 @@ public class AuthorityFileFragment extends Fragment {
                 if (messageDialog.isVisible()) {
                     messageDialog.dismiss();
                 }
-                FileViewer.viewFile(getContext(), Environment.getExternalStorageDirectory() + File.separator + "体能考核" + File.separator + fileName);
+                FileViewer.viewFile(getContext(), getContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "体能考核" + File.separator + fileName);
             }
 
             @Override

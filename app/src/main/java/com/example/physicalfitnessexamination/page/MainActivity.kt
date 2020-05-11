@@ -292,6 +292,7 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
 
             override fun onFinish(file: File, progress: Progress) {
                 // TODO: 2020/5/10 下载任务结束
+
                 installAPK(file)
                 dialogFragment.dismiss()
             }
