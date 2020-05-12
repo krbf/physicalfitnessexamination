@@ -2,7 +2,9 @@ package com.example.physicalfitnessexamination.page.kbi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.ClauseBean;
+import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.glide.ImageLoaderUtils;
@@ -31,10 +34,17 @@ import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
 import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.view.DMDialog;
 import com.example.physicalfitnessexamination.view.SportKeyBoardView;
+import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -57,22 +67,35 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private ListView lvAchievementTakeNotes;
     private CommonAdapter<PersonAchievementBean> commonAdapter;
     private List<PersonAchievementBean> list = new ArrayList<>();
+    private List<PersonAchievementBean> listAll = new ArrayList<>();
     private OptionsPickerView pvNoLinkOptions;//条件选择器
     private ArrayList<String> food = new ArrayList<>();
     private ArrayList<String> clothes = new ArrayList<>();
     private ArrayList<String> computer = new ArrayList<>();
+    private SpinnerParentView spvGroup;//组别
+    private int teamCount;//组数
+    private String currentGroup = null;//当前组数
+    private String flag;//1-已建考核 2-考核实施 3-历史考核
+    private TextView tvAchievement;//成绩列
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id, ClauseBean.Clause clause, String GW) {
+    public static void startInstant(Context context, String id, ClauseBean.Clause clause, String GW, String flag) {
         Intent intent = new Intent(context, KBIAchievementTakeNotesActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("clause", (Parcelable) clause);
         intent.putExtra("GW", GW);
+        intent.putExtra("flag", flag);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -85,6 +108,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         id = getIntent().getStringExtra("id");
         clause = getIntent().getParcelableExtra("clause");
         GW = getIntent().getStringExtra("GW");
+        flag = getIntent().getStringExtra("flag");
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -93,14 +117,24 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         tvPost = findViewById(R.id.tv_post);
         tvGroupSetting = findViewById(R.id.tv_group_setting);
         tvGroupSetting.setOnClickListener(this::onClick);
+        spvGroup = findViewById(R.id.spv_group);
+        tvAchievement = findViewById(R.id.tv_achievement);
     }
 
     @Override
     protected void initData() {
+        if ("2".equals(flag)) {
+            tvGroupSetting.setVisibility(View.GONE);
+        }
+        if ("1".equals(flag)) {
+            tvAchievement.setVisibility(View.GONE);
+        }
         tvTitle.setText("成绩记录表");
         tvClause.setText(clause.getNAME());
         tvPost.setText(GW);
-        getData();
+        spvGroup.setName("组别");
+        getGroup();
+        getAllData();
         commonAdapter = new CommonAdapter<PersonAchievementBean>(this, R.layout.item_kbi_achievement_takes_notes, list) {
             @Override
             public void convert(ViewHolder viewHolder, PersonAchievementBean s) {
@@ -110,6 +144,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
                 viewHolder.setText(R.id.tv_post, s.getGW());
                 viewHolder.setText(R.id.tv_achievement, s.getACHIEVEMENT());
+                if ("1".equals(flag)) {
+                    viewHolder.getView(R.id.tv_achievement).setVisibility(View.GONE);
+                }
                 viewHolder.getView(R.id.tv_achievement).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -219,10 +256,10 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 finish();
                 break;
             case R.id.tv_group_setting:
-                if (list.size() < 1) {
+                if (listAll.size() < 1) {
                     showToast("无参考人员无法进行组别设置");
                 } else {
-                    GroupSettingsActivity.startInstant(this, list.size(),list);
+                    GroupSettingsActivity.startInstant(this, listAll.size(), listAll, id, GW, clause.getSID());
                 }
                 break;
             default:
@@ -230,12 +267,14 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         }
     }
 
-    public void getData() {
+    public void getData(String teamno) {//获取每组人员
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
         map.put("sid", clause.getSID());
         map.put("gw", GW);
         map.put("type", clause.getTYPE());
+        map.put("teamno", teamno);
+        map.put("personAll", "false");
         OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
@@ -246,8 +285,75 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
             public void onResponse(String response) {
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
+                    list.clear();
                     list.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
                     commonAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    public void getAllData() {//获取每组人员
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", id);
+        map.put("sid", clause.getSID());
+        map.put("gw", GW);
+        map.put("type", clause.getTYPE());
+        map.put("teamno", null);
+        map.put("personAll", "true");
+        OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    listAll.clear();
+                    listAll.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
+                }
+            }
+        });
+    }
+
+    public void getGroup() {
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", id);
+        map.put("gw", GW);
+        map.put("sid", clause.getSID());
+        OkhttpUtil.okHttpPost(Api.GETPERSONTEAMNO, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    teamCount = JSON.parseObject(response).getInteger("data");
+                    HashSet<Integer> defSet = new HashSet();
+                    defSet.add(0);
+                    List<String> list = new ArrayList<>();
+                    for (int i = 1; i < teamCount + 1; i++) {
+                        list.add(i + "");
+                    }
+                    spvGroup.setSpinner(list.toArray(), new SpinnerParentView.OnGetStrListener() {
+                        @NotNull
+                        @Override
+                        public String getStr(Object bean) {
+                            return bean.toString();
+                        }
+                    }, new SpinnerParentView.OnCheckListener() {
+                        @Override
+                        public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
+                            currentGroup = selectBeanList.get(0).toString();
+                            getData(currentGroup);
+                        }
+                    }, true, defSet);
+                    getData(spvGroup.getSelectList().get(0).toString());
                 }
             }
         });
@@ -271,7 +377,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     list.clear();
-                    getData();
+                    getData(currentGroup);
                 }
             }
         });
@@ -318,5 +424,22 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         computer.add("Lenovo");
         computer.add("Apple");
         computer.add("HP");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        switch (messageEvent.getMessage()) {
+            case "分组刷新":
+                getGroup();
+                break;
+            default:
+                break;
+        }
     }
 }

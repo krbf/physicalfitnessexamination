@@ -32,6 +32,7 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+
         <TextView
             android:id="@+id/tv_group_setting"
             android:layout_width="wrap_content"
@@ -43,6 +44,11 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
+            android:id="@+id/spv_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
@@ -127,6 +133,7 @@
             android:background="@color/white" />
 
         <TextView
+            android:id="@+id/tv_achievement"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"

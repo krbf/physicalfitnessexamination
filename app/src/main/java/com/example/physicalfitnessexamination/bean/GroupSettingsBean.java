@@ -7,6 +7,7 @@ public class GroupSettingsBean {
     private String Name;
     private int startOrder;
     private int endOrder;
+    private int personNumber;
 
     public String getName() {
         return Name;
@@ -30,5 +31,13 @@ public class GroupSettingsBean {
 
     public void setEndOrder(int endOrder) {
         this.endOrder = endOrder;
+    }
+
+    public int getPersonNumber() {
+        return personNumber;
+    }
+
+    public void setPersonNumber(int personNumber) {
+        this.personNumber = personNumber;
     }
 }

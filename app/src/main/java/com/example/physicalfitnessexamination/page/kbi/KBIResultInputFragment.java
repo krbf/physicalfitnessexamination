@@ -35,11 +35,13 @@ public class KBIResultInputFragment extends Fragment {
     private CommonAdapter<ClauseBean.Clause> commonAdapterPost;
     private List<ClauseBean> listClause = new ArrayList<>();
     private String id;//考核id
+    private String flag;//1-已建考核 2-考核实施 3-历史考核
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         id = getArguments().getString("id");
+        flag = getArguments().getString("flag");
     }
 
     @Nullable
@@ -68,7 +70,7 @@ public class KBIResultInputFragment extends Fragment {
                         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s,GW);
+                                KBIAchievementTakeNotesActivity.startInstant(getContext(), id, s, GW, flag);
                             }
                         });
                     }

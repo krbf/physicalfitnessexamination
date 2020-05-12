@@ -24,4 +24,6 @@ public class Api {
     public static final String GETOLDASSESSMENT4MINE = Constants.IP + "assessment/getOldAssessment4mine";//我的考核-历史考核
     public static final String GETVERSIONNAME = Constants.IP + "down/zdjc_xlkh_version.txt";//版本更新
     public static final String DOWNAPK = Constants.IP + "down/xlkh.apk";//apk下载
+    public static final String SETPERSONTEAMFORASSESSMENT = Constants.IP + "assessment/setPersonTeamForAssessment";//参考人员分组
+    public static final String GETPERSONTEAMNO = Constants.IP + "assessment/getPersonTeamNo";//获取参考人员总组数
 }

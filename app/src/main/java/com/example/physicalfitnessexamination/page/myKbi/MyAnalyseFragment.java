@@ -15,14 +15,19 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
+import com.example.physicalfitnessexamination.bean.UserInfo;
 
 public class MyAnalyseFragment extends Fragment {
     private WebView wvKbiGather;
+    private UserInfo userInfo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userInfo = UserManager.getInstance().getUserInfo(getContext());
     }
 
     @Nullable
@@ -53,7 +58,7 @@ public class MyAnalyseFragment extends Fragment {
 
         wvKbiGather.setBackgroundColor(Color.WHITE);
         //加载网络URL
-        // wvKbiGather.loadUrl(Constants.IP + "assessment/assessmentAchievementH5?id=" + id);
+        wvKbiGather.loadUrl(Constants.IP + "assessment/assessment4charts?org_id=" + userInfo.getOrg_id() + "&userid=" + userInfo.getUserid() + "&username=" + userInfo.getUsername());
         //设置在当前WebView继续加载网页
         wvKbiGather.setWebViewClient(new MyWebViewClient());
     }

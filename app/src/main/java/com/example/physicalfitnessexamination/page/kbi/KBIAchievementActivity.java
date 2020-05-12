@@ -97,6 +97,7 @@ public class KBIAchievementActivity extends MyBaseActivity implements View.OnCli
                     KBIResultInputFragment kbiResultInputFragment = new KBIResultInputFragment();
                     Bundle bundle1 = new Bundle();
                     bundle1.putString("id", id);
+                    bundle1.putString("flag",flag);
                     kbiResultInputFragment.setArguments(bundle1);
                     return kbiResultInputFragment;
             }
