@@ -15,7 +15,6 @@ import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
-import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.GroupCommitBean;
 import com.example.physicalfitnessexamination.bean.GroupSettingsBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;

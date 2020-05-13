@@ -1,5 +1,7 @@
 package com.example.physicalfitnessexamination.bean;
-
+/**
+ * 考核列表页实体类
+ */
 public class BuiltKBIListBean {
     private String ID;
     private String NAME;

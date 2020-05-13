@@ -26,4 +26,6 @@ public class Api {
     public static final String DOWNAPK = Constants.IP + "down/xlkh.apk";//apk下载
     public static final String SETPERSONTEAMFORASSESSMENT = Constants.IP + "assessment/setPersonTeamForAssessment";//参考人员分组
     public static final String GETPERSONTEAMNO = Constants.IP + "assessment/getPersonTeamNo";//获取参考人员总组数
+    public static final String GETORGFORASSESSMENT = Constants.IP + "assessment/getOrgForAssessment";//机构上下级
+    public static final String ORGSCOREPK = Constants.IP + "assessment/orgScorePk";//单位总积分pk
 }

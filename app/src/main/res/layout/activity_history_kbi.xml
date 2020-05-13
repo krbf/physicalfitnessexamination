@@ -9,38 +9,136 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/_B7CFF3"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.5"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_kbi_count"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/tv_search"
+                android:id="@+id/tv_zkh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="搜索"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="136"
+                android:textColor="@color/_B7CFF3" />
 
-            <EditText
-                android:id="@+id/edt_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:cursorVisible="false"
-                android:hint="考核名称"
-                android:paddingLeft="10dp"
-                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总考核"
+                android:textColor="@color/_B7CFF3" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_kbi_count"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_zdkh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="136"
+                android:textColor="@color/_B7CFF3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支队考核"
+                android:textColor="@color/_B7CFF3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_kbi_count"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_ddkh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="136"
+                android:textColor="@color/_B7CFF3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="大队考核"
+                android:textColor="@color/_B7CFF3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_kbi_count"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_xfzkh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="136"
+                android:textColor="@color/_B7CFF3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="站考核"
+                android:textColor="@color/_B7CFF3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/drawable_kbi_count"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019"
+                android:textColor="@color/_B7CFF3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择年份"
+                android:textColor="@color/_B7CFF3" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/_B7CFF3"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
 
         <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
@@ -48,6 +146,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
 
         <LinearLayout
             android:id="@+id/lin_time"
@@ -60,7 +163,7 @@
                 android:id="@+id/tv_hint_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginHorizontal="10dp"
                 android:drawableEnd="@mipmap/ic_down_arrow"
                 android:drawablePadding="10dp"
                 android:text="时间"
@@ -75,11 +178,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
-            android:id="@+id/spv_type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <ListView
