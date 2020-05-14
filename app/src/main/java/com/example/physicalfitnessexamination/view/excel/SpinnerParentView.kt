@@ -26,6 +26,15 @@ import kotlinx.android.synthetic.main.v_spinner_parent.view.*
 class SpinnerParentView<X> : LinearLayout {
 
     /**
+     * 默认背景色
+     */
+    private var defaultBkColor = R.color._B7CFF3
+        set(value) {
+            field = value
+            setBackgroundColor(ContextCompat.getColor(context, value))
+        }
+
+    /**
      * 选项是否是单选
      */
     private var isSingleSelection: Boolean = false
@@ -105,7 +114,8 @@ class SpinnerParentView<X> : LinearLayout {
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         orientation = HORIZONTAL
         minimumHeight = resources.getDimensionPixelSize(R.dimen.excel_height)
-        setBackgroundColor(ContextCompat.getColor(context, R.color._B7CFF3))
+
+        defaultBkColor = R.color._B7CFF3
 
         LayoutInflater.from(context).inflate(R.layout.v_spinner_parent, this, true)
 
