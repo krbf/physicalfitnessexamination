@@ -51,7 +51,7 @@
     </LinearLayout>
 
     <GridView
-        android:id="@+id/gv_view"
+        android:id="@+id/gv_person_5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="#00000000"

@@ -260,10 +260,11 @@ public class Tool {
 
     /**
      * json的Key值转化为小写
+     *
      * @param json
      * @return
      */
-    public static String transformLowerCase(String json){
+    public static String transformLowerCase(String json) {
         String regex = "[\\\"' ]*[^:\\\"' ]*[\\\"' ]*:";// (\{|\,)[a-zA-Z0-9_]+:
 
         Pattern pattern = Pattern.compile(regex);
@@ -276,6 +277,7 @@ public class Tool {
         m.appendTail(sb);
         return sb.toString();
     }
+
     /**
      * 获取当前app version name
      */
@@ -291,4 +293,5 @@ public class Tool {
         }
         return appVersionName;
     }
+
 }

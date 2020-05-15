@@ -28,7 +28,7 @@ class SpinnerParentView<X> : LinearLayout {
     /**
      * 默认背景色
      */
-    private var defaultBkColor = R.color._B7CFF3
+    var defaultBkColor = R.color._B7CFF3
         set(value) {
             field = value
             setBackgroundColor(ContextCompat.getColor(context, value))

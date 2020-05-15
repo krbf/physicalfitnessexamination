@@ -28,4 +28,7 @@ public class Api {
     public static final String GETPERSONTEAMNO = Constants.IP + "assessment/getPersonTeamNo";//获取参考人员总组数
     public static final String GETORGFORASSESSMENT = Constants.IP + "assessment/getOrgForAssessment";//机构上下级
     public static final String ORGSCOREPK = Constants.IP + "assessment/orgScorePk";//单位总积分pk
+    public static final String GETPERSONSCORESUMLIST4BSYM=Constants.IP+"assessment/getPersonScoreSumList4Bsym";//个人全能前5
+    public static final String GETORGSCORESUMLIST4BSYM=Constants.IP+"assessment/getOrgScoreSumList4Bsym";//消防站总分前5
+    public static final String GETORGSUBJECTLIST4BSYM=Constants.IP+"assessment/getOrgSubjectList4Bsym";//单位单项团体第一
 }
