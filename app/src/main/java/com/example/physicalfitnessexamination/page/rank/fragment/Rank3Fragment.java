@@ -108,6 +108,7 @@ public class Rank3Fragment extends Fragment implements View.OnClickListener {
         linUnit.setOnClickListener(this::onClick);
         tvUnitHint = view.findViewById(R.id.tv_unit_hint);
         tvUnit = view.findViewById(R.id.tv_unit);
+        tvUnit.setText("湘潭支队");
         spvPost = view.findViewById(R.id.spv_post);
     }
 
@@ -156,6 +157,7 @@ public class Rank3Fragment extends Fragment implements View.OnClickListener {
             }
         };
         gvView.setAdapter(commonAdapter);
+        getData(Constants.UNITID,gw);
     }
 
     public void getData(String org_id, String gw) {

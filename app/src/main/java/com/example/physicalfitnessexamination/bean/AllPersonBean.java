@@ -11,6 +11,7 @@ public class AllPersonBean {
     private String ORG_ID;
     private String ORG_NAME;
     private String TYPE;
+    private String SID;//业务竞赛按项目报名用到
 
     public String getNO() {
         return NO;
@@ -90,5 +91,13 @@ public class AllPersonBean {
 
     public void setTYPE(String TYPE) {
         this.TYPE = TYPE;
+    }
+
+    public String getSID() {
+        return SID;
+    }
+
+    public void setSID(String SID) {
+        this.SID = SID;
     }
 }

@@ -31,4 +31,5 @@ public class Api {
     public static final String GETPERSONSCORESUMLIST4BSYM=Constants.IP+"assessment/getPersonScoreSumList4Bsym";//个人全能前5
     public static final String GETORGSCORESUMLIST4BSYM=Constants.IP+"assessment/getOrgScoreSumList4Bsym";//消防站总分前5
     public static final String GETORGSUBJECTLIST4BSYM=Constants.IP+"assessment/getOrgSubjectList4Bsym";//单位单项团体第一
+    public static final String GETPERSONREQUIREMENT=Constants.IP+"assessment/getPersonRequirement";//业务竞赛人员上报前置页面
 }

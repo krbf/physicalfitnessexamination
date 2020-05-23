@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.bean.UnitCreditsPkBean
 import kotlinx.android.synthetic.main.v_histogram_item.view.*
 
 /**
@@ -17,18 +18,24 @@ class HistogramView : LinearLayout {
     /**
      * 数据集合
      */
-    var dataList: MutableList<Int> = mutableListOf()
+    var dataList: MutableList<UnitCreditsPkBean> = mutableListOf()
         set(value) {
             field = value
 
             removeAllViews()
 
-            TODO("更换数据类型 并对应字段赋值")
-            arrayOf(570, 690, 1130).forEach { org ->
+            var firstScore = 0
+            value.forEach {bean->
+                if (firstScore < bean.score){
+                    firstScore = bean.score
+                }
+            }
+
+            value.forEach {bean->
                 addView(ItemView(context).apply {
-                    orgName = "湘潭支队"
-                    maxExp = 1130
-                    factExp = org
+                    orgName = bean.orG_NAME
+                    maxExp = firstScore
+                    factExp = bean.score
                 })
             }
         }

@@ -75,6 +75,7 @@ public class MyApplication extends Application {
                 //    Log.e(TAG, "onViewInitFinished:" + initResult);
             }
         });
+
     }
 
     @Override

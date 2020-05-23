@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -34,6 +37,7 @@ import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
 import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.view.DMDialog;
 import com.example.physicalfitnessexamination.view.SportKeyBoardView;
+import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
@@ -77,6 +81,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private String currentGroup = null;//当前组数
     private String flag;//1-已建考核 2-考核实施 3-历史考核
     private TextView tvAchievement;//成绩列
+    private MessageDialog messageDialog;
 
     /**
      * 跳转方法
@@ -96,6 +101,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        messageDialog = MessageDialog.newInstance("加载中，请稍等……");
     }
 
     @Override
@@ -167,6 +173,26 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                     int flag;
                                     if ("1".equals(clause.getATYPE())) {//次数
                                         flag = 0;
+                                        edtAchievement.addTextChangedListener(new TextWatcher() {
+                                            @Override
+                                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                            }
+
+                                            @Override
+                                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                            }
+
+                                            @Override
+                                            public void afterTextChanged(Editable s) {
+                                                if (s.toString().length() == 1 && s.toString().equals("0")) {
+                                                    showToast("输入不合法");
+                                                    edtAchievement.setText("");
+                                                }
+
+                                            }
+                                        });
                                     } else {
                                         flag = 1;
                                     }
@@ -195,7 +221,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                                                     String result = edtAchievement.getText().toString();
 
                                                     // 首先要编译正则规则形式
-                                                    Pattern p = Pattern.compile("([0-5][0-9]’[0-5][0-9]”[0-9][0-9])|([0-5][0-9]’[0-5][0-9])|([0-5][0-9]”[0-9][0-9])");
+                                                    Pattern p = Pattern.compile("([0-5][0-9]’[0-5][0-9]”[0-9][0-9])|([0-5][0-9]’[0-5][0-9])" +
+                                                            "|([0-5][0-9]”[0-9][0-9])|([0-9]’[0-5][0-9]”[0-9][0-9])" +
+                                                            "|([0-9]’[0-9]”[0-9][0-9])|([0-9]’[0-5][0-9])|([0-9]’[0-9])|([0-9]”[0-9][0-9])");
                                                     // 将正则进行匹配
                                                     Matcher m = p.matcher(result);
                                                     // 进行判断
@@ -268,6 +296,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     }
 
     public void getData(String teamno) {//获取每组人员
+        if (!messageDialog.isVisible()) {
+            messageDialog.show(getSupportFragmentManager(), "");
+        }
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
         map.put("sid", clause.getSID());
@@ -283,6 +314,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
 
             @Override
             public void onResponse(String response) {
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
+                }
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     list.clear();

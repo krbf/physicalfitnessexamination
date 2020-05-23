@@ -14,7 +14,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
         android:text="雨湖中队"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
     <ImageView
         android:id="@+id/img_photo"
@@ -31,5 +31,5 @@
         android:gravity="center"
         android:paddingVertical="10dp"
         android:text="男子3000m"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 </LinearLayout>

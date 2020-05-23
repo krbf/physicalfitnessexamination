@@ -131,7 +131,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.tv_enroll:
-                getPersonList1();
+                if ("2".equals(assessmentInfoBean.getTYPE())) {//业务竞赛按项目报名
+                    ClauseEnrollListActivity.startInstant(this, id);
+                } else {
+                    getPersonList1();
+                }
+
                 break;
             default:
                 break;

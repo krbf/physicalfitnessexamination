@@ -106,6 +106,7 @@ public class Rank4Fragment extends Fragment implements View.OnClickListener {
         linUnit.setOnClickListener(this::onClick);
         tvUnitHint = view.findViewById(R.id.tv_unit_hint);
         tvUnit = view.findViewById(R.id.tv_unit);
+        tvUnit.setText("湘潭支队");
     }
 
     @Override
@@ -128,6 +129,7 @@ public class Rank4Fragment extends Fragment implements View.OnClickListener {
             }
         };
         gvUnit_5.setAdapter(commonAdapter);
+        getData(Constants.UNITID);
     }
 
     public void getData(String org_id) {

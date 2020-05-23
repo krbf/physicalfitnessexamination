@@ -1,6 +1,5 @@
 package com.example.physicalfitnessexamination.util;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -148,8 +147,8 @@ public class ShowUnitView {
 
     public void showUnitView() {
         Map<String, String> map = new HashMap<>();
-        map.put("role_id", UserManager.getInstance().getUserInfo(context).getRole_id());
-        map.put("org_id", UserManager.getInstance().getUserInfo(context).getOrg_id());
+        map.put("role_id", "manage");
+        map.put("org_id", Constants.UNITID);
         OkhttpUtil.okHttpPost(Constants.IP + "sysorg/doListSysOrg", map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {

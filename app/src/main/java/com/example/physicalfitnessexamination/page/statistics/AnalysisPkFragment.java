@@ -25,7 +25,7 @@ public class AnalysisPkFragment extends Fragment {
     private String mParam2;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String[] title = new String[]{"单位总积分PK", "单位单项PK", "个人全能PK","单位岗位Pk","个人单项Pk"};
+    private String[] title = new String[]{"单位总积分PK", "单位单项PK", "个人全能PK","单位岗位PK","个人单项PK"};
 
     /**
      * 训练分析Fragment实例化方法

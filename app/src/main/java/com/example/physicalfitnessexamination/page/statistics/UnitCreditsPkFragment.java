@@ -19,6 +19,7 @@ import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean
 import com.example.physicalfitnessexamination.bean.PostBean;
 import com.example.physicalfitnessexamination.bean.UnitCreditsPkBean;
 import com.example.physicalfitnessexamination.bean.UserInfo;
+import com.example.physicalfitnessexamination.view.HistogramView;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +50,8 @@ public class UnitCreditsPkFragment extends Fragment {
     private UserInfo userInfo;
     private List<PostBean> listType = new ArrayList<>();
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
-    private List<UnitCreditsPkBean> listData=new ArrayList<>();
+    private List<UnitCreditsPkBean> listData = new ArrayList<>();
+    private HistogramView histogramView;
 
     public UnitCreditsPkFragment() {
         // Required empty public constructor
@@ -95,13 +97,14 @@ public class UnitCreditsPkFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         spvUnit1 = view.findViewById(R.id.spv_unit1);
         spvUnit2 = view.findViewById(R.id.spv_unit2);
+        histogramView = view.findViewById(R.id.hv_pk);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        spvUnit1.setName("上级");
-        spvUnit2.setName("下级");
+        spvUnit1.setName("层级");
+        spvUnit2.setName("机构");
         switch (userInfo.getRole_id()) {
             case Constants.RoleIDStr.COMM:
                 PostBean postBean = new PostBean();
@@ -195,6 +198,8 @@ public class UnitCreditsPkFragment extends Fragment {
                 if (success) {
                     listData.clear();
                     listData.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), UnitCreditsPkBean.class));
+                    histogramView.setDataList(listData);
+                    histogramView.startAnimation();
                 }
             }
         });

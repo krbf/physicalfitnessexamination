@@ -114,6 +114,14 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".page.kbi.ClauseEnrollListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".page.kbi.ClauseEnrollActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".page.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="sensorLandscape" />

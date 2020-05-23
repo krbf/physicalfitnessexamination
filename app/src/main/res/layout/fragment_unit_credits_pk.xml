@@ -16,9 +16,9 @@
             android:layout_weight="1" />
 
         <View
-            android:background="@color/white"
             android:layout_width="1dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/white" />
 
         <com.example.physicalfitnessexamination.view.excel.SpinnerParentView
             android:id="@+id/spv_unit2"
@@ -27,5 +27,9 @@
             android:layout_weight="3" />
     </LinearLayout>
 
+    <com.example.physicalfitnessexamination.view.HistogramView
+        android:id="@+id/hv_pk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
