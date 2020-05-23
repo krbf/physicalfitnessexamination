@@ -92,7 +92,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                                                             initProVisible(selectBeanList)
                                                         }
-                                                    })
+                                                    }, isRadio = true)
                                             spv_evaOrg.isEnabled = true
 
                                             spv_perSelect.setSpinner(
@@ -372,7 +372,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
 
         //考核项目
         if (spv_pj1.getSelectList().isNullOrEmpty() && spv_pj2.getSelectList().isNullOrEmpty()
-                && spv_pj3.getSelectList().isNullOrEmpty() && spv_pj4.getSelectList().isNullOrEmpty()){
+                && spv_pj3.getSelectList().isNullOrEmpty() && spv_pj4.getSelectList().isNullOrEmpty()) {
             edit_kbiName.snack("最少添加一项考核项目")
             return false
         }
