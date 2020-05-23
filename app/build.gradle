@@ -84,6 +84,10 @@ dependencies {
 
     //选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
+
+    //banner
+    implementation 'com.youth.banner:banner:1.4.10'
+
     implementation project(':lib_fileviewer')
     implementation project(':module_common')
 }

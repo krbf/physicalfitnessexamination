@@ -1,5 +1,6 @@
 package com.example.physicalfitnessexamination.api;
 
+import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.api.request.FTRequest;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentGroupReq;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentObjectReq;
@@ -29,7 +30,7 @@ public class RequestManager {
     /*
     服务器地址
      */
-    public static final String HOST = "http://114.55.167.62:8080/hnxf/assessment";//服务器
+    public static final String HOST = Constants.IP + "/assessment";//服务器
 
     private static void setRequestAndCallBack(Request hasParamsable, FTRequest request, Callback callback) {
         for (Field field : getFields(request.getClass())) {
@@ -157,6 +158,4 @@ public class RequestManager {
         setRequestAndCallBack(OkGo.post(HOST + "/getRemarkForAssessment").tag(tag)
                 , request, callback);
     }
-
-
 }

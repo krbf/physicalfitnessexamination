@@ -18,10 +18,12 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.alibaba.fastjson.JSON
+import com.czy.module_common.glide.ImageLoaderUtils
 import com.czy.module_common.okhttp.CallBackUtil.CallBackString
 import com.czy.module_common.okhttp.OkhttpUtil
 import com.czy.module_common.utils.Tool
@@ -30,8 +32,10 @@ import com.example.physicalfitnessexamination.activity.LoginActivity
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.RequestManager
 import com.example.physicalfitnessexamination.api.callback.JsonCallback
+import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq
 import com.example.physicalfitnessexamination.api.request.GetRemarkForAssessmentReq
 import com.example.physicalfitnessexamination.api.response.ApiResponse
+import com.example.physicalfitnessexamination.api.response.PersonAssessList4Res
 import com.example.physicalfitnessexamination.api.response.RemarkForAssessmentRes
 import com.example.physicalfitnessexamination.app.Api
 import com.example.physicalfitnessexamination.base.MyBaseActivity
@@ -43,12 +47,14 @@ import com.example.physicalfitnessexamination.page.myKbi.MyKbiActivity
 import com.example.physicalfitnessexamination.page.rank.RankActivity
 import com.example.physicalfitnessexamination.page.statistics.TrainingAnalysisActivity
 import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
+import com.example.physicalfitnessexamination.util.ImageUtils
 import com.example.physicalfitnessexamination.util.dp2px
 import com.example.physicalfitnessexamination.util.setPaddingBottom
 import com.example.physicalfitnessexamination.view.DMDialog
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okserver.download.DownloadListener
+import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
 import java.io.File
@@ -88,6 +94,16 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         btn_main6.setOnClickListener(this)
         iv_LoginOut.setOnClickListener(this)
         permission()
+
+        iv_banner.let { banner ->
+            banner.setImageLoader(object : ImageLoader() {
+                override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
+                    path?.let { pa ->
+                        ImageLoaderUtils.display(context, imageView, ImageUtils.getCompleteUrl(pa as String))
+                    }
+                }
+            })
+        }
     }
 
     override fun initData() {
@@ -119,6 +135,20 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                 )
                             }
+                        }
+                    }
+                })
+
+        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, ""),
+                object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
+                    override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
+                        response?.body()?.data?.let { list ->
+                            val imageUrlList = list.map {
+                                it.PHOTO
+                            }
+
+                            iv_banner.setImages(imageUrlList)
+                            iv_banner.start()
                         }
                     }
                 })
@@ -258,7 +288,7 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
                                     helper.setOnClickListener(R.id.tv_ok) {
                                         linearLayout.visibility = View.GONE
                                         linearLayout1.visibility = View.VISIBLE
-                                        downApk(progressBar, textView,dialog);
+                                        downApk(progressBar, textView, dialog);
                                     }
                                 }
                                 .setGravity(Gravity.CENTER)
@@ -270,7 +300,7 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun downApk(progressBar: ProgressBar, textView: TextView,dialogFragment: DialogFragment) {
+    private fun downApk(progressBar: ProgressBar, textView: TextView, dialogFragment: DialogFragment) {
         OTAManager.getInstance().downloadApk(Api.DOWNAPK, object : DownloadListener(OTAManager.OTA_TAG) {
             override fun onStart(progress: Progress) {
                 // TODO: 2020/5/10 下载任务开始
