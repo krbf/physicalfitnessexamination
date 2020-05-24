@@ -32,6 +32,18 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:layout_marginRight="20dp"
+            android:id="@+id/tv_integral_difference_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/_EF7D65"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="积分分差"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_group_setting"
@@ -49,6 +61,7 @@
             android:id="@+id/spv_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <View

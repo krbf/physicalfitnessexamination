@@ -65,6 +65,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private TextView tvClause;//项目显示
     private TextView tvPost;//岗位显示
     private TextView tvGroupSetting;//组别设置
+    private TextView tvIntegralDifferenceSetting;//积分分差
     private String id;//考核id
     private ClauseBean.Clause clause;//项目实体类
     private String GW;//岗位
@@ -123,6 +124,8 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         tvPost = findViewById(R.id.tv_post);
         tvGroupSetting = findViewById(R.id.tv_group_setting);
         tvGroupSetting.setOnClickListener(this::onClick);
+        tvIntegralDifferenceSetting=findViewById(R.id.tv_integral_difference_setting);
+        tvIntegralDifferenceSetting.setOnClickListener(this::onClick);
         spvGroup = findViewById(R.id.spv_group);
         tvAchievement = findViewById(R.id.tv_achievement);
     }
@@ -131,6 +134,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     protected void initData() {
         if ("2".equals(flag)) {
             tvGroupSetting.setVisibility(View.GONE);
+            tvIntegralDifferenceSetting.setVisibility(View.GONE);
         }
         if ("1".equals(flag)) {
             tvAchievement.setVisibility(View.GONE);
@@ -289,6 +293,10 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 } else {
                     GroupSettingsActivity.startInstant(this, listAll.size(), listAll, id, GW, clause.getSID());
                 }
+                break;
+            case R.id.tv_integral_difference_setting:
+//                id 考核id，GW，岗位  clause.getSID()，项目id
+                showToast("积分");
                 break;
             default:
                 break;
