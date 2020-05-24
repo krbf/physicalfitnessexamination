@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="bean"
+            type="com.example.physicalfitnessexamination.bean.KbiProjectPersonCountBean" />
+    </data>
+
+    <merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <!--项目名-->
+            <TextView
+                android:id="@+id/tv_proName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginBottom="7dp"
+                android:text="@{bean.proName}"
+                android:textColor="@color/_2A2A2A"
+                android:textSize="17sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="男子3000m" />
+
+            <TextView
+                android:id="@+id/tvType1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="10dp"
+                android:text="@{bean.type1Name}"
+                android:textColor="@color/_2A2A2A"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_proName"
+                tools:text="支队领导" />
+
+            <TextView
+                android:id="@+id/tvType2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="@{bean.type2Name}"
+                android:textColor="@color/_2A2A2A"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintStart_toEndOf="@+id/edType1"
+                tools:text="支队指挥员" />
+
+            <EditText
+                android:id="@+id/edType1"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:inputType="number"
+                android:text="@={bean.type1PerCount}"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintStart_toEndOf="@+id/tvType1" />
+
+            <EditText
+                android:id="@+id/edType2"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:inputType="number"
+                android:text="@={bean.type2PerCount}"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType2"
+                app:layout_constraintStart_toEndOf="@+id/tvType2" />
+        </android.support.constraint.ConstraintLayout>
+    </merge>
+</layout>
