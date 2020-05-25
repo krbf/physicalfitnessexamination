@@ -11,10 +11,12 @@ import com.example.physicalfitnessexamination.api.request.GetOrgListReq;
 import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.GetRemarkForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
+import com.example.physicalfitnessexamination.api.request.UploadFileReq;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.request.base.Request;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,8 +29,8 @@ import java.util.List;
  * @author chenzhiyuan
  */
 public class RequestManager {
-    /*
-    服务器地址
+    /**
+     * 服务器地址
      */
     public static final String HOST = Constants.IP + "/assessment";//服务器
 
@@ -157,5 +159,18 @@ public class RequestManager {
     public static void getRemarkForAssessment(Object tag, GetRemarkForAssessmentReq request, Callback callback) {
         setRequestAndCallBack(OkGo.post(HOST + "/getRemarkForAssessment").tag(tag)
                 , request, callback);
+    }
+
+    /**
+     * 文件上传至服务器
+     */
+    public static void uploadFile(Object tag, UploadFileReq req, List<File> files, Callback callback) {
+        OkGo.<String>post(Constants.IMAGE + "/img/uploads")
+                .tag(tag)
+                .isMultipart(true)
+                .params("appName", req.getAppName())
+                .params("fireId", req.getFireId())
+                .addFileParams("file", files)
+                .execute(callback);
     }
 }

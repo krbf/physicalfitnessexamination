@@ -1,10 +1,17 @@
 package com.example.physicalfitnessexamination.page.kbi;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,6 +20,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
+import com.example.physicalfitnessexamination.api.RequestManager;
+import com.example.physicalfitnessexamination.api.request.UploadFileReq;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
@@ -22,15 +31,24 @@ import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
+import com.example.physicalfitnessexamination.util.FileProvider7;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
+import com.lzy.okgo.callback.Callback;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +72,11 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private AssessmentInfoBean assessmentInfoBean;
     private boolean unit;
     private int flag;//1 已建考核进入  2 考核实施进入  3 历史考核进入
+    public static final int RC_TAKE_PHOTO = 1;
+    private String fileName;
+    private String mTempPhotoPath;
+    private Uri imageUri;
+    private File photoFile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,6 +142,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 viewHolder.setText(R.id.tv_job, s.getZW());
                 viewHolder.setText(R.id.tv_post, s.getGW());
                 viewHolder.setText(R.id.tv_unit, s.getORG_NAME());
+                viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        take();
+                    }
+                });
             }
         };
         lvLookRoster.setAdapter(commonAdapter);
@@ -270,6 +299,59 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 }
                 break;
             default:
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case RC_TAKE_PHOTO:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    take();
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void take() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            //未授权，申请授权(从相册选择图片需要读取存储卡的权限)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, RC_TAKE_PHOTO);
+        } else {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            fileName = "Person_Head_" + format.format(date) + ".jpg";
+
+            Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File fileDir = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "体能考核" + File.separator);
+            if (!fileDir.exists()) {
+                fileDir.mkdirs();
+            }
+
+            photoFile = new File(fileDir, fileName);
+            mTempPhotoPath = photoFile.getAbsolutePath();
+            imageUri = FileProvider7.getUriForFile(this, photoFile);
+            intentToTakePhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intentToTakePhoto, RC_TAKE_PHOTO);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RC_TAKE_PHOTO:
+                UploadFileReq uploadFileReq = new UploadFileReq("tnkh", UserManager.getInstance().getUserInfo(this).getUserid());
+                List<File> files = new ArrayList<>();
+                files.add(photoFile);
+                RequestManager.uploadFile(this, uploadFileReq, files, new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+                });
                 break;
         }
     }

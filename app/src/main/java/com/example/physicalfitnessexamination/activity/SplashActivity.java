@@ -9,8 +9,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.page.MainActivity;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
@@ -26,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
                 return;
             }
         }
-
+        unload();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LottieAnimationView lottieAnimationView = new LottieAnimationView(this);
         lottieAnimationView.setAnimation("exercise.json");
@@ -49,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 } else {
                     LoginActivity.startInstant(SplashActivity.this);
                     finish();
+
                 }
 
             }
@@ -62,12 +71,26 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         });
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-//                finish();
-//            }
-//        }, 3000);
+    }
+
+    public void unload() {
+        Map<String, String> map = new HashMap<>();
+        //map.put("org_id", org_id);
+        OkhttpUtil.okHttpPost(Api.GETORGSCORESUMLIST4BSYM, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+//                boolean success = JSON.parseObject(response).getBoolean("success");
+//                if (success) {
+//                    list.clear();
+//                    list.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), AllAroundBean.class));
+//                    commonAdapter.notifyDataSetChanged();
+//                }
+            }
+        });
     }
 }
