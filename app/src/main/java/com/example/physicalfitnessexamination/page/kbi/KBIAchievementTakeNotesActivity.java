@@ -15,13 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.czy.module_common.glide.ImageLoaderUtils;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
+import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
@@ -30,14 +33,11 @@ import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
-import com.czy.module_common.glide.ImageLoaderUtils;
-import com.czy.module_common.okhttp.CallBackUtil;
-import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
-import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.view.DMDialog;
 import com.example.physicalfitnessexamination.view.SportKeyBoardView;
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
+import com.example.physicalfitnessexamination.view.dialog.PointsDifferSettingDialog;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
@@ -124,7 +124,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         tvPost = findViewById(R.id.tv_post);
         tvGroupSetting = findViewById(R.id.tv_group_setting);
         tvGroupSetting.setOnClickListener(this::onClick);
-        tvIntegralDifferenceSetting=findViewById(R.id.tv_integral_difference_setting);
+        tvIntegralDifferenceSetting = findViewById(R.id.tv_integral_difference_setting);
         tvIntegralDifferenceSetting.setOnClickListener(this::onClick);
         spvGroup = findViewById(R.id.spv_group);
         tvAchievement = findViewById(R.id.tv_achievement);
@@ -281,85 +281,6 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         lvAchievementTakeNotes.setAdapter(commonAdapter);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_right:
-                finish();
-                break;
-            case R.id.tv_group_setting:
-                if (listAll.size() < 1) {
-                    showToast("无参考人员无法进行组别设置");
-                } else {
-                    GroupSettingsActivity.startInstant(this, listAll.size(), listAll, id, GW, clause.getSID());
-                }
-                break;
-            case R.id.tv_integral_difference_setting:
-//                id 考核id，GW，岗位  clause.getSID()，项目id
-                showToast("积分");
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void getData(String teamno) {//获取每组人员
-        if (!messageDialog.isVisible()) {
-            messageDialog.show(getSupportFragmentManager(), "");
-        }
-        Map<String, String> map = new HashMap<>();
-        map.put("aid", id);
-        map.put("sid", clause.getSID());
-        map.put("gw", GW);
-        map.put("type", clause.getTYPE());
-        map.put("teamno", teamno);
-        map.put("personAll", "false");
-        OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                if (messageDialog.isVisible()) {
-                    messageDialog.dismiss();
-                }
-                boolean success = JSON.parseObject(response).getBoolean("success");
-                if (success) {
-                    list.clear();
-                    list.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
-                    commonAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-    }
-
-    public void getAllData() {//获取每组人员
-        Map<String, String> map = new HashMap<>();
-        map.put("aid", id);
-        map.put("sid", clause.getSID());
-        map.put("gw", GW);
-        map.put("type", clause.getTYPE());
-        map.put("teamno", null);
-        map.put("personAll", "true");
-        OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
-            @Override
-            public void onFailure(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-                boolean success = JSON.parseObject(response).getBoolean("success");
-                if (success) {
-                    listAll.clear();
-                    listAll.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
-                }
-            }
-        });
-    }
-
     public void getGroup() {
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
@@ -401,6 +322,31 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         });
     }
 
+    public void getAllData() {//获取每组人员
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", id);
+        map.put("sid", clause.getSID());
+        map.put("gw", GW);
+        map.put("type", clause.getTYPE());
+        map.put("teamno", null);
+        map.put("personAll", "true");
+        OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    listAll.clear();
+                    listAll.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
+                }
+            }
+        });
+    }
+
     public void submission(String userid, String achievement) {
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
@@ -425,6 +371,66 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         });
     }
 
+    public void getData(String teamno) {//获取每组人员
+        if (!messageDialog.isVisible()) {
+            messageDialog.show(getSupportFragmentManager(), "");
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("aid", id);
+        map.put("sid", clause.getSID());
+        map.put("gw", GW);
+        map.put("type", clause.getTYPE());
+        map.put("teamno", teamno);
+        map.put("personAll", "false");
+        OkhttpUtil.okHttpPost(Api.GETPERSONACHIEVEMENT4ASSESS, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
+                }
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    list.clear();
+                    list.addAll(JSON.parseArray(JSON.parseObject(response).getString("data"), PersonAchievementBean.class));
+                    commonAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_right:
+                finish();
+                break;
+            case R.id.tv_group_setting:
+                if (listAll.size() < 1) {
+                    showToast("无参考人员无法进行组别设置");
+                } else {
+                    GroupSettingsActivity.startInstant(this, listAll.size(), listAll, id, GW, clause.getSID());
+                }
+                break;
+            case R.id.tv_integral_difference_setting:
+                PointsDifferSettingDialog dialog = new PointsDifferSettingDialog(
+                        id, GW, clause.getSID(), listAll.size());
+                dialog.show(getSupportFragmentManager(), "");
+                break;
+            default:
+                break;
+        }
+    }
 
     private void initNoLinkOptionsPicker(EditText editText) {// 不联动的多级选项
         getNoLinkData();
@@ -466,12 +472,6 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         computer.add("Lenovo");
         computer.add("Apple");
         computer.add("HP");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

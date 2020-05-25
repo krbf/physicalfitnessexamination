@@ -173,4 +173,14 @@ public class RequestManager {
                 .addFileParams("file", files)
                 .execute(callback);
     }
+
+    /**
+     * 项目积分分差设置接口
+     */
+    public static void setPersonScoreForAssessment(Object tag, SetPersonScoreForAssessmentReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/setPersonScoreForAssessment").tag(tag)
+                , request, callback);
+    }
+
+
 }

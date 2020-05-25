@@ -5,15 +5,16 @@ import android.content.Intent
 import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.Toast
+import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.api.RequestManager
 import com.example.physicalfitnessexamination.api.response.SaveAssessmentRes
 import com.example.physicalfitnessexamination.base.ActivityCollector
 import com.example.physicalfitnessexamination.base.MyBaseActivity
-import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.util.spannableBold
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog
+import com.example.physicalfitnessexamination.view.excel.KbiProjectPersonCountView
 import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
 import com.lzy.okgo.request.base.Request
@@ -83,12 +84,77 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
             //普考
             v_dividerLine2.visibility = View.GONE
             tv_PerRequest.visibility = View.GONE
+            cl_personRequest.visibility = View.GONE
             group1.visibility = View.GONE
             group2.visibility = View.GONE
             group3.visibility = View.GONE
+        } else if (CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[0]) {
+            //考核方式为 "业务竞赛" 的场合
+            v_dividerLine2.visibility = View.VISIBLE
+            tv_PerRequest.visibility = View.VISIBLE
+            cl_personRequest.visibility = View.GONE
+
+            //"业务竞赛"-"参考单位"
+            val orgType = CreateKbiDataManager.kbiBean?.orgType?.first()
+            val nameArray = when (orgType) {
+                resources.getStringArray(R.array.joinEvaOrg)[0] -> {
+                    resources.getStringArray(R.array.managePosition)
+                }
+                resources.getStringArray(R.array.joinEvaOrg)[1] -> {
+                    resources.getStringArray(R.array.manageBrigadePosition)
+                }
+                else -> {
+                    resources.getStringArray(R.array.commPosition)
+                }
+            }
+
+            CreateKbiDataManager.kbiBean?.objPart1?.forEach { prj ->
+                ll_content.addView(
+                        KbiProjectPersonCountView(context).apply {
+                            binding.bean?.proName?.set(prj.NAME)
+                            binding.bean?.sid = prj.ID
+                            binding.bean?.type1Name?.set(nameArray[0])
+                            binding.bean?.type2Name?.set(nameArray[1])
+                        }
+                )
+            }
+
+            CreateKbiDataManager.kbiBean?.objPart2?.forEach { prj ->
+                ll_content.addView(
+                        KbiProjectPersonCountView(context).apply {
+                            binding.bean?.proName?.set(prj.NAME)
+                            binding.bean?.sid = prj.ID
+                            binding.bean?.type1Name?.set(nameArray[0])
+                            binding.bean?.type2Name?.set(nameArray[1])
+                        }
+                )
+            }
+
+            CreateKbiDataManager.kbiBean?.objPart3?.forEach { prj ->
+                ll_content.addView(
+                        KbiProjectPersonCountView(context).apply {
+                            binding.bean?.proName?.set(prj.NAME)
+                            binding.bean?.sid = prj.ID
+                            binding.bean?.type1Name?.set(nameArray[0])
+                            binding.bean?.type2Name?.set(nameArray[1])
+                        }
+                )
+            }
+
+            CreateKbiDataManager.kbiBean?.objPart4?.forEach { prj ->
+                ll_content.addView(
+                        KbiProjectPersonCountView(context).apply {
+                            binding.bean?.proName?.set(prj.NAME)
+                            binding.bean?.sid = prj.ID
+                            binding.bean?.type1Name?.set(nameArray[0])
+                            binding.bean?.type2Name?.set(nameArray[1])
+                        }
+                )
+            }
         } else {
             v_dividerLine2.visibility = View.VISIBLE
             tv_PerRequest.visibility = View.VISIBLE
+            cl_personRequest.visibility = View.VISIBLE
 
             group1.visibility = View.GONE
             group2.visibility = View.GONE
@@ -139,7 +205,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                                         BuiltKBIDetailActivity.startInstant(this@KbiPublicNoticeActivity, res.id);
 
                                         //关闭之前创建流程中的页面
-                                        ActivityCollector.activitys.forEach {ac->
+                                        ActivityCollector.activitys.forEach { ac ->
                                             if (ac is CreateKBIActivity || ac is KbiOrgActivity
                                                     || ac is KbiTimeConfigActivity || ac is KbiPublicNoticeActivity) {
                                                 if (!ac.isFinishing) {
@@ -179,7 +245,25 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
         }
 
         CreateKbiDataManager.kbiBean?.requirementPerson = null
-        if (!isCommonTest) {
+        if (CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[0]) {
+            //业务竞赛
+            val list = mutableListOf<CreateKbiDataManager.PointsDiff>()
+            for (childIndex in 0 until ll_content.childCount) {
+                ll_content.getChildAt(childIndex).let { childV ->
+                    if (childV is KbiProjectPersonCountView) {
+                        childV.binding.bean?.let { bean ->
+                            list.add(CreateKbiDataManager.PointsDiff(bean.sid,
+                                    bean.type1Name.get() ?: "",
+                                    bean.type1PerCount.get() ?: "0"))
+                            list.add(CreateKbiDataManager.PointsDiff(bean.sid,
+                                    bean.type2Name.get() ?: "",
+                                    bean.type2PerCount.get() ?: "0"))
+                        }
+                    }
+                }
+            }
+            CreateKbiDataManager.kbiBean?.requirementPerson = JacksonMapper.mInstance.writeValueAsString(list)
+        } else if (!isCommonTest) {
             val spb = SpannableStringBuilder()
             CreateKbiDataManager.kbiBean?.orgType?.let {
                 if (it.contains(resources.getStringArray(R.array.joinEvaOrg)[0])) {
@@ -239,10 +323,8 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                     }
                 }
             }
-
             CreateKbiDataManager.kbiBean?.requirementPerson = spb.toString()
         }
-
         return true
     }
 }

@@ -2,6 +2,7 @@ package com.example.physicalfitnessexamination.page.kbi
 
 import android.content.Context
 import android.text.SpannableStringBuilder
+import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq
@@ -10,7 +11,6 @@ import com.example.physicalfitnessexamination.bean.KbiOrgGroupIndexBean
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupTypeBean
 import com.example.physicalfitnessexamination.bean.PersonBean
 import com.example.physicalfitnessexamination.common.annotation.AllOpenAndNoArgAnnotation
-import com.czy.module_common.utils.JacksonMapper
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -306,5 +306,11 @@ object CreateKbiDataManager {
     data class Glevel(
             var org_id: String,
             var org_name: String
+    )
+
+    data class PointsDiff(
+            var sid: String,
+            var gw: String,
+            var psum: String
     )
 }

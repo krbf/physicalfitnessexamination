@@ -9,6 +9,8 @@ def buildTime() {
 }
 
 android {
+    dataBinding.enabled = true
+
     signingConfigs {
         debug {
             storeFile file('../krbf.keystore')
