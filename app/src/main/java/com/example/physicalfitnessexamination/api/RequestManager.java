@@ -11,6 +11,7 @@ import com.example.physicalfitnessexamination.api.request.GetOrgListReq;
 import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.GetRemarkForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
+import com.example.physicalfitnessexamination.api.request.SetPersonScoreForAssessmentReq;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.request.base.Request;
@@ -158,4 +159,14 @@ public class RequestManager {
         setRequestAndCallBack(OkGo.post(HOST + "/getRemarkForAssessment").tag(tag)
                 , request, callback);
     }
+
+    /**
+     * 项目积分分差设置接口
+     */
+    public static void setPersonScoreForAssessment(Object tag, SetPersonScoreForAssessmentReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/setPersonScoreForAssessment").tag(tag)
+                , request, callback);
+    }
+
+
 }

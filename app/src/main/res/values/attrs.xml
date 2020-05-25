@@ -9,4 +9,10 @@
         <attr name="vertical_Space" format="dimension"></attr>
         <attr name="isFull" format="boolean"></attr>
     </declare-styleable>
+
+    <declare-styleable name="PointsDifferView">
+        <attr name="exampleString" format="string" />
+        <attr name="exampleColor" format="color" />
+        <attr name="exampleDimension" format="dimension" />
+    </declare-styleable>
 </resources>
