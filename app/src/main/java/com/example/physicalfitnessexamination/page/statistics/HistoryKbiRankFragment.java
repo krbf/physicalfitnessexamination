@@ -17,13 +17,16 @@ import android.webkit.WebViewClient;
 
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.bean.UserInfo;
 
 public class HistoryKbiRankFragment extends Fragment {
     private WebView wvKbiGather;
+    private UserInfo userInfo;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userInfo = com.example.physicalfitnessexamination.activity.UserManager.getInstance().getUserInfo(getContext());
     }
 
     @Nullable
@@ -57,6 +60,8 @@ public class HistoryKbiRankFragment extends Fragment {
         wvKbiGather.loadUrl(Constants.IP + "assessment/assessmentLskhH5");
         //设置在当前WebView继续加载网页
         wvKbiGather.setWebViewClient(new MyWebViewClient());
+
+
     }
 
     class MyWebViewClient extends WebViewClient {
@@ -79,4 +84,5 @@ public class HistoryKbiRankFragment extends Fragment {
             Log.d("WebView", "访问网页结束");
         }
     }
+
 }

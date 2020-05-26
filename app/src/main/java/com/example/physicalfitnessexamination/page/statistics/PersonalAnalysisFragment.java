@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -17,9 +20,17 @@ import android.webkit.WebViewClient;
 
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.bean.PersonBean;
+import com.example.physicalfitnessexamination.view.RosterDialogFragment;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class PersonalAnalysisFragment extends Fragment {
     private WebView wvKbiGather;
+    private ArrayList<PersonBean> listPerson = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +52,7 @@ public class PersonalAnalysisFragment extends Fragment {
 
         //设置JavaScrip
         wvKbiGather.getSettings().setJavaScriptEnabled(true);
+        wvKbiGather.addJavascriptInterface(this, "tnkh");
         //支持通过JS打开新窗口(允许JS弹窗)
         wvKbiGather.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
@@ -56,7 +68,9 @@ public class PersonalAnalysisFragment extends Fragment {
         wvKbiGather.loadUrl(Constants.IP + "assessment/assessmentGrfxH5");
         //设置在当前WebView继续加载网页
         wvKbiGather.setWebViewClient(new MyWebViewClient());
+        wvKbiGather.setWebChromeClient(new WebChromeClient());
     }
+
     class MyWebViewClient extends WebViewClient {
         @Override  //WebView代表是当前的WebView
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -76,5 +90,39 @@ public class PersonalAnalysisFragment extends Fragment {
             super.onPageFinished(view, url);
             Log.d("WebView", "访问网页结束");
         }
+    }
+
+    @JavascriptInterface
+    public void getPerson(String org_id, int type) {
+        if (type == 3) {
+            RosterDialogFragment.newInstance(org_id, null, listPerson, new RosterDialogFragment.OnCheckListener() {
+                @Override
+                public void checkOver(@NotNull ArrayList<PersonBean> list) {
+                    String result = list.get(0).getID() + "," + list.get(0).getNAME();
+//                    wvKbiGather.loadUrl("javascript:setPerson('" + result + "')");
+                    wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+
+                        }
+
+                    });
+                }
+            }, "", 1).show(getChildFragmentManager(), "");
+        } else {
+            RosterDialogFragment.newInstance(org_id, type, listPerson, new RosterDialogFragment.OnCheckListener() {
+                @Override
+                public void checkOver(@NotNull ArrayList<PersonBean> list) {
+                    String result = list.get(0).getID() + "," + list.get(0).getNAME();
+                    wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+
+                        }
+                    });
+                }
+            }, "", 1).show(getChildFragmentManager(), "");
+        }
+
     }
 }
