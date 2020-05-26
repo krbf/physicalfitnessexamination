@@ -60,4 +60,6 @@ dependencies {
     api 'org.greenrobot:eventbus:3.0.0'
     //网络图片加载
     api 'com.github.bumptech.glide:glide:3.7.0'
+
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 }

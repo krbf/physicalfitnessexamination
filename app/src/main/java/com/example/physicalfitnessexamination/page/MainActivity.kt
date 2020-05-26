@@ -9,16 +9,17 @@ import android.net.Uri
 import android.os.Build
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.RecyclerView
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.KeyEvent
-import android.view.View
-import android.widget.ImageView
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -47,20 +48,26 @@ import com.example.physicalfitnessexamination.page.myKbi.MyKbiActivity
 import com.example.physicalfitnessexamination.page.rank.RankActivity
 import com.example.physicalfitnessexamination.page.statistics.TrainingAnalysisActivity
 import com.example.physicalfitnessexamination.page.trainFiles.TrainFilesActivity
-import com.example.physicalfitnessexamination.util.ImageUtils
 import com.example.physicalfitnessexamination.util.dp2px
 import com.example.physicalfitnessexamination.util.setPaddingBottom
 import com.example.physicalfitnessexamination.view.DMDialog
 import com.lzy.okgo.model.Progress
 import com.lzy.okgo.model.Response
 import com.lzy.okserver.download.DownloadListener
-import com.youth.banner.loader.ImageLoader
+import com.orhanobut.logger.Logger
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.v_rank_person_assess_item.view.*
+import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator
 import okhttp3.Call
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
-
 
 /**
  * 首页
@@ -85,6 +92,57 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
 
     override fun initLayout(): Int = R.layout.activity_main
 
+    //<editor-fold desc="Banner相关">
+    private val bannerAdapter by lazy {
+        BannerAdapter()
+    }
+    private val bannerAutoObservable by lazy {
+        Observable.interval(3L, 5L, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+    private val bannerAutoObserver by lazy {
+        object : Observer<Long> {
+            override fun onComplete() {
+
+            }
+
+            override fun onSubscribe(d: Disposable) {
+                bannerAutoDisposable = d
+            }
+
+            override fun onNext(t: Long) {
+                recycler_banner.smoothScrollToPosition(
+                        (recycler_banner.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() + 1
+                )
+            }
+
+            override fun onError(e: Throwable) {
+                Logger.e(e, e.message.toString())
+            }
+        }
+    }
+    private var bannerAutoDisposable: Disposable? = null
+    private val bannerTouchRunnable: Runnable by lazy {
+        Runnable {
+            if (bannerAutoDisposable?.isDisposed != false) {
+                bannerAutoObservable.subscribe(bannerAutoObserver)
+            }
+        }
+    }
+    //</editor-fold>
+
+    override fun onResume() {
+        super.onResume()
+        bannerAutoObservable.subscribe(bannerAutoObserver)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        recycler_banner.removeCallbacks(bannerTouchRunnable)
+        bannerAutoDisposable?.dispose()
+    }
+
     override fun initView() {
         btn_main1.setOnClickListener(this)
         btn_main2.setOnClickListener(this)
@@ -95,15 +153,46 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         iv_LoginOut.setOnClickListener(this)
         permission()
 
-        iv_banner.let { banner ->
-            banner.setImageLoader(object : ImageLoader() {
-                override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                    path?.let { pa ->
-                        ImageLoaderUtils.display(context, imageView, ImageUtils.getCompleteUrl(pa as String))
+        recycler_banner.let {
+            it.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(it)
+            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        try {
+                            ll_indicator.onPageSelected(
+                                    (it.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() % (recyclerView.adapter as BannerAdapter).dataList.size)
+                        } catch (e: Exception) {
+                            Logger.e("MainActivity", e)
+                        }
                     }
                 }
             })
+
+            recycler_banner.adapter = bannerAdapter
+
+            it.setOnTouchListener { v, event ->
+                when (event?.action) {
+                    MotionEvent.ACTION_MOVE -> {
+                        bannerAutoDisposable?.dispose()
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        v?.postDelayed(bannerTouchRunnable, 3000L)
+                    }
+                }
+
+                false //不消费触摸事件
+            }
         }
+        val circleNavigator = CircleNavigator(context)
+        circleNavigator.isFollowTouch = false
+        circleNavigator.circleCount = 1
+        circleNavigator.circleSpacing = 3.dp2px
+        circleNavigator.circleColor = ContextCompat.getColor(context, R.color._8A8A8A)
+        ll_indicator.navigator = circleNavigator
     }
 
     override fun initData() {
@@ -139,16 +228,19 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
                     }
                 })
 
-        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, ""),
+        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, resources.getStringArray(R.array.commPosition)[1]),
                 object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
                         response?.body()?.data?.let { list ->
-                            val imageUrlList = list.map {
-                                it.PHOTO
+                            (ll_indicator.navigator as CircleNavigator).let {
+                                it.circleCount = list.size
+                                it.notifyDataSetChanged()
                             }
 
-                            iv_banner.setImages(imageUrlList)
-                            iv_banner.start()
+                            bannerAdapter.dataList.clear()
+                            bannerAdapter.dataList.addAll(list)
+                            bannerAdapter.notifyDataSetChanged()
+
                         }
                     }
                 })
@@ -348,5 +440,41 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
             intent.setDataAndType(Uri.fromFile(savedFile), "application/vnd.android.package-archive")
         }
         startActivity(intent)
+    }
+}
+
+class BannerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    val dataList = mutableListOf<PersonAssessList4Res>()
+
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+        return ItemViewHolder(
+                LayoutInflater.from(p0.context).inflate(R.layout.v_rank_person_assess_item, p0, false)
+        )
+    }
+
+    override fun getItemCount(): Int {
+        return if (dataList.size > 1) Int.MAX_VALUE else dataList.size
+    }
+
+    override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
+        if (p0 is ItemViewHolder) {
+            dataList[p1 % dataList.size].let { bean ->
+                p0.tvProName.text = bean.NAME
+                ImageLoaderUtils.display(p0.ivPic.context, p0.ivPic, bean.PHOTO)
+                p0.tvScore.text = bean.ACHIEVEMENT
+                p0.tvPersonName.text = bean.USERNAME
+                p0.tvOrgName.text = "单位：" + bean.ORGNAME
+                p0.tvRecordTime.text = "记录时间：" + bean.CREATETIME
+            }
+        }
+    }
+
+    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvProName = view.tv_proName
+        val ivPic = view.iv_pic
+        val tvScore = view.tv_score
+        val tvPersonName = view.tv_personName
+        val tvOrgName = view.tv_orgName
+        val tvRecordTime = view.tv_recordTime
     }
 }

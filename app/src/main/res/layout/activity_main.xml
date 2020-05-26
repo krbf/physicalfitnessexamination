@@ -53,7 +53,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toTopOf="@+id/v_dashLineBottom"
-        app:layout_constraintEnd_toStartOf="@+id/iv_banner"
+        app:layout_constraintEnd_toStartOf="@+id/recycler_banner"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_public_note">
 
@@ -180,18 +180,24 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_main5" />
 
-    <com.youth.banner.Banner
-        android:id="@+id/iv_banner"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_banner"
         android:layout_width="200dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:src="@mipmap/ic_main_banner"
-        app:indicator_height="4dp"
-        app:indicator_width="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/v_dashLineBottom"
-        app:layout_constraintDimensionRatio="1080:782"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/v_dashLineRight" />
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/ll_indicator"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/recycler_banner"
+        app:layout_constraintStart_toStartOf="@+id/recycler_banner"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_banner" />
 
     <ImageView
         android:id="@+id/iv_LoginOut"

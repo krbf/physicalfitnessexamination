@@ -98,6 +98,9 @@ dependencies {
     //图片压缩
     implementation 'com.github.nanchen2251:CompressHelper:1.0.5'
 
+    //指示器
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+
     implementation project(':lib_fileviewer')
     implementation project(':module_common')
 }
