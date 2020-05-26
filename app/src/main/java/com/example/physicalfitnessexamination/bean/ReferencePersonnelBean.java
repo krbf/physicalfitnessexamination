@@ -20,6 +20,9 @@ public class ReferencePersonnelBean implements Parcelable {
     private String ORG_NAME;
     private String GW;
     private String NO;
+    private String id;
+    private String photo;
+    private String workphoto;
 
     public ReferencePersonnelBean() {
 
@@ -37,6 +40,9 @@ public class ReferencePersonnelBean implements Parcelable {
         ORG_NAME = in.readString();
         GW = in.readString();
         NO = in.readString();
+        id = in.readString();
+        photo = in.readString();
+        workphoto = in.readString();
     }
 
     @Override
@@ -52,6 +58,9 @@ public class ReferencePersonnelBean implements Parcelable {
         dest.writeString(ORG_NAME);
         dest.writeString(GW);
         dest.writeString(NO);
+        dest.writeString(id);
+        dest.writeString(photo);
+        dest.writeString(workphoto);
     }
 
     @Override
@@ -157,5 +166,29 @@ public class ReferencePersonnelBean implements Parcelable {
 
     public void setNO(String NO) {
         this.NO = NO;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getWorkphoto() {
+        return workphoto;
+    }
+
+    public void setWorkphoto(String workphoto) {
+        this.workphoto = workphoto;
     }
 }

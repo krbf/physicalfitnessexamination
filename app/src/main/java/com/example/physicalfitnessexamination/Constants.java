@@ -6,7 +6,8 @@ public class Constants {
     public static final String PROJECT_NAME = "/hnxf";
     public static final String IP = HOST + PROJECT_NAME + "/";
     public static final String UNITID = "70717bcfa05d4042b75294a4d4a786c8";
-    public static final String IMAGE = "http://192.168.101.94:8080";
+    //    public static final String IMAGE = "http://192.168.101.94:8080";
+    public static final String IMAGE = "http://114.55.167.62:8089";
 
 
     public static class RoleIDStr {

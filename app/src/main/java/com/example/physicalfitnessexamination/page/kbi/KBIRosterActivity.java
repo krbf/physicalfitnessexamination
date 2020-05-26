@@ -12,12 +12,22 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.artifex.mupdf.viewer.Stepper;
+import com.czy.module_common.glide.ImageLoaderUtils;
+import com.czy.module_common.utils.Tool;
+import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.api.RequestManager;
@@ -27,11 +37,16 @@ import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
+import com.example.physicalfitnessexamination.bean.PhotoBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.util.FileProvider7;
+import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
+import com.example.physicalfitnessexamination.view.DMDialog;
+import com.example.physicalfitnessexamination.view.SportKeyBoardView;
+import com.example.physicalfitnessexamination.view.dialog.MessageDialog;
 import com.example.physicalfitnessexamination.view.excel.SpinnerParentView;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 import com.lzy.okgo.callback.Callback;
@@ -53,6 +68,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 
@@ -77,6 +94,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private String mTempPhotoPath;
     private Uri imageUri;
     private File photoFile;
+    private ImageView imgPhoto;
+    private MessageDialog messageDialog;
+    private String org_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,6 +136,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
+        messageDialog = MessageDialog.newInstance("提交中，请稍等……");
         switch (flag) {
             case 1:
                 tvTitle.setText("已建考核 - 考核花名册");
@@ -145,7 +166,52 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        take();
+                        if (flag == 2) {
+                            photoFile = null;
+                            DMDialog.builder(KBIRosterActivity.this, R.layout.dialog_roster_photo)
+                                    .onDialogInitListener((helper, dialog) ->
+                                    {
+                                        helper.setText(R.id.tv_name, s.getUSERNAME());
+                                        helper.setText(R.id.tv_unit, s.getORG_NAME());
+                                        ImageLoaderUtils.display(KBIRosterActivity.this, helper.getView(R.id.img_credentials), Constants.IP + s.getWorkphoto());
+                                        imgPhoto = helper.getView(R.id.img_photo);
+                                        if (!Tool.isEmpty(s.getPhoto())) {
+                                            ImageLoaderUtils.display(KBIRosterActivity.this, imgPhoto, s.getPhoto());
+                                        }
+                                        helper.setOnClickListener(R.id.img_photo, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                take();
+                                            }
+                                        });
+
+                                        helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (Tool.isEmpty(photoFile)) {
+                                                    showToast("请拍摄新照片");
+                                                } else if (photoFile.exists()) {
+                                                    if (!messageDialog.isVisible()) {
+                                                        messageDialog.show(getSupportFragmentManager(), "");
+                                                    }
+                                                    uploadFile(dialog, s);
+                                                } else {
+                                                    showToast("请拍摄新照片");
+                                                }
+                                            }
+                                        });
+                                        helper.setOnClickListener(R.id.tv_cancel, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                    })
+                                    .setGravity(Gravity.CENTER)
+                                    .setCancelable(false)
+                                    .show();
+                        }
+
                     }
                 });
             }
@@ -204,10 +270,12 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     }, new SpinnerParentView.OnCheckListener() {
                         @Override
                         public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-                            getPersonList(((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID());
+                            org_id = ((ParticipatingInstitutionsBean) selectBeanList.get(0)).getORG_ID();
+                            getPersonList(org_id);
                         }
                     }, true, defSet);
-                    getPersonList(((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID());
+                    org_id = ((ParticipatingInstitutionsBean) spvOrganization.getSelectList().get(0)).getORG_ID();
+                    getPersonList(org_id);
                 }
             }
         });
@@ -343,16 +411,53 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RC_TAKE_PHOTO:
-                UploadFileReq uploadFileReq = new UploadFileReq("tnkh", UserManager.getInstance().getUserInfo(this).getUserid());
-                List<File> files = new ArrayList<>();
-                files.add(photoFile);
-                RequestManager.uploadFile(this, uploadFileReq, files, new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-
-                    }
-                });
+                if (photoFile.exists()) {
+                    ImageLoaderUtils.display(this, imgPhoto, mTempPhotoPath);
+                }
                 break;
         }
+    }
+
+    public void uploadFile(DMDialog dmDialog, ReferencePersonnelBean s) {
+        UploadFileReq uploadFileReq = new UploadFileReq("tnkh", UserManager.getInstance().getUserInfo(this).getUserid());
+        List<File> files = new ArrayList<>();
+        files.add(photoFile);
+        RequestManager.uploadFile(this, uploadFileReq, files, new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
+                }
+                dmDialog.dismiss();
+                String code = JSON.parseObject(response.body()).getString("code");
+                if ("1000".equals(code)) {
+                    String result = JSON.parseObject(response.body()).getString("data");
+                    List<PhotoBean> photoBeanList = new ArrayList<>();
+                    photoBeanList.addAll(JSON.parseArray(result, PhotoBean.class));
+                    uploadPhoto(s.getId(), photoBeanList.get(0).getPictureFullUrl());
+                }
+            }
+        });
+    }
+
+    public void uploadPhoto(String id, String path) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("path", path);
+        OkhttpUtil.okHttpPost(Api.SETPERSONPHOTO, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    showToast("保存成功");
+                    getPersonList(org_id);
+                }
+            }
+        });
     }
 }
