@@ -54,6 +54,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.nanchen.compresshelper.CompressHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -421,7 +422,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     public void uploadFile(DMDialog dmDialog, ReferencePersonnelBean s) {
         UploadFileReq uploadFileReq = new UploadFileReq("tnkh", UserManager.getInstance().getUserInfo(this).getUserid());
         List<File> files = new ArrayList<>();
-        files.add(photoFile);
+        files.add(CompressHelper.getDefault(this).compressToFile(photoFile));
         RequestManager.uploadFile(this, uploadFileReq, files, new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {

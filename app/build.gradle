@@ -64,6 +64,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    allprojects {
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
+    }
 }
 
 noArg {
@@ -89,6 +95,8 @@ dependencies {
 
     //banner
     implementation 'com.youth.banner:banner:1.4.10'
+    //图片压缩
+    implementation 'com.github.nanchen2251:CompressHelper:1.0.5'
 
     implementation project(':lib_fileviewer')
     implementation project(':module_common')
