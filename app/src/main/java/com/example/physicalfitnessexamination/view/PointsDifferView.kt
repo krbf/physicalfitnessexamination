@@ -5,6 +5,7 @@ import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.view.MotionEvent
 import android.view.View
 import com.example.physicalfitnessexamination.R
@@ -66,6 +67,22 @@ class PointsDifferView : View {
         set(value) {
             field = value
             value?.onChange(sliderList)
+        }
+
+    //积分分差 <endIndex,score>
+    var scoreSet = SparseArray<Int?>()
+        set(value) {
+            field = value
+
+            for (i in 0 until value.size()) {
+                sliderList.add(PointBean(
+                        value.keyAt(i),
+                        ((value.keyAt(i) - 1) * getEachSectionLength() + proRect.left).toInt(),
+                        proMiddleHeight.toInt())
+                )
+            }
+
+            postInvalidate()
         }
 
     /**

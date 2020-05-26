@@ -4,6 +4,7 @@ import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.api.request.FTRequest;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentGroupReq;
 import com.example.physicalfitnessexamination.api.request.GetAssessmentObjectReq;
+import com.example.physicalfitnessexamination.api.request.GetAssessmentPersonScoReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq;
 import com.example.physicalfitnessexamination.api.request.GetOrgForAssessmentReq;
@@ -183,5 +184,11 @@ public class RequestManager {
                 , request, callback);
     }
 
-
+    /**
+     * 获取该项目的积分分差设置
+     */
+    public static void getAssessmentPersonSco(Object tag, GetAssessmentPersonScoReq request, Callback callback) {
+        setRequestAndCallBack(OkGo.post(HOST + "/getAssessmentPersonSco").tag(tag)
+                , request, callback);
+    }
 }
