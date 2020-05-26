@@ -11,6 +11,7 @@ import com.example.physicalfitnessexamination.api.request.GetOrgListReq;
 import com.example.physicalfitnessexamination.api.request.GetPersonAssessList4BsymReq;
 import com.example.physicalfitnessexamination.api.request.GetRemarkForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.SaveAssessmentReq;
+import com.example.physicalfitnessexamination.api.request.SetPersonScoreForAssessmentReq;
 import com.example.physicalfitnessexamination.api.request.UploadFileReq;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;

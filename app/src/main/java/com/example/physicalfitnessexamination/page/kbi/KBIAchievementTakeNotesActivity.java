@@ -29,6 +29,7 @@ import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
+import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
@@ -83,6 +84,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private String flag;//1-已建考核 2-考核实施 3-历史考核
     private TextView tvAchievement;//成绩列
     private MessageDialog messageDialog;
+    private AssessmentInfoBean assessmentInfoBean;
 
     /**
      * 跳转方法
@@ -134,7 +136,6 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     protected void initData() {
         if ("2".equals(flag)) {
             tvGroupSetting.setVisibility(View.GONE);
-            tvIntegralDifferenceSetting.setVisibility(View.GONE);
         }
         if ("1".equals(flag)) {
             tvAchievement.setVisibility(View.GONE);
@@ -145,6 +146,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         spvGroup.setName("组别");
         getGroup();
         getAllData();
+        getAssessmentInfo();
         commonAdapter = new CommonAdapter<PersonAchievementBean>(this, R.layout.item_kbi_achievement_takes_notes, list) {
             @Override
             public void convert(ViewHolder viewHolder, PersonAchievementBean s) {
@@ -322,7 +324,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         });
     }
 
-    public void getAllData() {//获取每组人员
+    public void getAllData() {//获取全部人员
         Map<String, String> map = new HashMap<>();
         map.put("aid", id);
         map.put("sid", clause.getSID());
@@ -432,48 +434,27 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
         }
     }
 
-    private void initNoLinkOptionsPicker(EditText editText) {// 不联动的多级选项
-        getNoLinkData();
-        pvNoLinkOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+    public void getAssessmentInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+
+            }
 
             @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-
-                String str = "food:" + food.get(options1)
-                        + "\nclothes:" + clothes.get(options2)
-                        + "\ncomputer:" + computer.get(options3);
-                editText.setText(str);
-            }
-        })
-                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-                    @Override
-                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
-                        String str = "options1: " + options1 + "\noptions2: " + options2 + "\noptions3: " + options3;
+            public void onResponse(String response) {
+                boolean success = JSON.parseObject(response).getBoolean("success");
+                if (success) {
+                    assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
+                    if (!"2".equals(assessmentInfoBean.getTYPE()) || flag.equals("2")) {
+                        tvIntegralDifferenceSetting.setVisibility(View.GONE);
                     }
-                })
-                .setItemVisibleCount(5)
-                //.setSelectOptions(0, 1, 1)
-                .build();
-        pvNoLinkOptions.setNPicker(food, clothes, computer);
-        pvNoLinkOptions.setSelectOptions(0, 1, 1);
-        pvNoLinkOptions.show();
+                }
+            }
+        });
     }
-
-    private void getNoLinkData() {
-        food.add("KFC");
-        food.add("MacDonald");
-        food.add("Pizza hut");
-
-        clothes.add("Nike");
-        clothes.add("Adidas");
-        clothes.add("Armani");
-
-        computer.add("ASUS");
-        computer.add("Lenovo");
-        computer.add("Apple");
-        computer.add("HP");
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         switch (messageEvent.getMessage()) {
