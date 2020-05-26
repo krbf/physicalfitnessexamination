@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.response.AssessmentGroupRes
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupBean
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupIndexBean
@@ -69,7 +70,8 @@ class KbiOrgAdapter(private val isToPlaceKbi: Boolean) : RecyclerView.Adapter<Re
             is HeadViewHolder -> {
                 //组长
                 p0.groupLeaderStr.setOnClickListener {
-                    val dialogFragment = RosterDialogFragment.newInstance(1,
+                    val dialogFragment = RosterDialogFragment.newInstance(
+                            UserManager.getInstance().getUserInfo(it.context).org_id, 1,
                             selectList = groLeader,
                             listener = object : RosterDialogFragment.OnCheckListener {
                                 override fun checkOver(list: ArrayList<PersonBean>) {
@@ -82,7 +84,8 @@ class KbiOrgAdapter(private val isToPlaceKbi: Boolean) : RecyclerView.Adapter<Re
                 }
                 //副组长
                 p0.duGroupLeaderStr.setOnClickListener {
-                    val dialogFragment = RosterDialogFragment.newInstance(1,
+                    val dialogFragment = RosterDialogFragment.newInstance(
+                            UserManager.getInstance().getUserInfo(it.context).org_id, 1,
                             selectList = depGroLeader,
                             listener = object : RosterDialogFragment.OnCheckListener {
                                 override fun checkOver(list: ArrayList<PersonBean>) {
@@ -95,7 +98,8 @@ class KbiOrgAdapter(private val isToPlaceKbi: Boolean) : RecyclerView.Adapter<Re
                 }
                 //成员
                 p0.memberStr.setOnClickListener {
-                    val dialogFragment = RosterDialogFragment.newInstance(1,
+                    val dialogFragment = RosterDialogFragment.newInstance(
+                            UserManager.getInstance().getUserInfo(it.context).org_id, 1,
                             selectList = member,
                             listener = object : RosterDialogFragment.OnCheckListener {
                                 override fun checkOver(list: ArrayList<PersonBean>) {

@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.czy.module_common.okhttp.CallBackUtil;
+import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.R;
 import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
@@ -19,15 +21,12 @@ import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean
 import com.example.physicalfitnessexamination.bean.PersonBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
-import com.czy.module_common.okhttp.CallBackUtil;
-import com.czy.module_common.okhttp.OkhttpUtil;
 import com.example.physicalfitnessexamination.view.RosterDialogFragment;
 import com.example.physicalfitnessexamination.viewholder.ViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,12 +50,6 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
     private String id;//考核id
     private ArrayList<PersonBean> listPerson = new ArrayList<>();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
-    }
-
     /**
      * 跳转方法
      *
@@ -66,6 +59,12 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
         Intent intent = new Intent(context, KBIPersonnelReportShowActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -179,28 +178,26 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_right:
                 finish();
                 break;
             case R.id.tv_enroll:
-                RosterDialogFragment.newInstance(null, listPerson, new RosterDialogFragment.OnCheckListener() {
-                    @Override
-                    public void checkOver(@NotNull ArrayList<PersonBean> list) {
-                        KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0));
-                    }
-                }, "aid", 1).show(getSupportFragmentManager(), "");
+                RosterDialogFragment.newInstance(UserManager.getInstance().getUserInfo(context).getOrg_id(),
+                        null, listPerson,
+                        list -> KBIPersonnelReportActivity.startInstant(KBIPersonnelReportShowActivity.this, id, list.get(0)),
+                        id, 1).show(getSupportFragmentManager(), "");
                 break;
             default:
                 break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.response.TestProjectRes
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType1Bean
 import com.example.physicalfitnessexamination.bean.PersonBean
@@ -240,7 +241,8 @@ class KbiTimeConfig1ItemView : LinearLayout {
         //召集人
         tv_convener.setOnClickListener {
             bean?.convener?.let { it1 ->
-                RosterDialogFragment.newInstance(null, it1, object : RosterDialogFragment.OnCheckListener {
+                RosterDialogFragment.newInstance(UserManager.getInstance().getUserInfo(context).org_id,
+                        null, it1, object : RosterDialogFragment.OnCheckListener {
                     override fun checkOver(list: ArrayList<PersonBean>) {
                         bean?.convener = list
                         tv_convener.text = appendLabel(list)
@@ -252,7 +254,8 @@ class KbiTimeConfig1ItemView : LinearLayout {
         //发令员
         tv_starter.setOnClickListener {
             bean?.starter?.let { it1 ->
-                RosterDialogFragment.newInstance(null, it1, object : RosterDialogFragment.OnCheckListener {
+                RosterDialogFragment.newInstance(UserManager.getInstance().getUserInfo(context).org_id,
+                        null, it1, object : RosterDialogFragment.OnCheckListener {
                     override fun checkOver(list: ArrayList<PersonBean>) {
                         bean?.starter = list
                         tv_starter.text = appendLabel(list)
@@ -264,7 +267,8 @@ class KbiTimeConfig1ItemView : LinearLayout {
         //计时员
         tv_timekeeper.setOnClickListener {
             bean?.timekeeper?.let { it1 ->
-                RosterDialogFragment.newInstance(null, it1, object : RosterDialogFragment.OnCheckListener {
+                RosterDialogFragment.newInstance(UserManager.getInstance().getUserInfo(context).org_id,
+                        null, it1, object : RosterDialogFragment.OnCheckListener {
                     override fun checkOver(list: ArrayList<PersonBean>) {
                         bean?.timekeeper = list
                         bean = bean

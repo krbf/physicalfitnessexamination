@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.CompoundButton
 import com.example.physicalfitnessexamination.R
-import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.RequestManager
 import com.example.physicalfitnessexamination.api.callback.JsonCallback
 import com.example.physicalfitnessexamination.api.request.GetOrgCommanderReq
@@ -26,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_roster.*
 class RosterDialogFragment : DialogFragment() {
 
     companion object {
+        const val ORG_ID_KEY = "orgId_key"
         const val TYPE_KEY = "type_key"
         const val AID_KEY = "aid_key"
         const val MAX_SELECT_KEY = "max_select_key"
@@ -33,16 +33,18 @@ class RosterDialogFragment : DialogFragment() {
 
         /**
          * 实例化方法
+         * @param orgId 机构id
          * @param type 类型 null-全部 1-干部 2-战士
-         * @param aid 参考计划id，若传这个字段。则会剔除此次计划以请假人员
          * @param selectList 默认选中的人员实体类
+         * @param aid 参考计划id，若传这个字段。则会剔除此次计划以请假人员
          * @param listener 点击回调
          */
         @JvmStatic
-        fun newInstance(type: Int?, selectList: ArrayList<PersonBean> = ArrayList(),
+        fun newInstance(orgId: String, type: Int?, selectList: ArrayList<PersonBean> = ArrayList(),
                         listener: OnCheckListener, aid: String? = null, maxCount: Int? = null) =
                 RosterDialogFragment().apply {
                     arguments = Bundle().apply {
+                        putString(ORG_ID_KEY, orgId)
                         type?.let { putInt(TYPE_KEY, it) }
                         aid?.let { putString(AID_KEY, it) }
                         maxCount?.let { putInt(MAX_SELECT_KEY, it) }
@@ -55,9 +57,7 @@ class RosterDialogFragment : DialogFragment() {
     /**
      * 机构id
      */
-    private val orgId by lazy {
-        UserManager.getInstance().getUserInfo(context).org_id
-    }
+    private var orgId: String? = null
 
     /**
      * 类型 null-全部 1-干部 2-战士
@@ -88,6 +88,7 @@ class RosterDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            orgId = it.getString(ORG_ID_KEY)
             it.getInt(TYPE_KEY, -1).let { value ->
                 type = if (value == -1) null else value
             }
@@ -161,15 +162,17 @@ class RosterDialogFragment : DialogFragment() {
      * 请求人员列表
      */
     private fun getOrgCommander() {
-        RequestManager.getOrgCommander(context,
-                GetOrgCommanderReq(orgId, type, aid),
-                object : JsonCallback<ApiResponse<List<PersonBean>>, List<PersonBean>>() {
-                    override fun onSuccess(response: Response<ApiResponse<List<PersonBean>>>?) {
-                        response?.body()?.data?.let { personBeanList ->
-                            adapter.setData(personBeanList, selectList, maxCount)
+        orgId?.let { id ->
+            RequestManager.getOrgCommander(context,
+                    GetOrgCommanderReq(id, type, aid),
+                    object : JsonCallback<ApiResponse<List<PersonBean>>, List<PersonBean>>() {
+                        override fun onSuccess(response: Response<ApiResponse<List<PersonBean>>>?) {
+                            response?.body()?.data?.let { personBeanList ->
+                                adapter.setData(personBeanList, selectList, maxCount)
+                            }
                         }
-                    }
-                })
+                    })
+        }
     }
 
     fun setCheckListener(listener: OnCheckListener) {

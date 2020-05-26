@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.example.physicalfitnessexamination.R
+import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.response.AssessmentGroupRes
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupBean
 import com.example.physicalfitnessexamination.bean.KbiOrgGroupIndexBean
@@ -60,7 +61,8 @@ class KbiOrgSmallGroupView : LinearLayout {
         sp_group.setSimpleUiMode(true)
 
         tv_gLeader.setOnClickListener {
-            val dialogFragment = RosterDialogFragment.newInstance(1,
+            val dialogFragment = RosterDialogFragment.newInstance(
+                    UserManager.getInstance().getUserInfo(context).org_id, 1,
                     selectList = bean.leaderList,
                     listener = object : RosterDialogFragment.OnCheckListener {
                         override fun checkOver(list: ArrayList<PersonBean>) {
@@ -72,7 +74,8 @@ class KbiOrgSmallGroupView : LinearLayout {
             dialogFragment.show((context as AppCompatActivity).supportFragmentManager, "")
         }
         tv_groupMember.setOnClickListener {
-            val dialogFragment = RosterDialogFragment.newInstance(1,
+            val dialogFragment = RosterDialogFragment.newInstance(
+                    UserManager.getInstance().getUserInfo(context).org_id, 1,
                     selectList = bean.memberList,
                     listener = object : RosterDialogFragment.OnCheckListener {
                         override fun checkOver(list: ArrayList<PersonBean>) {
