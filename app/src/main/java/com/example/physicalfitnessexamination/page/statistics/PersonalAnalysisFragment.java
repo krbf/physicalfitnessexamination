@@ -98,28 +98,31 @@ public class PersonalAnalysisFragment extends Fragment {
             RosterDialogFragment.newInstance(org_id, null, listPerson, new RosterDialogFragment.OnCheckListener() {
                 @Override
                 public void checkOver(@NotNull ArrayList<PersonBean> list) {
-                    String result = list.get(0).getID() + "," + list.get(0).getNAME();
-//                    wvKbiGather.loadUrl("javascript:setPerson('" + result + "')");
-                    wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String value) {
+                    if (list.size() > 0) {
+                        String result = list.get(0).getID() + "," + list.get(0).getNAME();
+                        wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
 
-                        }
+                            }
 
-                    });
+                        });
+                    }
                 }
             }, "", 1).show(getChildFragmentManager(), "");
         } else {
             RosterDialogFragment.newInstance(org_id, type, listPerson, new RosterDialogFragment.OnCheckListener() {
                 @Override
                 public void checkOver(@NotNull ArrayList<PersonBean> list) {
-                    String result = list.get(0).getID() + "," + list.get(0).getNAME();
-                    wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String value) {
+                    if (list.size() > 0) {
+                        String result = list.get(0).getID() + "," + list.get(0).getNAME();
+                        wvKbiGather.evaluateJavascript("javascript:setPerson('" + result + "')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             }, "", 1).show(getChildFragmentManager(), "");
         }
