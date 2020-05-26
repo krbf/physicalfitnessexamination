@@ -27,12 +27,14 @@ import com.czy.module_common.okhttp.OkhttpUtil;
 import com.czy.module_common.utils.Tool;
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+import com.example.physicalfitnessexamination.activity.UserManager;
 import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.AssessmentInfoBean;
 import com.example.physicalfitnessexamination.bean.ClauseBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.PersonAchievementBean;
+import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.example.physicalfitnessexamination.util.SportKeyBoardUtil;
 import com.example.physicalfitnessexamination.view.DMDialog;
@@ -85,6 +87,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     private TextView tvAchievement;//成绩列
     private MessageDialog messageDialog;
     private AssessmentInfoBean assessmentInfoBean;
+    private UserInfo userInfo;
 
     /**
      * 跳转方法
@@ -134,9 +137,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
 
     @Override
     protected void initData() {
-        if ("2".equals(flag)) {
-            tvGroupSetting.setVisibility(View.GONE);
-        }
+        userInfo = UserManager.getInstance().getUserInfo(this);
         if ("1".equals(flag)) {
             tvAchievement.setVisibility(View.GONE);
         }
@@ -448,13 +449,17 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 boolean success = JSON.parseObject(response).getBoolean("success");
                 if (success) {
                     assessmentInfoBean = JSON.parseObject(JSON.parseObject(response).getString("data"), AssessmentInfoBean.class);
-                    if (!"2".equals(assessmentInfoBean.getTYPE()) || flag.equals("2")) {
+                    if (!"2".equals(assessmentInfoBean.getTYPE()) || !flag.equals("1") || !assessmentInfoBean.getORG_ID().equals(userInfo.getOrg_id())) {
                         tvIntegralDifferenceSetting.setVisibility(View.GONE);
+                    }
+                    if (!"1".equals(flag) || !assessmentInfoBean.getORG_ID().equals(userInfo.getOrg_id())) {
+                        tvGroupSetting.setVisibility(View.GONE);
                     }
                 }
             }
         });
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
         switch (messageEvent.getMessage()) {
