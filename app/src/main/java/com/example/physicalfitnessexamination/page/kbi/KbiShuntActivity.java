@@ -16,6 +16,7 @@ import com.example.physicalfitnessexamination.app.Api;
 import com.example.physicalfitnessexamination.base.MyBaseActivity;
 import com.example.physicalfitnessexamination.bean.BuiltKBIListBean;
 import com.example.physicalfitnessexamination.bean.MessageEvent;
+import com.example.physicalfitnessexamination.bean.eventbus.CreateKBiSuccessEvBus;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
@@ -209,5 +210,11 @@ public class KbiShuntActivity extends MyBaseActivity implements View.OnClickList
             default:
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(CreateKBiSuccessEvBus createKBiSuccessEvBus) {
+        listBuildKbi.clear();
+        getData("0");
     }
 }

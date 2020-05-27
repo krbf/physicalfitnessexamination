@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -326,9 +327,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
-                if (messageDialog.isVisible()) {
                     messageDialog.dismiss();
-                }
             }
 
             @Override
@@ -340,9 +339,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                         tvEnroll.setVisibility(View.VISIBLE);
                     }
                 }
-                if (messageDialog.isVisible()) {
                     messageDialog.dismiss();
-                }
             }
         });
     }

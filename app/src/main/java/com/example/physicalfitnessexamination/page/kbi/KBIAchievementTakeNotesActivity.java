@@ -464,9 +464,7 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                         tvGroupSetting.setVisibility(View.GONE);
                     }
                 }
-//                if (messageDialog.isVisible()) {
 //                    messageDialog.dismiss();
-//                }
             }
         });
     }
