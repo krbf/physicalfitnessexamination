@@ -39,6 +39,7 @@ import com.example.physicalfitnessexamination.bean.MessageEvent;
 import com.example.physicalfitnessexamination.bean.ParticipatingInstitutionsBean;
 import com.example.physicalfitnessexamination.bean.PhotoBean;
 import com.example.physicalfitnessexamination.bean.ReferencePersonnelBean;
+import com.example.physicalfitnessexamination.bean.UserInfo;
 import com.example.physicalfitnessexamination.common.adapter.CommonAdapter;
 import com.czy.module_common.okhttp.CallBackUtil;
 import com.czy.module_common.okhttp.OkhttpUtil;
@@ -98,6 +99,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     private ImageView imgPhoto;
     private MessageDialog messageDialog;
     private String org_id;
+    private UserInfo userInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,6 +139,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
+        userInfo = UserManager.getInstance().getUserInfo(this);
         messageDialog = MessageDialog.newInstance("提交中，请稍等……");
         switch (flag) {
             case 1:
@@ -167,7 +170,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                 viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (flag == 2) {
+                        if (flag == 2 && assessmentInfoBean.getORG_ID().equals(userInfo.getOrg_id())) {
                             photoFile = null;
                             DMDialog.builder(KBIRosterActivity.this, R.layout.dialog_roster_photo)
                                     .onDialogInitListener((helper, dialog) ->
@@ -211,8 +214,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                                     .setGravity(Gravity.CENTER)
                                     .setCancelable(false)
                                     .show();
+                        }else {
+                            showToast("无法进行照片拍摄");
                         }
-
                     }
                 });
             }
@@ -314,6 +318,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     }
 
     public void getAssessmentInfo() {
+        if (!messageDialog.isVisible()) {
+            messageDialog.show(getSupportFragmentManager(), "");
+        }
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
@@ -330,6 +337,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                     if (!"0".equals(assessmentInfoBean.getPERSON_TYPE()) && unit && flag == 1) {
                         tvEnroll.setVisibility(View.VISIBLE);
                     }
+                }
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
                 }
             }
         });

@@ -28,6 +28,7 @@ import com.czy.module_common.glide.ImageLoaderUtils
 import com.czy.module_common.okhttp.CallBackUtil.CallBackString
 import com.czy.module_common.okhttp.OkhttpUtil
 import com.czy.module_common.utils.Tool
+import com.example.physicalfitnessexamination.Constants
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.activity.LoginActivity
 import com.example.physicalfitnessexamination.activity.UserManager
@@ -460,7 +461,7 @@ class BannerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (p0 is ItemViewHolder) {
             dataList[p1 % dataList.size].let { bean ->
                 p0.tvProName.text = bean.NAME
-                ImageLoaderUtils.display(p0.ivPic.context, p0.ivPic, bean.PHOTO)
+                ImageLoaderUtils.display(p0.ivPic.context, p0.ivPic, Constants.IP + bean.PHOTO)
                 p0.tvScore.text = bean.ACHIEVEMENT
                 p0.tvPersonName.text = bean.USERNAME
                 p0.tvOrgName.text = "单位：" + bean.ORGNAME

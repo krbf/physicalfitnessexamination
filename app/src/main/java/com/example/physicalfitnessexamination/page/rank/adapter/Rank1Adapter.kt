@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.api.response.PersonAssessList4Res
 import com.czy.module_common.glide.ImageLoaderUtils
+import com.example.physicalfitnessexamination.Constants
 import kotlinx.android.synthetic.main.v_rank_person_assess_item.view.*
 
 /**
@@ -29,7 +30,7 @@ class Rank1Adapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if (p0 is ItemViewHolder) {
             dataList[p1].let { bean ->
                 p0.tvProName.text = bean.NAME
-                ImageLoaderUtils.display(p0.ivPic.context, p0.ivPic, bean.PHOTO)
+                ImageLoaderUtils.display(p0.ivPic.context, p0.ivPic, Constants.IP + bean.PHOTO)
                 p0.tvScore.text = bean.ACHIEVEMENT
                 p0.tvPersonName.text = bean.USERNAME
                 p0.tvOrgName.text = "单位：" + bean.ORGNAME

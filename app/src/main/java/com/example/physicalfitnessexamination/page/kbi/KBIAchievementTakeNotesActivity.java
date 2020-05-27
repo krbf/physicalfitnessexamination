@@ -163,120 +163,125 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                 viewHolder.getView(R.id.tv_achievement).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DMDialog.builder(KBIAchievementTakeNotesActivity.this, R.layout.dialog_achievement_input)
-                                .onDialogInitListener((helper, dialog) ->
-                                {
-                                    helper.setText(R.id.tv_name, s.getUSERNAME());
-                                    helper.setText(R.id.tv_unit, s.getORG_NAME());
-                                    ImageLoaderUtils.display(KBIAchievementTakeNotesActivity.this, helper.getView(R.id.img_photo), Constants.IP + s.getPHOTO());
-                                    if ("1".equals(clause.getATYPE())) {
-                                        helper.setText(R.id.tv_measurement, clause.getDW());
-                                    }
+                        if (assessmentInfoBean.getORG_ID().equals(userInfo.getOrg_id())){
+                            DMDialog.builder(KBIAchievementTakeNotesActivity.this, R.layout.dialog_achievement_input)
+                                    .onDialogInitListener((helper, dialog) ->
+                                    {
+                                        helper.setText(R.id.tv_name, s.getUSERNAME());
+                                        helper.setText(R.id.tv_unit, s.getORG_NAME());
+                                        ImageLoaderUtils.display(KBIAchievementTakeNotesActivity.this, helper.getView(R.id.img_photo), Constants.IP + s.getPHOTO());
+                                        if ("1".equals(clause.getATYPE())) {
+                                            helper.setText(R.id.tv_measurement, clause.getDW());
+                                        }
 //                                    else {
 //                                        helper.setText(R.id.tv_measurement, "格式00’00”00");
 //                                    }
-                                    EditText edtAchievement = helper.getView(R.id.edt_achievement);
+                                        EditText edtAchievement = helper.getView(R.id.edt_achievement);
 
-                                    int flag;
-                                    if ("1".equals(clause.getATYPE())) {//次数
-                                        flag = 0;
-                                        edtAchievement.addTextChangedListener(new TextWatcher() {
-                                            @Override
-                                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                        int flag;
+                                        if ("1".equals(clause.getATYPE())) {//次数
+                                            flag = 0;
+                                            edtAchievement.addTextChangedListener(new TextWatcher() {
+                                                @Override
+                                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                                            }
-
-                                            @Override
-                                            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                                            }
-
-                                            @Override
-                                            public void afterTextChanged(Editable s) {
-                                                if (s.toString().length() == 1 && s.toString().equals("0")) {
-                                                    showToast("输入不合法");
-                                                    edtAchievement.setText("");
                                                 }
 
+                                                @Override
+                                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                                }
+
+                                                @Override
+                                                public void afterTextChanged(Editable s) {
+                                                    if (s.toString().length() == 1 && s.toString().equals("0")) {
+                                                        showToast("输入不合法");
+                                                        edtAchievement.setText("");
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+                                            flag = 1;
+                                        }
+
+                                        final SportKeyBoardUtil[] sportKeyBoardUtil = new SportKeyBoardUtil[1];
+
+                                        SportKeyBoardView keyboardView = helper.getView(R.id.ky_keyboard);
+                                        LinearLayout ky_keyboard_parent = helper.getView(R.id.ky_keyboard_parent);
+                                        sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
+                                        edtAchievement.setOnTouchListener(new View.OnTouchListener() {
+                                            @Override
+                                            public boolean onTouch(View v, MotionEvent event) {
+                                                if (sportKeyBoardUtil[0] == null) {
+                                                    sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
+                                                }
+                                                sportKeyBoardUtil[0].showKeyboard();
+                                                return false;
                                             }
                                         });
-                                    } else {
-                                        flag = 1;
-                                    }
 
-                                    final SportKeyBoardUtil[] sportKeyBoardUtil = new SportKeyBoardUtil[1];
+                                        helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                switch (clause.getATYPE()) {
+                                                    case "0"://时间计数
+                                                        String result = edtAchievement.getText().toString();
 
-                                    SportKeyBoardView keyboardView = helper.getView(R.id.ky_keyboard);
-                                    LinearLayout ky_keyboard_parent = helper.getView(R.id.ky_keyboard_parent);
-                                    sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
-                                    edtAchievement.setOnTouchListener(new View.OnTouchListener() {
-                                        @Override
-                                        public boolean onTouch(View v, MotionEvent event) {
-                                            if (sportKeyBoardUtil[0] == null) {
-                                                sportKeyBoardUtil[0] = new SportKeyBoardUtil(ky_keyboard_parent, keyboardView, edtAchievement, flag);
-                                            }
-                                            sportKeyBoardUtil[0].showKeyboard();
-                                            return false;
-                                        }
-                                    });
-
-                                    helper.setOnClickListener(R.id.tv_ok, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            switch (clause.getATYPE()) {
-                                                case "0"://时间计数
-                                                    String result = edtAchievement.getText().toString();
-
-                                                    // 首先要编译正则规则形式
-                                                    Pattern p = Pattern.compile("([0-5][0-9]’[0-5][0-9]”[0-9][0-9])|([0-5][0-9]’[0-5][0-9])" +
-                                                            "|([0-5][0-9]”[0-9][0-9])|([0-9]’[0-5][0-9]”[0-9][0-9])" +
-                                                            "|([0-9]’[0-9]”[0-9][0-9])|([0-9]’[0-5][0-9])|([0-9]’[0-9])|([0-9]”[0-9][0-9])");
-                                                    // 将正则进行匹配
-                                                    Matcher m = p.matcher(result);
-                                                    // 进行判断
-                                                    boolean b = m.matches();
-                                                    if (!b) {
-                                                        showToast("输入不合法");
-                                                        return;
-                                                    }
-                                                    String[] re = result.split("’|”");
-                                                    int achievement = 0;
-                                                    if (re.length == 3) {
-                                                        achievement = Integer.parseInt(re[0]) * 60 * 1000 + Integer.parseInt(re[1]) * 1000 + Integer.parseInt(re[2]) * 10;
-                                                    } else if (re.length == 2) {
-                                                        if (result.contains("”")) {
-                                                            achievement = Integer.parseInt(re[0]) * 1000 + Integer.parseInt(re[1]) * 10;
-                                                        } else {
-                                                            achievement = Integer.parseInt(re[0]) * 60 * 1000 + Integer.parseInt(re[1]) * 1000;
+                                                        // 首先要编译正则规则形式
+                                                        Pattern p = Pattern.compile("([0-5][0-9]’[0-5][0-9]”[0-9][0-9])|([0-5][0-9]’[0-5][0-9])" +
+                                                                "|([0-5][0-9]”[0-9][0-9])|([0-9]’[0-5][0-9]”[0-9][0-9])" +
+                                                                "|([0-9]’[0-9]”[0-9][0-9])|([0-9]’[0-5][0-9])|([0-9]’[0-9])|([0-9]”[0-9][0-9])");
+                                                        // 将正则进行匹配
+                                                        Matcher m = p.matcher(result);
+                                                        // 进行判断
+                                                        boolean b = m.matches();
+                                                        if (!b) {
+                                                            showToast("输入不合法");
+                                                            return;
                                                         }
-                                                    } else if (re.length == 1) {
-                                                        if (result.contains("”")) {
-                                                            achievement = Integer.parseInt(re[0]) * 1000;
-                                                        } else {
-                                                            if (result.contains("’")) {
-                                                                achievement = Integer.parseInt(re[0]) * 60 * 1000;
+                                                        String[] re = result.split("’|”");
+                                                        int achievement = 0;
+                                                        if (re.length == 3) {
+                                                            achievement = Integer.parseInt(re[0]) * 60 * 1000 + Integer.parseInt(re[1]) * 1000 + Integer.parseInt(re[2]) * 10;
+                                                        } else if (re.length == 2) {
+                                                            if (result.contains("”")) {
+                                                                achievement = Integer.parseInt(re[0]) * 1000 + Integer.parseInt(re[1]) * 10;
                                                             } else {
-                                                                showToast("请输入单位");
-                                                                return;
+                                                                achievement = Integer.parseInt(re[0]) * 60 * 1000 + Integer.parseInt(re[1]) * 1000;
+                                                            }
+                                                        } else if (re.length == 1) {
+                                                            if (result.contains("”")) {
+                                                                achievement = Integer.parseInt(re[0]) * 1000;
+                                                            } else {
+                                                                if (result.contains("’")) {
+                                                                    achievement = Integer.parseInt(re[0]) * 60 * 1000;
+                                                                } else {
+                                                                    showToast("请输入单位");
+                                                                    return;
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                    submission(s.getUSERID(), String.valueOf(achievement));
-                                                    break;
-                                                case "1"://次数
-                                                    if (Tool.isEmpty(edtAchievement.getText().toString())) {
-                                                        showToast("请输入成绩");
-                                                        return;
-                                                    }
-                                                    submission(s.getUSERID(), edtAchievement.getText().toString());
-                                                    break;
+                                                        submission(s.getUSERID(), String.valueOf(achievement));
+                                                        break;
+                                                    case "1"://次数
+                                                        if (Tool.isEmpty(edtAchievement.getText().toString())) {
+                                                            showToast("请输入成绩");
+                                                            return;
+                                                        }
+                                                        submission(s.getUSERID(), edtAchievement.getText().toString());
+                                                        break;
+                                                }
+                                                dialog.dismiss();
                                             }
-                                            dialog.dismiss();
-                                        }
-                                    });
-                                })
-                                .setGravity(Gravity.CENTER)
-                                .show();
+                                        });
+                                    })
+                                    .setGravity(Gravity.CENTER)
+                                    .show();
+                        }else {
+                            showToast("无权限录入成绩");
+                        }
+
                     }
                 });
             }
@@ -436,6 +441,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     }
 
     public void getAssessmentInfo() {
+        if (!messageDialog.isVisible()) {
+            messageDialog.show(getSupportFragmentManager(), "");
+        }
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
@@ -455,6 +463,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                     if (!"1".equals(flag) || !assessmentInfoBean.getORG_ID().equals(userInfo.getOrg_id())) {
                         tvGroupSetting.setVisibility(View.GONE);
                     }
+                }
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
                 }
             }
         });
