@@ -11,6 +11,7 @@ import com.example.physicalfitnessexamination.api.RequestManager
 import com.example.physicalfitnessexamination.api.response.SaveAssessmentRes
 import com.example.physicalfitnessexamination.base.ActivityCollector
 import com.example.physicalfitnessexamination.base.MyBaseActivity
+import com.example.physicalfitnessexamination.bean.eventbus.CreateKBiSuccessEvBus
 import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.util.spannableBold
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog
@@ -21,6 +22,7 @@ import com.lzy.okgo.request.base.Request
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_kbi_public_notice.*
 import kotlinx.android.synthetic.main.v_toolbar.*
+import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -211,6 +213,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                                                 }
                                             }
                                         }
+                                        EventBus.getDefault().post(CreateKBiSuccessEvBus(res.id))
                                     } else {
                                         Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
                                     }

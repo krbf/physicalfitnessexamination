@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
@@ -41,6 +42,7 @@ import com.example.physicalfitnessexamination.api.response.PersonAssessList4Res
 import com.example.physicalfitnessexamination.api.response.RemarkForAssessmentRes
 import com.example.physicalfitnessexamination.app.Api
 import com.example.physicalfitnessexamination.base.MyBaseActivity
+import com.example.physicalfitnessexamination.bean.eventbus.CreateKBiSuccessEvBus
 import com.example.physicalfitnessexamination.interfaces.ViewHelper
 import com.example.physicalfitnessexamination.ota.OTAManager
 import com.example.physicalfitnessexamination.page.historyKbi.HistoryKbiActivity
@@ -65,6 +67,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.v_rank_person_assess_item.view.*
 import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator
 import okhttp3.Call
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -144,6 +149,16 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
         bannerAutoDisposable?.dispose()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun initView() {
         btn_main1.setOnClickListener(this)
         btn_main2.setOnClickListener(this)
@@ -197,11 +212,36 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
     }
 
     override fun initData() {
+        requestNotice()
+
+        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, resources.getStringArray(R.array.commPosition)[1]),
+                object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
+                    override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
+                        response?.body()?.data?.let { list ->
+                            (ll_indicator.navigator as CircleNavigator).let {
+                                it.circleCount = list.size
+                                it.notifyDataSetChanged()
+                            }
+
+                            bannerAdapter.dataList.clear()
+                            bannerAdapter.dataList.addAll(list)
+                            bannerAdapter.notifyDataSetChanged()
+
+                        }
+                    }
+                })
+    }
+
+    /**
+     * 请求首页公告数据
+     */
+    private fun requestNotice() {
         RequestManager.getRemarkForAssessment(this,
                 GetRemarkForAssessmentReq(UserManager.getInstance().getUserInfo(this).org_id),
                 object : JsonCallback<ApiResponse<List<RemarkForAssessmentRes>>, List<RemarkForAssessmentRes>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<RemarkForAssessmentRes>>>?) {
                         response?.body()?.data?.let { list ->
+                            ll_notice.removeAllViews()
                             list.forEach { res ->
                                 ll_notice.addView(
                                         TextView(context).apply {
@@ -225,23 +265,6 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
                                         }
                                 )
                             }
-                        }
-                    }
-                })
-
-        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, resources.getStringArray(R.array.commPosition)[1]),
-                object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
-                    override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
-                        response?.body()?.data?.let { list ->
-                            (ll_indicator.navigator as CircleNavigator).let {
-                                it.circleCount = list.size
-                                it.notifyDataSetChanged()
-                            }
-
-                            bannerAdapter.dataList.clear()
-                            bannerAdapter.dataList.addAll(list)
-                            bannerAdapter.notifyDataSetChanged()
-
                         }
                     }
                 })
@@ -441,6 +464,11 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
             intent.setDataAndType(Uri.fromFile(savedFile), "application/vnd.android.package-archive")
         }
         startActivity(intent)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun eventBus(messageEvent: CreateKBiSuccessEvBus) {
+        requestNotice()
     }
 }
 

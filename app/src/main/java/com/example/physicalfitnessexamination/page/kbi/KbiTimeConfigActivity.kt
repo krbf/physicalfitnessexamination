@@ -19,6 +19,7 @@ import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgBean
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType1Bean
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType2Bean
+import com.example.physicalfitnessexamination.bean.eventbus.CreateKBiSuccessEvBus
 import com.example.physicalfitnessexamination.page.kbi.adapter.KbiTimeConfigAdapter
 import com.example.physicalfitnessexamination.util.snack
 import com.example.physicalfitnessexamination.view.dialog.MessageDialog
@@ -28,6 +29,7 @@ import com.lzy.okgo.request.base.Request
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_kbi_time_config.*
 import kotlinx.android.synthetic.main.v_toolbar.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * 新建考核-时间安排页面
@@ -168,6 +170,7 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
                                                 }
                                             }
                                         }
+                                        EventBus.getDefault().post(CreateKBiSuccessEvBus(res.id))
                                     } else {
                                         Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
                                     }
