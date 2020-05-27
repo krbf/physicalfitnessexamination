@@ -65,7 +65,29 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         //消防站
         spv_pj3.setName("指挥员")
         spv_pj4.setName("消防员")
-
+        
+        spv_evaOrg.let {
+            it.setName("参考单位")
+            it.setSpinner(getJoinEvaOrg(),
+                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
+                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
+                            initProVisible(selectBeanList)
+                        }
+                    })
+            it.setChooseAble(false, CHOOSE_ORG_FIRST)
+        }
+        spv_perSelect.let {
+            it.setName("人员选取")
+            it.defaultDisplayWhenJustOne = true
+            it.setSpinner(resources.getStringArray(R.array.perSelect), isRadio = true)
+            it.setChooseAble(false, CHOOSE_ORG_FIRST)
+        }
+        spv_scoreRecord.let {
+            it.setName("成绩记录")
+            it.defaultDisplayWhenJustOne = true
+            it.setSpinner(resources.getStringArray(R.array.resultsRemember), isRadio = true)
+            it.setChooseAble(false, CHOOSE_ORG_FIRST)
+        }
         spv_evaWay.let {
             it.setName("考核方式")
             it.defaultDisplayWhenJustOne = true
@@ -195,28 +217,6 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                             }
                         }
                     })
-        }
-        spv_evaOrg.let {
-            it.setName("参考单位")
-            it.setSpinner(getJoinEvaOrg(),
-                    onCheckListener = object : SpinnerParentView.OnCheckListener<String> {
-                        override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
-                            initProVisible(selectBeanList)
-                        }
-                    })
-            it.setChooseAble(false, CHOOSE_ORG_FIRST)
-        }
-        spv_perSelect.let {
-            it.setName("人员选取")
-            it.defaultDisplayWhenJustOne = true
-            it.setSpinner(resources.getStringArray(R.array.perSelect), isRadio = true)
-            it.setChooseAble(false, CHOOSE_ORG_FIRST)
-        }
-        spv_scoreRecord.let {
-            it.setName("成绩记录")
-            it.defaultDisplayWhenJustOne = true
-            it.setSpinner(resources.getStringArray(R.array.resultsRemember), isRadio = true)
-            it.setChooseAble(false, CHOOSE_ORG_FIRST)
         }
 
         RequestManager.getAssessmentObject(context

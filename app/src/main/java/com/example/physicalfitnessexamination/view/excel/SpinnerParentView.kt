@@ -240,6 +240,8 @@ class SpinnerParentView<X> : LinearLayout {
         }
         prepareChoiceView(dataStrList)
         resetSelectView()
+
+        this.onCheckListener?.onConfirmAndChangeListener(this, getSelectList())
     }
 
     /**
