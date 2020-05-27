@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
+import com.czy.module_common.utils.JacksonMapper
 import com.example.physicalfitnessexamination.R
 import com.example.physicalfitnessexamination.activity.UserManager
 import com.example.physicalfitnessexamination.api.RequestManager
@@ -11,13 +13,19 @@ import com.example.physicalfitnessexamination.api.callback.JsonCallback
 import com.example.physicalfitnessexamination.api.request.GetOrgForAssessmentReq
 import com.example.physicalfitnessexamination.api.response.ApiResponse
 import com.example.physicalfitnessexamination.api.response.OrgRes
+import com.example.physicalfitnessexamination.api.response.SaveAssessmentRes
+import com.example.physicalfitnessexamination.base.ActivityCollector
 import com.example.physicalfitnessexamination.base.MyBaseActivity
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgBean
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType1Bean
 import com.example.physicalfitnessexamination.bean.KbiTimeCfgType2Bean
 import com.example.physicalfitnessexamination.page.kbi.adapter.KbiTimeConfigAdapter
 import com.example.physicalfitnessexamination.util.snack
+import com.example.physicalfitnessexamination.view.dialog.MessageDialog
+import com.lzy.okgo.callback.StringCallback
 import com.lzy.okgo.model.Response
+import com.lzy.okgo.request.base.Request
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_kbi_time_config.*
 import kotlinx.android.synthetic.main.v_toolbar.*
 
@@ -52,6 +60,13 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
         KbiTimeConfigAdapter(isToPlaceEva)
     }
 
+    /**
+     * 等待Dialog
+     */
+    private val loadingDialog: MessageDialog by lazy {
+        MessageDialog.newInstance("创建考核中，请稍等……")
+    }
+
     override fun initLayout(): Int = R.layout.activity_kbi_time_config
 
     override fun initView() {
@@ -64,6 +79,12 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
             it.adapter = adapter.apply {
                 timeTypeList = this@KbiTimeConfigActivity.timeTypeList
             }
+        }
+
+        tv_next.text = if (CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[3]) {
+            "新建完成"
+        } else {
+            "下一步 公告发布"
         }
     }
 
@@ -106,14 +127,70 @@ class KbiTimeConfigActivity : MyBaseActivity(), View.OnClickListener {
             iv_right -> finish()
             tv_next -> {
                 if (checkParameter()) {
-                    KbiPublicNoticeActivity.startInstant(context)
+                    if (CreateKbiDataManager.kbiBean?.type == resources.getStringArray(R.array.evaMode)[3]) {
+                        //直接创建考核 对于日常考核而言 这是最后一步
+                        requestCreateKbi()
+                    } else {
+                        KbiPublicNoticeActivity.startInstant(context)
+                    }
                 }
             }
         }
     }
 
+    private fun requestCreateKbi() {
+        try {
+            RequestManager.saveAssessment(context, CreateKbiDataManager.getFinalReq(context),
+                    object : StringCallback() {
+                        override fun onStart(request: Request<String, out Request<Any, Request<*, *>>>?) {
+                            super.onStart(request)
+                            if (!loadingDialog.isVisible) {
+                                loadingDialog.show(supportFragmentManager, "")
+                            }
+                        }
+
+                        override fun onSuccess(response: Response<String>?) {
+                            try {
+                                response?.body()?.let {
+                                    val res = JacksonMapper.mInstance.readValue(it, SaveAssessmentRes::class.java)
+
+                                    if (res.success) {
+                                        Toast.makeText(context, "创建成功", Toast.LENGTH_SHORT).show()
+
+                                        BuiltKBIDetailActivity.startInstant(this@KbiTimeConfigActivity, res.id);
+
+                                        //关闭之前创建流程中的页面
+                                        ActivityCollector.activitys.forEach { ac ->
+                                            if (ac is CreateKBIActivity || ac is KbiOrgActivity
+                                                    || ac is KbiTimeConfigActivity || ac is KbiPublicNoticeActivity) {
+                                                if (!ac.isFinishing) {
+                                                    ac.finish()
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(context, "创建失败", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Logger.e(e, "StringCallback()")
+                            }
+                        }
+
+                        override fun onFinish() {
+                            super.onFinish()
+                            if (loadingDialog.isVisible) {
+                                loadingDialog.dismiss()
+                            }
+                        }
+                    })
+        } catch (e: Exception) {
+            Logger.e(e, "requestCreateKbi()")
+        }
+    }
+
     private fun checkParameter(): Boolean {
-        if (timeTypeList.isNullOrEmpty()){
+        if (timeTypeList.isNullOrEmpty()) {
             tv_next.snack("请添加一个考核时间")
             return false
         }
