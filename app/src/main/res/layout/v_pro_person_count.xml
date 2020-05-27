@@ -6,6 +6,8 @@
         <variable
             name="bean"
             type="com.example.physicalfitnessexamination.bean.KbiProjectPersonCountBean" />
+
+        <import type="android.view.View" />
     </data>
 
     <merge xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,6 +55,7 @@
                 android:text="@{bean.type2Name}"
                 android:textColor="@color/_2A2A2A"
                 android:textSize="15sp"
+                android:visibility="@{bean.secondConVisible? View.VISIBLE : View.GONE}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
                 app:layout_constraintStart_toEndOf="@+id/edType1"
                 tools:text="支队指挥员" />
@@ -76,6 +79,7 @@
                 android:inputType="number"
                 android:text="@={bean.type2PerCount}"
                 android:textSize="15sp"
+                android:visibility="@{bean.secondConVisible? View.VISIBLE : View.GONE}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvType2"
                 app:layout_constraintStart_toEndOf="@+id/tvType2" />
         </android.support.constraint.ConstraintLayout>

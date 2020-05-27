@@ -1,5 +1,6 @@
 package com.example.physicalfitnessexamination.bean
 
+import android.databinding.Observable
 import android.databinding.ObservableField
 
 /**
@@ -25,4 +26,20 @@ class KbiProjectPersonCountBean {
 
     //人员类型2的人数
     val type2PerCount = ObservableField<String>()
+
+    //第二部分是否显示
+    val secondConVisible = ObservableField(false)
+
+    init {
+        type2Name.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (sender is ObservableField<*>) {
+                    (sender as ObservableField<String>).let {
+                        if (it.get().isNullOrEmpty()) secondConVisible.set(false) else secondConVisible.set(true)
+                    }
+                }
+
+            }
+        })
+    }
 }

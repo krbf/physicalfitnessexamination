@@ -136,7 +136,6 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
                             binding.bean?.type1Name?.set(nameArray[0])
-                            binding.bean?.type2Name?.set(nameArray[1])
                         }
                 )
             }
@@ -146,8 +145,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                         KbiProjectPersonCountView(context).apply {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
-                            binding.bean?.type1Name?.set(nameArray[0])
-                            binding.bean?.type2Name?.set(nameArray[1])
+                            binding.bean?.type1Name?.set(nameArray[1])
                         }
                 )
             }
@@ -255,9 +253,12 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
                             list.add(CreateKbiDataManager.PointsDiff(bean.sid,
                                     bean.type1Name.get() ?: "",
                                     bean.type1PerCount.get() ?: "0"))
-                            list.add(CreateKbiDataManager.PointsDiff(bean.sid,
-                                    bean.type2Name.get() ?: "",
-                                    bean.type2PerCount.get() ?: "0"))
+
+                            if ((bean.type2Name.get() ?: "").isNotEmpty()) {
+                                list.add(CreateKbiDataManager.PointsDiff(bean.sid,
+                                        bean.type2Name.get() ?: "",
+                                        bean.type2PerCount.get() ?: "0"))
+                            }
                         }
                     }
                 }
