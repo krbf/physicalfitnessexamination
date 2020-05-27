@@ -194,24 +194,23 @@ class PointsDifferSettingDialog() : DialogFragment() {
                                     et_score.setText(it[index].SCORE ?: "")
                                 }
 
+                                //不是最后一个
                                 if (index != it.size - 1) {
                                     val differ = (it[index].SCORE?.toInt()
                                             ?: 0) - (it[index + 1].SCORE?.toInt() ?: 0)
 
-                                    when {
-                                        differScore == null -> {
-                                            differScore = differ
-                                        }
-                                        differScore != differ -> {
-                                            initScoreSet.put(it[index].RANK?.toInt()
-                                                    ?: 0, differScore
-                                                    ?: 0)
-                                            differScore = differ
-                                        }
-                                        index == it.size - 2 -> {
-                                            initScoreSet.put(it[index + 1].RANK?.toInt()
-                                                    ?: 0, differ)
-                                        }
+                                    if (differScore == null) {
+                                        differScore = differ
+                                    }
+
+                                    if (index == it.size - 2) {
+                                        initScoreSet.put(it[index + 1].RANK?.toInt()
+                                                ?: 0, differ)
+                                    } else if (differScore != differ) {
+                                        initScoreSet.put(it[index].RANK?.toInt()
+                                                ?: 0, differScore
+                                                ?: 0)
+                                        differScore = differ
                                     }
                                 }
                             }
