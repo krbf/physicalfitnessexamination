@@ -140,7 +140,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         userInfo = UserManager.getInstance().getUserInfo(this);
-        messageDialog = MessageDialog.newInstance("提交中，请稍等……");
+        messageDialog = MessageDialog.newInstance("加载中，请稍等……");
         switch (flag) {
             case 1:
                 tvTitle.setText("已建考核 - 考核花名册");
@@ -214,7 +214,7 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
                                     .setGravity(Gravity.CENTER)
                                     .setCancelable(false)
                                     .show();
-                        }else {
+                        } else {
                             showToast("无法进行照片拍摄");
                         }
                     }
@@ -326,7 +326,9 @@ public class KBIRosterActivity extends MyBaseActivity implements View.OnClickLis
         OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
             @Override
             public void onFailure(Call call, Exception e) {
-
+                if (messageDialog.isVisible()) {
+                    messageDialog.dismiss();
+                }
             }
 
             @Override

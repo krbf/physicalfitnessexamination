@@ -441,9 +441,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
     }
 
     public void getAssessmentInfo() {
-        if (!messageDialog.isVisible()) {
-            messageDialog.show(getSupportFragmentManager(), "");
-        }
+//        if (!messageDialog.isVisible()) {
+//            messageDialog.show(getSupportFragmentManager(), "");
+//        }
         Map<String, String> map = new HashMap<>();
         map.put("id", id);
         OkhttpUtil.okHttpPost(Api.GETASSESSMENTINFO, map, new CallBackUtil.CallBackString() {
@@ -464,9 +464,9 @@ public class KBIAchievementTakeNotesActivity extends MyBaseActivity implements V
                         tvGroupSetting.setVisibility(View.GONE);
                     }
                 }
-                if (messageDialog.isVisible()) {
-                    messageDialog.dismiss();
-                }
+//                if (messageDialog.isVisible()) {
+//                    messageDialog.dismiss();
+//                }
             }
         });
     }

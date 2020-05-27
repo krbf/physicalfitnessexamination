@@ -63,6 +63,9 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
             case 2:
                 tvTitle.setText("考核实施 - 考核附件");
                 break;
+            case 3:
+                tvTitle.setText("历史考核 - 考核附件");
+                break;
         }
     }
 
