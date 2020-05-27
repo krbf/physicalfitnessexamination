@@ -86,8 +86,13 @@ public class ClauseEnrollListActivity extends MyBaseActivity implements View.OnC
                     @Override
                     public void onClick(View v) {
                         sid = clauseEnrollBean.getSid();
-                        personNum1 = Integer.parseInt(clauseEnrollBean.getRequirment().get(0).getPSUM());
-                        personNum2 = Integer.parseInt(clauseEnrollBean.getRequirment().get(1).getPSUM());
+                        for (ClauseEnrollBean.ClauseEnroll clauseEnroll : clauseEnrollBean.getRequirment()) {
+                            if (clauseEnroll.getGW().equals("消防站指挥员")||clauseEnroll.getGW().equals("支队领导")||clauseEnroll.getGW().equals("大队领导")){
+                                personNum1 = Integer.parseInt(clauseEnroll.getPSUM());
+                            }else {
+                                personNum2 = Integer.parseInt(clauseEnroll.getPSUM());
+                            }
+                        }
                         requirements = "";
                         for (ClauseEnrollBean.ClauseEnroll clauseEnroll : clauseEnrollBean.getRequirment()) {
                             requirements = clauseEnroll.getGW() + ":" + clauseEnroll.getPSUM() + "人    " + requirements;
