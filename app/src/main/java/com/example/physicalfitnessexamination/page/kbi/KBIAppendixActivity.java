@@ -76,11 +76,7 @@ public class KBIAppendixActivity extends MyBaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.lin_report:
-                if (flag == 3 || flag == 2) {
-                    showToast("此阶段无法进行报送");
-                    return;
-                }
-                KBIPersonnelReportShowActivity.startInstant(this, id);
+                KBIPersonnelReportShowActivity.startInstant(this, id,flag);
                 break;
             case R.id.lin_appeal:
                 if (flag == 3 || flag == 1){

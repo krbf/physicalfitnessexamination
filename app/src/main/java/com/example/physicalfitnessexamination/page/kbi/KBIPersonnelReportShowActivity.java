@@ -49,15 +49,17 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
     private List<ParticipatingInstitutionsBean> listPI = new ArrayList<>();
     private String id;//考核id
     private ArrayList<PersonBean> listPerson = new ArrayList<>();
+    private int flag;//1 已建考核进入  2 考核实施进入  3 历史考核进入
 
     /**
      * 跳转方法
      *
      * @param context 上下文
      */
-    public static void startInstant(Context context, String id) {
+    public static void startInstant(Context context, String id, int flag) {
         Intent intent = new Intent(context, KBIPersonnelReportShowActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("flag", flag);
         context.startActivity(intent);
     }
 
@@ -75,6 +77,7 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
     @Override
     protected void initView() {
         id = getIntent().getStringExtra("id");
+        flag = getIntent().getIntExtra("flag", 0);
         tvTitle = findViewById(R.id.tv_title);
         imgRight = findViewById(R.id.iv_right);
         imgRight.setOnClickListener(this::onClick);
@@ -130,6 +133,9 @@ public class KBIPersonnelReportShowActivity extends MyBaseActivity implements Vi
                         if (listPI.get(i).getORG_ID().equals(UserManager.getInstance().getUserInfo(KBIPersonnelReportShowActivity.this).getOrg_id())) {
                             tvEnroll.setVisibility(View.VISIBLE);
                         }
+                    }
+                    if (flag == 3 || flag == 2) {
+                        tvEnroll.setVisibility(View.GONE);
                     }
 //                    HashSet<Integer> defaultIndex = new HashSet<>();
 //                    defaultIndex.add(0);
