@@ -65,7 +65,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
         //消防站
         spv_pj3.setName("指挥员")
         spv_pj4.setName("消防员")
-        
+
         spv_evaOrg.let {
             it.setName("参考单位")
             it.setSpinner(getJoinEvaOrg(),
@@ -114,7 +114,7 @@ class CreateKBIActivity : MyBaseActivity(), View.OnClickListener {
                                                         override fun onConfirmAndChangeListener(view: SpinnerParentView<String>, selectBeanList: List<String>) {
                                                             initProVisible(selectBeanList)
                                                         }
-                                                    }, isRadio = true)
+                                                    })
                                             spv_evaOrg.isEnabled = true
 
                                             spv_perSelect.setSpinner(

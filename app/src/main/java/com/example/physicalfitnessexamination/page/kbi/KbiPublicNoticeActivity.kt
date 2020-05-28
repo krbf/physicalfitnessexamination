@@ -97,57 +97,77 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
             cl_personRequest.visibility = View.GONE
 
             //"业务竞赛"-"参考单位"
-            val orgType = CreateKbiDataManager.kbiBean?.orgType?.first()
-            val nameArray = when (orgType) {
-                resources.getStringArray(R.array.joinEvaOrg)[0] -> {
-                    resources.getStringArray(R.array.managePosition)
-                }
-                resources.getStringArray(R.array.joinEvaOrg)[1] -> {
-                    resources.getStringArray(R.array.manageBrigadePosition)
-                }
-                else -> {
-                    resources.getStringArray(R.array.commPosition)
-                }
-            }
+            val orgType = CreateKbiDataManager.kbiBean?.orgType ?: emptyList()
+//            val nameArray = when (orgType) {
+//                resources.getStringArray(R.array.joinEvaOrg)[0] -> {
+//                    resources.getStringArray(R.array.managePosition)
+//                }
+//                resources.getStringArray(R.array.joinEvaOrg)[1] -> {
+//                    resources.getStringArray(R.array.manageBrigadePosition)
+//                }
+//                else -> {
+//                    resources.getStringArray(R.array.commPosition)
+//                }
+//            }
 
             CreateKbiDataManager.kbiBean?.objPart1?.forEach { prj ->
+                //机关男的考核项目
                 ll_content.addView(
                         KbiProjectPersonCountView(context).apply {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
-                            binding.bean?.type1Name?.set(nameArray[0])
-                            binding.bean?.type2Name?.set(nameArray[1])
+                            val type1 = orgType.contains("支队机关")
+                            val type2 = orgType.contains("大队机关")
+                            binding.bean?.orgList = if (type1 && type2) {
+                                arrayOf("支队机关", "大队机关")
+                            } else if (type1) {
+                                arrayOf("支队机关")
+                            } else {
+                                arrayOf("大队机关")
+                            }
                         }
                 )
             }
 
             CreateKbiDataManager.kbiBean?.objPart2?.forEach { prj ->
+                //机关女的考核项目
                 ll_content.addView(
                         KbiProjectPersonCountView(context).apply {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
-                            binding.bean?.type1Name?.set(nameArray[0])
-                            binding.bean?.type2Name?.set(nameArray[1])
+                            val type1 = orgType.contains("支队机关")
+                            val type2 = orgType.contains("大队机关")
+                            binding.bean?.orgList = if (type1 && type2) {
+                                arrayOf("支队机关", "大队机关")
+                            } else if (type1) {
+                                arrayOf("支队机关")
+                            } else {
+                                arrayOf("大队机关")
+                            }
                         }
                 )
             }
 
             CreateKbiDataManager.kbiBean?.objPart3?.forEach { prj ->
+                //消防站指挥员的考核项目
                 ll_content.addView(
                         KbiProjectPersonCountView(context).apply {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
-                            binding.bean?.type1Name?.set(nameArray[0])
+                            binding.bean?.isXiaoFangYuan = false
+                            binding.bean?.orgList = arrayOf("应急消防站")
                         }
                 )
             }
 
             CreateKbiDataManager.kbiBean?.objPart4?.forEach { prj ->
+                //消防站消防员的考核项目
                 ll_content.addView(
                         KbiProjectPersonCountView(context).apply {
                             binding.bean?.proName?.set(prj.NAME)
                             binding.bean?.sid = prj.ID
-                            binding.bean?.type1Name?.set(nameArray[1])
+                            binding.bean?.isXiaoFangYuan = true
+                            binding.bean?.orgList = arrayOf("应急消防站")
                         }
                 )
             }
@@ -252,17 +272,7 @@ class KbiPublicNoticeActivity : MyBaseActivity(), View.OnClickListener {
             for (childIndex in 0 until ll_content.childCount) {
                 ll_content.getChildAt(childIndex).let { childV ->
                     if (childV is KbiProjectPersonCountView) {
-                        childV.binding.bean?.let { bean ->
-                            list.add(CreateKbiDataManager.PointsDiff(bean.sid,
-                                    bean.type1Name.get() ?: "",
-                                    bean.type1PerCount.get() ?: "0"))
-
-                            if ((bean.type2Name.get() ?: "").isNotEmpty()) {
-                                list.add(CreateKbiDataManager.PointsDiff(bean.sid,
-                                        bean.type2Name.get() ?: "",
-                                        bean.type2PerCount.get() ?: "0"))
-                            }
-                        }
+                        childV.binding.bean?.getSidList()?.let { list.addAll(it) }
                     }
                 }
             }

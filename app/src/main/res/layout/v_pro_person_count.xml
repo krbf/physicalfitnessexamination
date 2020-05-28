@@ -34,54 +34,155 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="男子3000m" />
 
+            <android.support.constraint.Guideline
+                android:id="@+id/gLine1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.25" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/gLine3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.75" />
+
             <TextView
                 android:id="@+id/tvType1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="38dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:text="@{bean.type1Name}"
-                android:textColor="@color/_2A2A2A"
+                android:textColor="@color/_8A8A8A"
                 android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/edType1"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_proName"
                 tools:text="支队领导" />
-
-            <TextView
-                android:id="@+id/tvType2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:text="@{bean.type2Name}"
-                android:textColor="@color/_2A2A2A"
-                android:textSize="15sp"
-                android:visibility="@{bean.secondConVisible? View.VISIBLE : View.GONE}"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
-                app:layout_constraintStart_toEndOf="@+id/edType1"
-                tools:text="支队指挥员" />
 
             <EditText
                 android:id="@+id/edType1"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:inputType="number"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:text="@={bean.type1PerCount}"
                 android:textSize="15sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintEnd_toStartOf="@+id/gLine1"
                 app:layout_constraintStart_toEndOf="@+id/tvType1" />
+
+            <TextView
+                android:id="@+id/tvType2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bean.type2Name}"
+                android:textColor="@color/_8A8A8A"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintEnd_toStartOf="@+id/edType2"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/gLine1"
+                tools:text="支队指挥员" />
 
             <EditText
                 android:id="@+id/edType2"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:inputType="number"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:text="@={bean.type2PerCount}"
                 android:textSize="15sp"
-                android:visibility="@{bean.secondConVisible? View.VISIBLE : View.GONE}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvType2"
+                app:layout_constraintEnd_toStartOf="@+id/gLine2"
                 app:layout_constraintStart_toEndOf="@+id/tvType2" />
+
+            <TextView
+                android:id="@+id/tvType3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bean.type3Name}"
+                android:textColor="@color/_8A8A8A"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintEnd_toStartOf="@+id/edType3"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/gLine2"
+                tools:text="大队指挥员" />
+
+            <EditText
+                android:id="@+id/edType3"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="@={bean.type3PerCount}"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType2"
+                app:layout_constraintEnd_toStartOf="@+id/gLine3"
+                app:layout_constraintStart_toEndOf="@+id/tvType3" />
+
+            <TextView
+                android:id="@+id/tvType4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bean.type4Name}"
+                android:textColor="@color/_8A8A8A"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType1"
+                app:layout_constraintEnd_toStartOf="@+id/edType4"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/gLine3"
+                tools:text="大队指挥员" />
+
+            <EditText
+                android:id="@+id/edType4"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="@={bean.type4PerCount}"
+                android:textSize="15sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvType2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvType4" />
+
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{bean.ctVisible1? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="tvType1,edType1,tvType2,edType2" />
+
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{bean.ctVisible2? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="tvType2,edType2" />
+
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{bean.ctVisible3? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="tvType3,edType3" />
+
+            <android.support.constraint.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{bean.ctVisible4? View.VISIBLE : View.GONE}"
+                app:constraint_referenced_ids="tvType4,edType4" />
         </android.support.constraint.ConstraintLayout>
     </merge>
 </layout>

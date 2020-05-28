@@ -214,7 +214,7 @@ class MainActivity : MyBaseActivity(), View.OnClickListener {
     override fun initData() {
         requestNotice()
 
-        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, resources.getStringArray(R.array.commPosition)[1]),
+        RequestManager.getPersonAssessList4Bsym(this, GetPersonAssessList4BsymReq(3, ""),
                 object : JsonCallback<ApiResponse<List<PersonAssessList4Res>>, List<PersonAssessList4Res>>() {
                     override fun onSuccess(response: Response<ApiResponse<List<PersonAssessList4Res>>>?) {
                         response?.body()?.data?.let { list ->
