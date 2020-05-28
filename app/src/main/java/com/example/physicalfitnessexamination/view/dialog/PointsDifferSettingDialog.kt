@@ -186,31 +186,39 @@ class PointsDifferSettingDialog() : DialogFragment() {
                     }
 
                     override fun onSuccess(response: Response<ApiResponse<List<GetAssessmentPersonScoRes>>>?) {
-                        response?.body()?.data?.let {
+                        response?.body()?.data?.let { scoList ->
                             initScoreSet.clear()
                             var differScore: Int? = null
-                            it.forEachIndexed { index, getAssessmentPersonScoRes ->
+                            val sortList = scoList.sortedBy { sco ->
+                                sco.RANK?.toInt()
+                            }
+                            sortList.forEachIndexed { index, getAssessmentPersonScoRes ->
                                 if (index == 0) {
-                                    et_score.setText(it[index].SCORE ?: "")
+                                    et_score.setText(sortList[index].SCORE ?: "")
                                 }
 
-                                //不是最后一个
-                                if (index != it.size - 1) {
-                                    val differ = (it[index].SCORE?.toInt()
-                                            ?: 0) - (it[index + 1].SCORE?.toInt() ?: 0)
+                                if (index != sortList.size - 1) {
+                                    //不是最后一个
+                                    val differ = (sortList[index].SCORE?.toInt()
+                                            ?: 0) - (sortList[index + 1].SCORE?.toInt() ?: 0)
 
                                     if (differScore == null) {
                                         differScore = differ
                                     }
 
-                                    if (index == it.size - 2) {
-                                        initScoreSet.put(it[index + 1].RANK?.toInt()
-                                                ?: 0, differ)
-                                    } else if (differScore != differ) {
-                                        initScoreSet.put(it[index].RANK?.toInt()
+                                    if (differScore != differ) {
+                                        initScoreSet.put(sortList[index].RANK?.toInt()
                                                 ?: 0, differScore
                                                 ?: 0)
                                         differScore = differ
+                                    }
+                                } else {
+                                    //最后一个
+                                    val differ = (sortList[index - 1].SCORE?.toInt()
+                                            ?: 0) - (sortList[index].SCORE?.toInt() ?: 0)
+
+                                    if (initScoreSet[index + 1] == null) {
+                                        initScoreSet.put(index + 1, differ)
                                     }
                                 }
                             }
