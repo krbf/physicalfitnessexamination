@@ -59,7 +59,7 @@ public class Rank3Fragment extends Fragment implements View.OnClickListener {
     private TextView tvUnit;//机构
     private SpinnerParentView spvPost;
     private List<String> listPost = new ArrayList<>();
-    private String org_id;
+    private String org_id = Constants.UNITID;
     private String gw;
 
     public Rank3Fragment() {
@@ -157,7 +157,7 @@ public class Rank3Fragment extends Fragment implements View.OnClickListener {
             }
         };
         gvView.setAdapter(commonAdapter);
-        getData(Constants.UNITID,gw);
+        getData(Constants.UNITID, gw);
     }
 
     public void getData(String org_id, String gw) {

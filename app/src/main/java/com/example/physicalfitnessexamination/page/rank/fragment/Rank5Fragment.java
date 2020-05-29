@@ -59,7 +59,7 @@ public class Rank5Fragment extends Fragment implements View.OnClickListener {
     private TextView tvUnit;//机构
     private SpinnerParentView spvPost;
     private List<String> listPost = new ArrayList<>();
-    private String org_id;
+    private String org_id = Constants.UNITID;
     private String gw;
 
     public Rank5Fragment() {
@@ -129,10 +129,19 @@ public class Rank5Fragment extends Fragment implements View.OnClickListener {
         }, new SpinnerParentView.OnCheckListener() {
             @Override
             public void onConfirmAndChangeListener(@NotNull SpinnerParentView view, @NotNull List selectBeanList) {
-                gw = selectBeanList.get(0).toString();
+                List<String> list = (List<String>) selectBeanList;
+                switch (list.size()) {
+                    case 1:
+                        gw = list.get(0);
+                        break;
+                    case 0:
+                    case 2:
+                        gw = null;
+                        break;
+                }
                 getData(org_id, gw);
             }
-        }, true, defSet);
+        }, false, defSet);
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_down_arrow);
         // 设置图片的大小
         drawable.setBounds(0, 0, 60, 60);
@@ -150,7 +159,7 @@ public class Rank5Fragment extends Fragment implements View.OnClickListener {
             }
         };
         gvPerson_5.setAdapter(commonAdapter);
-        getData(Constants.UNITID,gw);
+        getData(Constants.UNITID, gw);
     }
 
     public void getData(String org_id, String gw) {
@@ -186,7 +195,7 @@ public class Rank5Fragment extends Fragment implements View.OnClickListener {
                         org_id = unitBean.getId();
                         getData(org_id, gw);
                     }
-                },true).showUnitView();
+                }, true).showUnitView();
                 break;
         }
     }
