@@ -101,6 +101,8 @@ dependencies {
     //指示器
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
+    implementation 'com.tencent.bugly:crashreport:3.2.2'
+
     implementation project(':lib_fileviewer')
     implementation project(':module_common')
 }

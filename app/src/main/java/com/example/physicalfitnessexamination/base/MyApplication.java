@@ -3,9 +3,12 @@ package com.example.physicalfitnessexamination.base;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.physicalfitnessexamination.BuildConfig;
+import com.example.physicalfitnessexamination.Constants;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 
 import okhttp3.OkHttpClient;
@@ -28,12 +31,23 @@ public class MyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+        initBugly();
+
         //日志初始化
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         initOkGo();
 
         initX5Web();
+    }
+
+    /**
+     * Bugly初始化
+     */
+    private void initBugly() {
+        if (!BuildConfig.DEBUG) {
+            CrashReport.initCrashReport(getApplicationContext(), Constants.Bugly.APP_ID, false);
+        }
     }
 
     /**
