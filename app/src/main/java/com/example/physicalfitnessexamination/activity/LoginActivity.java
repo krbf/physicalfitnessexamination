@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         map.put("pwd", et_password.getText().toString());
         map.put("pwd_md5", MD5.md5Decode(et_password.getText().toString()));
         map.put("userid", et_user_name.getText().toString());
+        map.put("flag","1");
         if (mDeviceId == null) {
             map.put("imei", "");
         } else {

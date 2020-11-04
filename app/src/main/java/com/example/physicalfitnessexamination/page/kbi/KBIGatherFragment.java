@@ -17,6 +17,7 @@ import android.webkit.WebViewClient;
 
 import com.example.physicalfitnessexamination.Constants;
 import com.example.physicalfitnessexamination.R;
+
 /**
  * 成绩汇总
  */
@@ -72,7 +73,8 @@ public class KBIGatherFragment extends Fragment {
         }
 
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        public void
+        onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             Log.d("WebView", "开始访问网页");
         }
